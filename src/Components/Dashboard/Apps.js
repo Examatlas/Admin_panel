@@ -1,11 +1,13 @@
 import React from 'react';
+import download from "../../Image/download.png";
 
 const Apps = () => {
   return (
     <div>
-            <div className="border border-gray-300 w-[800px] h-[150px] rounded-lg mt-2 ml-3 mr-10">
-                <p className="p-5 pr-44 font-semibold flex">Apps</p>
-                <p className="pt-5">Apps Insights Coming Soon</p>
+            <div className="border border-gray-300 lg:w-[800px] md:w-[540px] sm:w-[500px] w-[380px] h-[420px] rounded-lg mt-3 ml-3 md:mr-10 sm:mr-3 mr-2">
+                
+                <img src={download}  className='w-[400px] lg:ml-44 md:ml-32 sm:ml-20 ml-1 mt-12'/>
+                <p >Apps Insights Coming Soon</p>
             </div>
         </div>
   );

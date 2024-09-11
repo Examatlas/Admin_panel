@@ -1,9 +1,10 @@
 import React from 'react';
+import LearnerSignupChart from './LearnerSignupChart';
 
 const Learners = () => {
   return (
     <div>
-    <div className="border border-gray-300 w-[800px] h-[150px] rounded-lg mt-2 ml-3 mr-10">
+    <div className="border border-gray-300 lg:w-[800px] md:w-[540px] sm:w-[500px] w-[380px] h-[150px] rounded-lg mt-2 ml-3 md:mr-10 sm:mr-3 mr-2">
     <p className="p-5 pr-44 font-semibold flex text-xl">Learners (12 Months) </p>
                 <div className=" w-[800px] h-[80px] rounded-lg  mr-10 ">
                     <div className="flex  text-sm ">
@@ -16,6 +17,7 @@ const Learners = () => {
                     </div>
                 </div>
     </div>
+    <LearnerSignupChart />
 </div>
   );
 };
