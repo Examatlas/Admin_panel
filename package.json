@@ -11,11 +11,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@toolpad/core": "^0.5.2",
-<<<<<<< HEAD
     "chart.js": "^4.4.4",
-=======
     "formik": "^2.4.6",
->>>>>>> ccbc0e36464d67b53436e2c46f0fc3f9b3969009
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
@@ -23,13 +20,9 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
-<<<<<<< HEAD
     "swiper": "^11.1.12",
-    "web-vitals": "^2.1.4"
-=======
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
->>>>>>> ccbc0e36464d67b53436e2c46f0fc3f9b3969009
   },
   "scripts": {
     "start": "react-scripts start",
