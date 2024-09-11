@@ -21,7 +21,7 @@ const Blog = () => {
   return (
     <>
       <DashboardLayoutBasic>
-        <div className=" w-[100%] ">
+        <div className=" w-[90%] ">
           <div className=" border-b w-[90%] -mt-5">
             <p className="text-left md:ml-3 px-2 py-1 hover:bg-gray-100 w-fit cursor-pointer rounded flex justify-center items-center font-semibold"
               onClick={goBack}>
