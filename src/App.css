@@ -1,3 +1,7 @@
+.ql-editor {
+  font-size: 20px; /* Change default font size here */
+}
+
 .App {
   text-align: center;
 }
@@ -28,15 +32,19 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+<<<<<<< HEAD
 }
 
 html,body{
   overflow-x: hidden;
 }
+=======
+} */
+>>>>>>> ccbc0e36464d67b53436e2c46f0fc3f9b3969009

@@ -12,6 +12,8 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
+import { ImBlog } from "react-icons/im";
+
 
 
 const NAVIGATION = [
@@ -52,6 +54,11 @@ const NAVIGATION = [
           segment: 'mocktest',
           title: 'Mock Test',
           icon: <DescriptionIcon />,
+        },
+        {
+          segment: 'blog',
+          title: 'Blog',
+          icon: <ImBlog />,
         },
         {
           segment: 'testSeries',
