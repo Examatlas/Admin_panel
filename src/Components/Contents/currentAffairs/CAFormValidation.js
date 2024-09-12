@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const BlogFormvalidationSchema = Yup.object().shape({
+const CAFormvalidationSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, 'Title must be at least 5 characters')
     .required('Title is required'),

@@ -13,6 +13,7 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 import { ImBlog } from "react-icons/im";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 
 
@@ -59,6 +60,11 @@ const NAVIGATION = [
           segment: 'blog',
           title: 'Blog',
           icon: <ImBlog />,
+        },
+        {
+          segment: 'current-affairs',
+          title: 'Current Affairs',
+          icon: <IoNewspaperOutline />,
         },
         {
           segment: 'testSeries',

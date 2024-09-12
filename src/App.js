@@ -7,8 +7,13 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import Dashboard from "./Components/Dashboard/Dashboard";
+
 // import Courses from "./Components/Contents/Courses/Courses";
 import LiveClasses from "./Components/Contents/LiveClasses";
+
+import Courses from "./Components/Contents/Courses";
+import LiveClasses from "./Components/Contents/LiveClasses/LiveClasses";
+
 import MockTest from "./Components/Contents/MockTest";
 import Bundles from "./Components/Contents/Bundles";
 import Batch from "./Components/Contents/Batch";
@@ -76,8 +81,12 @@ import SubSchools from "./Components/SubSchools";
 import Setting from "./Components/Setting";
 import Blog from "./Components/Contents/Blog/Blog";
 import AddBlog from "./Components/Contents/Blog/AddBlog";
+
 import Courses from "./Components/Courses/Courses";
 import CourseForm from "./Components/Courses/CourseForm";
+
+import CurrentAffairs from "./Components/Contents/currentAffairs/CurrentAffairs";
+import AddCA from "./Components/Contents/currentAffairs/AddCA";
 
 
 function App() {
@@ -102,6 +111,8 @@ function App() {
           <Route path="/contents/MockTest" element={<MockTest />} />
           <Route path="/contents/blog" element={<Blog />} />
           <Route path="/contents/add-blog" element={<AddBlog />} />
+          <Route path="/contents/current-affairs" element={<CurrentAffairs />} />
+          <Route path="/contents/add-ca" element={<AddCA />} />
           <Route path="/contents/Bundles" element={<Bundles />} />
           <Route path="/contents/Batch" element={<Batch />} />
           <Route path="/contents/Ebooks" element={<Ebooks />} />
