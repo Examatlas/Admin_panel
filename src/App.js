@@ -9,9 +9,9 @@ import {
 import Dashboard from "./Components/Dashboard/Dashboard";
 
 // import Courses from "./Components/Contents/Courses/Courses";
-import LiveClasses from "./Components/Contents/LiveClasses";
+// import LiveClasses from "./Components/Contents/LiveClasses";
 
-import Courses from "./Components/Contents/Courses";
+// import Courses from "./Components/Contents/Courses";
 import LiveClasses from "./Components/Contents/LiveClasses/LiveClasses";
 
 import MockTest from "./Components/Contents/MockTest";
