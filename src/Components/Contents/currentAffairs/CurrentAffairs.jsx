@@ -6,10 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiRepeat } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import BlogList from './BlogList';
+import CAList from './CAList';
 // import { CiFilter } from "react-icons/ci";
 
-const Blog = () => {
+const CurrentAffairs = () => {
   const navigate = useNavigate();
   const goBack = () => {
     if (window.history.length > 2) {
@@ -31,15 +31,15 @@ const Blog = () => {
 
           <div className=" flex justify-between mx-4 md:mx-12 my-4">
             <div>
-              <h1 className=" text-2xl md:text-4xl text-left">Blog</h1>
-              <p className=" text-base md:text-lg text-left">Welcome to Blog Dashboard</p>
+              <h1 className=" text-2xl md:text-4xl text-left">Current Affairs</h1>
+              <p className=" text-base md:text-lg text-left">Welcome to Current Affairs Dashboard</p>
             </div>
 
             <div className="flex items-center gap-2">
               {/* <button className="px-4 py-3 bg-gray-200 rounded-md hover:bg-gray-300 font-semibold flex justify-center items-center gap-2">
                 <FiRepeat className="text-lg" /> REORDER
               </button> */}
-              <Link to={'/contents/add-blog'}>
+              <Link to={'/contents/add-ca'}>
               <button className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                 <IoMdAdd className="text-lg md:text-xl text-white font-bold" /> CREATE
               </button>
@@ -65,11 +65,11 @@ const Blog = () => {
           </div>
         </div>
         <div className='w-[90%] mx-auto my-4'>
-          <BlogList/>
+          <CAList/>
         </div>
       </DashboardLayoutBasic>
     </>
   );
 }
 
-export default Blog;
+export default CurrentAffairs;

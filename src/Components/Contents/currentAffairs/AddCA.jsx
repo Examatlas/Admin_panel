@@ -4,12 +4,12 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 
-import BlogFormvalidationSchema from './BlogFormValidation';
+import BlogFormvalidationSchema from '../Blog/BlogFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
 
 
-const AddBlog = () => {
+const AddCA = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
 
@@ -123,7 +123,7 @@ const AddBlog = () => {
         <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
-                    <h1 className='text-4xl my-4'>Add Blog</h1>
+                    <h1 className='text-4xl my-4'>Add Current Affairs</h1>
                     <div>
                         <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
 {/* Title */}
@@ -227,4 +227,4 @@ const AddBlog = () => {
     );
 }
 
-export default AddBlog;
+export default AddCA;

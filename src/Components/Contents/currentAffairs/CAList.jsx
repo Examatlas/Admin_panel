@@ -2,7 +2,7 @@ import React from 'react';
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
-const BlogList = () => {
+const CAList = () => {
     return (
         <div>
             <div className="relative overflow-x-auto">
@@ -69,4 +69,4 @@ const BlogList = () => {
     );
 }
 
-export default BlogList;
+export default CAList;
