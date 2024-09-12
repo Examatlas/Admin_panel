@@ -7,7 +7,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import Dashboard from "./Components/Dashboard/Dashboard";
-import Courses from "./Components/Contents/Courses";
+// import Courses from "./Components/Contents/Courses/Courses";
 import LiveClasses from "./Components/Contents/LiveClasses";
 import MockTest from "./Components/Contents/MockTest";
 import Bundles from "./Components/Contents/Bundles";
@@ -76,8 +76,17 @@ import SubSchools from "./Components/SubSchools";
 import Setting from "./Components/Setting";
 import Blog from "./Components/Contents/Blog/Blog";
 import AddBlog from "./Components/Contents/Blog/AddBlog";
+import Courses from "./Components/Courses/Courses";
+import CourseForm from "./Components/Courses/CourseForm";
+
 
 function App() {
+
+  const handleCreateCourse = (newCourse) => {
+    // Handle course creation logic here
+    console.log('Course created:', newCourse);
+};
+
   return (
     <>
       <Router>
@@ -86,6 +95,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/contents/courses" element={<Courses />} />
+          <Route path="/contents/CourseForm" element={<CourseForm onCreateCourse={handleCreateCourse}/>}/>
+
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/TestSeries" element={<TestSeries />} />
           <Route path="/contents/MockTest" element={<MockTest />} />
