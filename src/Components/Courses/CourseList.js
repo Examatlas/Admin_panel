@@ -28,21 +28,25 @@ const courses = [
 
 // CourseCard component
 const CourseCard = ({ course }) => (
-  <div className="bg-white shadow-md rounded-lg overflow-hidden w-60 mr-[100px]">
-    <img className="w-full h-32 object-cover" src={course.image} alt={course.title} />
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-      <p className="text-gray-600 mb-2">Price: {course.price}</p>
-      <p className="text-gray-600">Encryption: {course.encryption ? 'Yes' : 'No'}</p>
-    </div>
+
+
+// CourseCard component
+<div className="bg-white shadow-md rounded-lg overflow-hidden max-w-[1000px] lg:w-[1000px] md:w-[800px] sm:w-[700px] w-[500px] mb-6">
+  <img className="w-full h-48 object-cover" src={course.image} alt={course.title} />
+  <div className="p-4">
+    <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
+    <p className="text-gray-600 mb-2">Price: {course.price}</p>
+    <p className="text-gray-600">Encryption: {course.encryption ? 'Yes' : 'No'}</p>
   </div>
+</div>
+
 );
 
-// CoursesList component
+
 const CoursesList = () => (
-  <div className="flex ml-[450px]  mt-10  p-4 ">
+  <div className="flex flex-col md:flex-row lg:ml-[330px]  gap-5 mt-10 p-4">
     {courses.map(course => (
-      <CourseCard key={course.id} course={course} />
+      <CourseCard key={course.id} course={course} className="mr-4" />
     ))}
   </div>
 );

@@ -8,10 +8,6 @@ import {
 } from "react-router-dom";
 import Dashboard from "./Components/Dashboard/Dashboard";
 
-// import Courses from "./Components/Contents/Courses/Courses";
-// import LiveClasses from "./Components/Contents/LiveClasses";
-
-// import Courses from "./Components/Contents/Courses";
 import LiveClasses from "./Components/Contents/LiveClasses/LiveClasses";
 
 import MockTest from "./Components/Contents/MockTest";
@@ -91,11 +87,6 @@ import AddCA from "./Components/Contents/currentAffairs/AddCA";
 
 function App() {
 
-  const handleCreateCourse = (newCourse) => {
-    // Handle course creation logic here
-    console.log('Course created:', newCourse);
-};
-
   return (
     <>
       <Router>
@@ -104,7 +95,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/contents/courses" element={<Courses />} />
-          <Route path="/contents/CourseForm" element={<CourseForm onCreateCourse={handleCreateCourse}/>}/>
+          <Route path="/contents/CourseForm" element={<CourseForm />}/>
 
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/TestSeries" element={<TestSeries />} />

@@ -62,10 +62,9 @@ const Dashboard = () => {
           </div>
 
           <div className="border border-gray-300 lg:w-[350px] md:w-[220px] w-[380px] h-[150px] rounded-lg mt-2 m-2 ">
-            <p className="p-5 lg:pr-44 md:pr-28 font-semibold lflex  ">Scheduled events</p>
+            <p className="p-5 lg:pr-44 md:pr-28 font-semibold flex ">Scheduled events</p>
             <p className="pt-5">No Scheduled Events</p>
           </div>
-
 
         </div>
 
@@ -107,7 +106,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-           
           </div>
 
         </div>

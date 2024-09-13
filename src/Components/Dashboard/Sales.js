@@ -9,14 +9,14 @@ const Sales = () => {
                 <p className="p-5 pr-44 font-semibold flex text-xl">Sales (12 Months) </p>
                 <div className=" w-[800px] h-[80px] rounded-lg  mr-10 ">
                     <div className="flex  text-sm ">
-                        <p className="lg:pl-28 md:pl-12">Total Sales</p>
-                        <p className="lg:pl-44 md:pl-12">Products</p>
-                        <p className="lg:pl-44 md:pl-12">Learners</p>
+                        <p className="lg:pl-28 md:pl-12 sm:pl-10 pl-7">Total Sales</p>
+                        <p className="lg:pl-44 md:pl-12 sm:pl-10 pl-7">Products</p>
+                        <p className="lg:pl-44 md:pl-12 sm:pl-10 pl-7">Learners</p>
                     </div>
                     <div className="flex pt-3 text-xl font-semibold">
-                        <p className="lg:pl-32 md:pl-16">₹ 0</p>
-                        <p className="lg:pl-52 md:pl-20">N/A</p>
-                        <p className="lg:pl-52 md:pl-20">N/A</p>
+                        <p className="lg:pl-32 md:pl-16 sm:pl-14 pl-10">₹ 0</p>
+                        <p className="lg:pl-52 md:pl-20 sm:pl-20 pl-14">N/A</p>
+                        <p className="lg:pl-52 md:pl-20 sm:pl-14 pl-14">N/A</p>
                     </div>
                 </div>
 
