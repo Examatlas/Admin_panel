@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
 //icons
-import { FiRepeat } from "react-icons/fi";
+// import { FiRepeat } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import { CiFilter } from "react-icons/ci";
+// import { CiFilter } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import LiveCard from "./LiveCard";
+
+import { createNewRoom } from "../../liveStreaming/Api";
+import axios from "axios";
+import config from "../../../config/config";
 const LiveClasses = () => {
+  // const[classData,setClassData]=useState();
+  const[classData,setClassData]=useState();
+  const [appData, setAppData] = useState({ meetingId: null, mode: null });
+  // console.log(appData,"App data");
+  
   const navigate = useNavigate();
   const goBack = () => {
     if (window.history.length > 2) {
@@ -17,6 +26,24 @@ const LiveClasses = () => {
       navigate("/");
     }
   };
+
+  // const createClick = async () => {
+  //   const meetingId = await createNewRoom();
+
+  //   setAppData({ mode: "CONFERENCE", meetingId });
+  // };
+
+  const getAllLiveClass=async()=>{
+    const responce=await axios.get(`${config?.url}liveclass/getAllLiveClass`);
+    if(responce){
+      setClassData(responce?.data?.classes)
+    }
+  }
+
+  useEffect(()=>{
+    getAllLiveClass();
+  },[])
+
   return (
     <>
       <DashboardLayoutBasic>
@@ -34,18 +61,20 @@ const LiveClasses = () => {
             <div>
               <h1 className=" text-2xl md:text-4xl text-left">Live Classes</h1>
               <p className=" text-base md:text-lg text-left">
-                Welcome to Blog Dashboard
+                Welcome to Live Class Dashboard
               </p>
             </div>
 
             <div className="flex flex-col md:flex-row items-center gap-2">
-              <button className="px-2 md:px-4 md:py-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300 font-semibold flex justify-center items-center gap-2">
+              {/* <button className="px-2 md:px-4 md:py-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300 font-semibold flex justify-center items-center gap-2">
                 <FiRepeat className="text-lg" /> REORDER
-              </button>
-              <Link to={"/contents/add-blog"}>
-                <button className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
+              </button> */}
+              <Link to={"/contents/createLiveClass"}>
+                <button 
+                // onClick={createClick}
+                className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                   <IoMdAdd className="text-lg md:text-xl text-white font-bold" />{" "}
-                  CREATE
+                  CREATE NEW MEETING
                 </button>
               </Link>
             </div>
@@ -69,21 +98,19 @@ const LiveClasses = () => {
                 >
                   Serach
                 </button>
-                {/* <button className="px-1 py-2 w-[8rem] text-sm md:text-lg border-2 border-blue-300 rounded-md text-slate-600 hover:bg-gray-200 font-semibold flex justify-center items-center gap-2">
-                  <CiFilter className="text-lg" />
-                  Add Filter
-                </button> */}
+                
               </div>
           </div>
         </div>
         <div className="flex flex-wrap justify-center items-center">
-            <LiveCard/>
-            <LiveCard/>
-            <LiveCard/>
-            <LiveCard/>
-            <LiveCard/>
-            <LiveCard/>
-            <LiveCard/>
+          {
+            classData && classData.map((data,index)=>{
+              return(
+                <LiveCard key={index} data={data}/>
+              )
+            })
+          }
+           
         </div>
       </DashboardLayoutBasic>
     </>

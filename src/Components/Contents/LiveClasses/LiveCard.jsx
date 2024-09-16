@@ -7,8 +7,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import img from '../../../Image/download.png';
+import SpeakerScreenContainer from '../../liveStreaming/speakerScreen/SpeakerScreenContainer';
+import { Link } from 'react-router-dom';
 
-export default function LiveCard() {
+export default function LiveCard(data) {
+  console.log(data?.data?.meetingId);
+  // const joinClass=()=>{
+  //   return <SpeakerScreenContainer meetingId={data?.data?.meetingId}/>
+  // }
   return (
     // UGC NET/SET JRF Psychology Foundation Course (Dec 2024)
     <Card className='m-4 w-[250px] md:w-[300px] cursor-pointer relative '>
@@ -23,17 +29,22 @@ export default function LiveCard() {
       />
       <CardContent>
         <Typography gutterBottom  component="p" className='text-xl font-bold text-left'>
-        UGC NET/SET JRF Psychology Foundation Course (Dec 2024)
+        {data?.data?.title}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {data?.data?.description}
+        </Typography>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
+          {data?.data?.date}
+        </Typography>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
+          {data?.data?.time}
         </Typography>
       </CardContent>
       <CardActions>
-        {/* <Button size="small">Share</Button> */}
-        <input type='text'/>
-        {/* <Button size="small">Learn More</Button> */}
+        <Link to={`/contents/live/${data?.data?.meetingId}`}>
+        <button className='px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600'>Join as Host</button>
+        </Link>
       </CardActions>
     </Card>
   );

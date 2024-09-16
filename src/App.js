@@ -83,6 +83,9 @@ import CourseForm from "./Components/Courses/CourseForm";
 
 import CurrentAffairs from "./Components/Contents/currentAffairs/CurrentAffairs";
 import AddCA from "./Components/Contents/currentAffairs/AddCA";
+import LiveHome from "./Components/liveStreaming/LiveHome";
+import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
+import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
 
 
 function App() {
@@ -98,6 +101,11 @@ function App() {
           <Route path="/contents/CourseForm" element={<CourseForm />}/>
 
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
+          <Route path="/contents/liveStreaming" element={<LiveHome />} />
+          <Route path="/contents/createLiveClass" element={<CreateLiveClass />} />
+          <Route path="/contents/live/:meetingId" element={<SpeakerScreenContainer />} />
+
+
           <Route path="/contents/TestSeries" element={<TestSeries />} />
           <Route path="/contents/MockTest" element={<MockTest />} />
           <Route path="/contents/blog" element={<Blog />} />
