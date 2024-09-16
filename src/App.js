@@ -83,6 +83,7 @@ import CourseForm from "./Components/Courses/CourseForm";
 
 import CurrentAffairs from "./Components/Contents/currentAffairs/CurrentAffairs";
 import AddCA from "./Components/Contents/currentAffairs/AddCA";
+import {Toaster} from 'react-hot-toast';
 import LiveHome from "./Components/liveStreaming/LiveHome";
 import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
 import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
@@ -93,6 +94,7 @@ function App() {
   return (
     <>
       <Router>
+        <Toaster/>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
