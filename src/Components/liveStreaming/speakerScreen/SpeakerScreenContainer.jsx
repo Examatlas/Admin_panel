@@ -5,25 +5,33 @@ import ParticipantsGridContainer from "./ParticipantsGridContainer";
 // import { authToken } from "../../api";
 import { authToken } from "../Api";
 import { useLocation, useParams } from "react-router-dom";
+import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
 // const SpeakerScreenContainer = ({ meetingId }) => {
 const SpeakerScreenContainer = () => {
-    const {meetingId}=useParams();
-    
+  const { meetingId } = useParams();
+
   return (
-    <MeetingProvider
-      token={authToken}
-      config={{
-        meetingId,
-        name: "C.V. Raman",
-        micEnabled: true,
-        webcamEnabled: true,
-      }}
-      joinWithoutUserInteraction
-    >
-      <MediaControlsContainer meetingId={meetingId} />
-      <ParticipantsGridContainer />
-    </MeetingProvider>
+    <DashboardLayoutBasic>
+      <div className="bg-blue-200 flex-start w-full container mx-auto">
+        <MeetingProvider
+          token={authToken}
+          config={{
+            meetingId,
+            name: "C.V. Raman",
+            micEnabled: true,
+            webcamEnabled: true,
+          }}
+          className="w-[50%] bg-green-500 flex p-6"
+          joinWithoutUserInteraction
+        >
+          <MediaControlsContainer meetingId={meetingId} className="absolute top-7"/>
+          <ParticipantsGridContainer />
+        </MeetingProvider>
+      </div>
+
+    </DashboardLayoutBasic>
+
   );
 };
 

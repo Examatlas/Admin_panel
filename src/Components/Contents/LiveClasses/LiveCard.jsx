@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import img from '../../../Image/download.png';
-import SpeakerScreenContainer from '../../liveStreaming/speakerScreen/SpeakerScreenContainer';
+// import SpeakerScreenContainer from '../../liveStreaming/speakerScreen/SpeakerScreenContainer';
 import { Link } from 'react-router-dom';
 
 export default function LiveCard(data) {
