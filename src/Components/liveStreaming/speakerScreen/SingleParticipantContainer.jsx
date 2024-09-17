@@ -36,12 +36,12 @@ const SingleParticipantContainer = ({ participantId }) => {
   }, [micStream, micOn, isLocal, participantId]);
 
   return (
-    <div style={{ height: 200, width: 360, position: "relative" }}>
+    <div style={{ height: 200, width: 360, position: "relative" }} className="m-0">
       <audio autoPlay playsInline controls={false} ref={audioPlayer} />
       <div
         style={{ position: "absolute", background: "#ffffffb3", padding: 8 }}
       >
-        <p>Name: {displayName}</p>
+        <p className="bg-red-400">Name: {displayName}</p>
         <p>Webcam: {webcamOn ? "on" : "off"}</p>
         <p>Mic: {micOn ? "on" : "off"}</p>
       </div>

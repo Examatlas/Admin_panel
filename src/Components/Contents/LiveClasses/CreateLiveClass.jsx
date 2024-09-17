@@ -4,12 +4,11 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import axios from 'axios';
 import config from '../../../config/config';
 import { useFormik } from 'formik';
+import toast from 'react-hot-toast';
 
 const CreateLiveClass = () => {
     // const [appData, setAppData] = useState({ meetingId: null, mode: null });
     const [meetingId, setMeetingId] = useState(null);
-    const [time, setTime] = useState();
-
     const createClick = async () => {
         const meetingId = await createNewRoom();
 
@@ -17,22 +16,7 @@ const CreateLiveClass = () => {
         setMeetingId(meetingId);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            console.log("time", time, "meeting Id", meetingId);
-            const responce = await axios.post(`${config?.url}liveclass/createliveClass`, {
-                // meetingId,
-                time,
-            });
-
-            console.log(responce);
-
-        } catch (error) {
-            console.log(error);
-
-        }
-    }
+    
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -41,16 +25,24 @@ const CreateLiveClass = () => {
             date: '',
         },
         onSubmit: async (values) => {
-            console.log(values);
-            const responce = await axios.post(`${config?.url}liveclass/createliveClass`, {
+            try {
+                const responce = await axios.post(`${config?.url}liveclass/createliveClass`, {
                 meetingId,
                 title: values?.title,
                 description: values?.description,
                 time: values?.time,
                 date: values?.date,
             });
-            alert("created");
-            console.log(responce);
+            if(responce?.data?.status===true){
+                toast.success(responce?.data?.message);
+                
+            }
+            // console.log(responce);
+            } catch (error) {
+                toast.error(error?.message);
+                console.log("Error while creating a class",error);
+            }
+            
         }
     })
     return (
