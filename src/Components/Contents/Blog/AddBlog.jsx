@@ -12,7 +12,6 @@ import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-
 const AddBlog = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -43,31 +42,6 @@ const AddBlog = () => {
         toolbar: true,
         toolbar: toolbarOptions,
 
-
-        // {
-        //     container: [
-        //         // [{ 'font': Font.whitelist }],
-        //         // [{ 'size': Size.whitelist }],
-        //         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        //         ['bold', 'italic', 'underline', 'strike'],
-        //         [{ 'color': [] }, { 'background': [] }],
-        //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        //         [{ 'align': [] }],
-        //         ['link', 'image', 'video'],
-        //         ['code-block'],
-        //         ['clean'], // Remove formatting
-        //         [{ 'indent': '-1' }, { 'indent': '+1' }], // Indent
-        //     ],
-        //     handlers: {
-        //         // image: imageHandler, // Custom image handler
-        //     },
-        // },
-        // clipboard: {
-        //     matchVisual: false, // Match styles when pasting text
-        // },
-        // syntax: {
-        //   highlight: text => hljs.highlightAuto(text).value, // Syntax highlighting
-        // },
     };
 
     const handleKeyPress = (event) => {
@@ -247,3 +221,4 @@ const AddBlog = () => {
 }
 
 export default AddBlog;
+

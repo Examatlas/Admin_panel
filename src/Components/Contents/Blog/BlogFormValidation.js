@@ -22,7 +22,6 @@ const BlogFormvalidationSchema = Yup.object().shape({
     .test('fileSize', 'File too large', (value) => {
       return value && value.size <= 2 * 1024 * 1024; // 2MB limit
     }),
-
     tags: Yup.array()
     .of(
       Yup.string()
