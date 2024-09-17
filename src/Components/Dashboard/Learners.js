@@ -8,12 +8,12 @@ const Learners = () => {
     <p className="p-5 pr-44 font-semibold flex text-xl">Learners (12 Months) </p>
                 <div className=" w-[800px] h-[80px] rounded-lg  mr-10 ">
                     <div className="flex  text-sm ">
-                        <p className="pl-48">Total Signups</p>
-                        <p className="pl-44">Avg. Signups / Month</p>
+                        <p className="lg:pl-48 md:pl-20 sm:pl-10 pl-5">Total Signups</p>
+                        <p className="lg:pl-44 md:pl-20 sm:pl-10 pl-5">Avg. Signups / Month</p>
                     </div>
-                    <div className="flex pt-3 text-xl font-semibold">
-                        <p className="pl-56">1</p>
-                        <p className="pl-72">0</p>
+                    <div className="flex pt-3 text-xl font-semibold pb-3">
+                        <p className="lg:pl-56 md:pl-28 sm:pl-20 pl-12">1</p>
+                        <p className="lg:pl-72 md:pl-44 sm:pl-28 pl-28">0</p>
                     </div>
                 </div>
     </div>

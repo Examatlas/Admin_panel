@@ -2,7 +2,7 @@
   font-size: 20px; /* Change default font size here */
 }
 
-.App {
+ .App {
   text-align: center;
 }
 
@@ -30,7 +30,7 @@
 
 .App-link {
   color: #61dafb;
-}
+} */
 
 /* @keyframes App-logo-spin {
   from {
@@ -41,9 +41,10 @@
   }
 }
 
-html,body{
-  overflow-x: hidden;
-}
 =======
 } */
 
+
+html,body{
+  overflow-x: hidden;
+}

@@ -7,12 +7,12 @@ const Orders = () => {
     <p className="p-5 pr-44 font-semibold flex text-xl">Orders (MTD) </p>
                 <div className=" w-[800px] h-[80px] rounded-lg  mr-10 ">
                     <div className="flex  text-sm ">
-                        <p className="pl-48">Success Order</p>
-                        <p className="pl-44">Failed Orders</p>
+                        <p className="lg:pl-48 md:pl-20 sm:pl-10 pl-5">Success Order</p>
+                        <p className="lg:pl-48 md:pl-20 sm:pl-10 pl-5">Failed Orders</p>
                     </div>
                     <div className="flex pt-3 text-xl font-semibold">
-                        <p className="pl-56">0</p>
-                        <p className="pl-72">0</p>
+                        <p className="lg:pl-56 md:pl-28 sm:pl-20 pl-12">0</p>
+                        <p className="lg:pl-72 md:pl-36 sm:pl-32 pl-24">0</p>
                     </div>
                 </div>
     </div>

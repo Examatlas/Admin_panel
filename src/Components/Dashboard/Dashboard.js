@@ -35,14 +35,14 @@ const Dashboard = () => {
           <div className="flex flex-col">
             <div className="border border-gray-300 lg:w-[800px] md:w-[540px] sm:w-[500px] w-[380px] h-[80px] rounded-lg m-2 lg:mr-10 md:ml-4 pt-3 ">
             <div className="flex  text-sm ">
-                        <p className="lg:pl-28 md:pl-12 sm:pl-10">Total Sales</p>
-                        <p className="lg:pl-44 md:pl-12 sm:pl-10">Products</p>
-                        <p className="lg:pl-44 md:pl-12 sm:pl-10">Learners</p>
+                        <p className="lg:pl-28 md:pl-12 sm:pl-10 pl-7">Total Sales</p>
+                        <p className="lg:pl-44 md:pl-12 sm:pl-10 pl-7">Products</p>
+                        <p className="lg:pl-44 md:pl-12 sm:pl-10 pl-7">Learners</p>
                     </div>
                     <div className="flex pt-3 text-xl font-semibold">
-                        <p className="lg:pl-32 md:pl-16 sm:pl-12">₹ 0</p>
-                        <p className="lg:pl-52 md:pl-20 sm:pl-20">N/A</p>
-                        <p className="lg:pl-52 md:pl-20 sm:pl-16">N/A</p>
+                        <p className="lg:pl-32 md:pl-16 sm:pl-14 pl-10">₹ 0</p>
+                        <p className="lg:pl-52 md:pl-20 sm:pl-10 pl-14">N/A</p>
+                        <p className="lg:pl-52 md:pl-20 sm:pl-10  pl-14">N/A</p>
                     </div>
             </div>
 
@@ -62,10 +62,9 @@ const Dashboard = () => {
           </div>
 
           <div className="border border-gray-300 lg:w-[350px] md:w-[220px] w-[380px] h-[150px] rounded-lg mt-2 m-2 ">
-            <p className="p-5 lg:pr-44 md:pr-28 font-semibold lflex  ">Scheduled events</p>
+            <p className="p-5 lg:pr-44 md:pr-28 font-semibold flex ">Scheduled events</p>
             <p className="pt-5">No Scheduled Events</p>
           </div>
-
 
         </div>
 
@@ -107,7 +106,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-           
           </div>
 
         </div>

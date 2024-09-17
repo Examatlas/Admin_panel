@@ -11,7 +11,7 @@ const demoTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: "data-toolpad-color-scheme",
   },
-  // colorSchemes: { light: true, dark: true },
+  colorSchemes: { light: true, dark: true },
   breakpoints: {
     values: {
       xs: 0,
@@ -45,7 +45,8 @@ function DashboardLayoutBasic(props) {
     <AppProvider
       navigation={NAVIGATION}
       branding={{
-        logo: <img src="https://examatlas.com/assets/images/logo.png" alt="ExamAtlas" className="ml-16 h-16 w-20" />,
+        logo: <img src="https://examatlas.com/assets/images/logo.png" alt="ExamAtlas" />,
+        // logo: <img src="https://examatlas.com/assets/images/logo.png" alt="ExamAtlas" className="" />,className="ml-16 h-16 w-20" 
         title: "",
       }}
       router={router}
