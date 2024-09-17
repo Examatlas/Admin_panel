@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -10,13 +10,39 @@ import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-const AddBlog = () => {
+const EditBlog = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
+    // console.log(inputValue);
+    
+    const [blogData, setBlogData] = useState({
+        title: '',
+        keyword:'',
+        content: '',
+        tags: '',
+        image: null,
+    });
+    
     const navigate=useNavigate();
+    const {blogId}=useParams();
+
+    //fetch blog By id
+    const fetchBlogById = async (blogId) => {
+        try {
+            const responce = await axios.get(`${API_BASE_URL}/api/blog/getBlogById/${blogId}`);
+            setBlogData(responce?.data?.blog);
+            formik.setFieldValue('tags',responce?.data?.blog?.tags);
+        } catch (error) {
+            console.log("Error when fetching blogs", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchBlogById(blogId);
+    }, []);
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
@@ -108,26 +134,27 @@ const AddBlog = () => {
     };
 
     const formik = useFormik({
-        initialValues: {
-            title: '',
-            keyword:"",
-            content: "",
-            tags: [],
+        enableReinitialize: true,
+        initialValues:{
+            title: blogData?.title,
+            keyword:blogData?.keyword,
+            content: blogData?.content,
+            tags: blogData?.content||[],
             image: null,
         },
         validationSchema: BlogFormvalidationSchema,
         onSubmit: async(values) => {
             try {
-                const res=await axios.post(`${API_BASE_URL}/api/blog/createBlog`,{
+                const res=await axios.put(`${API_BASE_URL}/api/blog/updateBlog/${blogId}`,{
                     title:values?.title,
                     keyword:values?.keyword,
                     content:values?.content,
-                    tags:values?.tags
+                    tags:values?.tags ,
                 });
                 if(res?.data?.status===true){
                     toast.success(res?.data?.message);
                     setTimeout(() => {
-                        navigate("contents/blog");
+                        navigate("/contents/blog");
                     }, 3000);
                 }
             } catch (error) {
@@ -142,7 +169,7 @@ const AddBlog = () => {
         <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
-                    <h1 className='text-4xl my-4'>Add Blog</h1>
+                    <h1 className='text-4xl my-4'>Update Blog</h1>
                     <div>
                         <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
 {/* Title */}
@@ -155,6 +182,7 @@ const AddBlog = () => {
                                     id="title"
                                     onChange={formik?.handleChange}
                                     value={formik.values.title}
+                                    // value={blogData?.title}
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
@@ -195,7 +223,7 @@ const AddBlog = () => {
                             <div className='mb-4 flex flex-col'>
                                  {/* display tags */}
                                  <div className='flex gap-2'>
-                                    {formik.values.tags.map((tag, index) => (
+                                    {formik?.values?.tags && formik?.values?.tags?.map((tag, index) => (
                                         <div key={index} style={{ marginBottom: '8px' }} 
                                         className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
                                             <strong >{tag}</strong>
@@ -236,7 +264,7 @@ const AddBlog = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
+                            <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
                         </form>
                     </div>
                 </div>
@@ -246,4 +274,5 @@ const AddBlog = () => {
     );
 }
 
-export default AddBlog;
+export default EditBlog;
+

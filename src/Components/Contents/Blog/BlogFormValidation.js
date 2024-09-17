@@ -25,11 +25,7 @@ const BlogFormvalidationSchema = Yup.object().shape({
 
     tags: Yup.array()
     .of(
-      Yup.object().shape({
-        title: Yup.string().required('Title is required'),  // Require the title for each tag
-        content: Yup.string().optional(),  // Optional field
-        image: Yup.string().url('Image must be a valid URL').optional(),  // Optional field, but must be a valid URL if provided
-      })
+      Yup.string()
     )
     .min(1, 'At least one tag is required')
 
