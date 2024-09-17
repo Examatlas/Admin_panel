@@ -22,16 +22,11 @@ const BlogFormvalidationSchema = Yup.object().shape({
     .test('fileSize', 'File too large', (value) => {
       return value && value.size <= 2 * 1024 * 1024; // 2MB limit
     }),
-
-    // tags: Yup.array()
-    // .of(
-    //   Yup.object().shape({
-    //     title: Yup.string().required('Title is required'),  // Require the title for each tag
-    //     content: Yup.string().optional(),  // Optional field
-    //     image: Yup.string().url('Image must be a valid URL').optional(),  // Optional field, but must be a valid URL if provided
-    //   })
-    // )
-    // .min(1, 'At least one tag is required')
+    tags: Yup.array()
+    .of(
+      Yup.string()
+    )
+    .min(1, 'At least one tag is required')
 
   // tags: Yup.string()
   //   // .of(Yup.string().min(2, 'Tag must be at least 2 characters'))

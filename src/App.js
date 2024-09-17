@@ -87,6 +87,7 @@ import {Toaster} from 'react-hot-toast';
 import LiveHome from "./Components/liveStreaming/LiveHome";
 import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
 import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
+import EditBlog from "./Components/Contents/Blog/EditBlog";
 
 
 function App() {
@@ -110,8 +111,11 @@ function App() {
 
           <Route path="/contents/TestSeries" element={<TestSeries />} />
           <Route path="/contents/MockTest" element={<MockTest />} />
+
           <Route path="/contents/blog" element={<Blog />} />
           <Route path="/contents/add-blog" element={<AddBlog />} />
+          <Route path="/contents/edit-blog/:blogId" element={<EditBlog />} />
+
           <Route path="/contents/current-affairs" element={<CurrentAffairs />} />
           <Route path="/contents/add-ca" element={<AddCA />} />
           <Route path="/contents/Bundles" element={<Bundles />} />

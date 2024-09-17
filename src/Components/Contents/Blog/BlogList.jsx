@@ -1,8 +1,47 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import API_BASE_URL from '../../../config';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const BlogList = () => {
+    const [blogData, setBlogData] = useState();
+    //fetch all blogs
+    const fetchAllBlogs = async () => {
+        try {
+            const responce = await axios.get(`${API_BASE_URL}/api/blog/getAllBlogs`);
+            setBlogData(responce?.data?.blogs);
+        } catch (error) {
+            console.log("Error when fetching blogs", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchAllBlogs();
+    }, []);
+
+    //delete blog
+    const deleteBlog = async (blogId) => {
+        try {
+            const responce = await axios.delete(`${API_BASE_URL}/api/blog/deleteBlog/${blogId}`);
+
+            if (responce?.data?.status === true) {
+                toast.success(responce?.data?.message, {
+                    duration: 3000,
+                    position: 'top-center',
+                });
+                fetchAllBlogs();
+            }
+        } catch (error) {
+            toast.error(error?.message, {
+                duration: 3000,
+                position: 'top-center',
+            });
+            console.log("Error while delete a blog", error);
+        }
+    }
     return (
         <div>
             <div className="relative overflow-x-auto">
@@ -18,53 +57,45 @@ const BlogList = () => {
                             <th scope="col" className="px-6 py-3">
                                 Action
                             </th>
-                            {/* <th scope="col" className="px-6 py-3">
-                                Price
-                            </th> */}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple MacBook Pro 17"
-                            </th>
-                            <td className="px-6 py-4">
-                                Silver
-                            </td>
-                            <td className="px-6 py-4">
-                                Laptop
-                            </td>
-                           
-                        </tr>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Microsoft Surface Pro
-                            </th>
-                            <td className="px-6 py-4">
-                                White
-                            </td>
-                            <td className="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            
-                        </tr>
-                        <tr className="bg-white dark:bg-gray-800">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Magic Mouse 2
-                            </th>
-                            <td className="px-6 py-4">
-                                Black
-                            </td>
-                            <td className="px-6 py-4 flex">
-                                <button className='px-2 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md mx-1' title='Edit'><FaEdit/></button>
-                                <button className='px-2 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md mx-1' title='Delete'><RiDeleteBin6Fill/></button>
-                            </td>
-                            
-                        </tr>
+                        {
+                            blogData && blogData?.map((item, index) => {
+                                return (
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {item?.title}
+                                        </th>
+                                        <td className="px-6 py-4">
+                                            {item?.tags?.length > 0 && item?.tags?.map((tag, index) => (
+                                                <span key={index}>{tag}, </span>
+                                            ))}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Link to={`/content/edit-blog/${item?._id}`}>
+                                                <button
+                                                    className='px-2 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md mx-1'
+                                                    title='Edit'>
+                                                    <FaEdit />
+                                                </button>
+                                            </Link>
+                                            <button
+                                                onClick={() => { deleteBlog(item?._id) }}
+                                                className='px-2 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md mx-1'
+                                                title='Delete'>
+                                                <RiDeleteBin6Fill />
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>
-
+            <Toaster />
         </div>
     );
 }
