@@ -4,8 +4,6 @@ import Box from "@mui/material/Box";
 
 
 export function DemoPageContent({ pathname, children }) {
-  console.log(pathname, "pathname");
-  console.log(children, "children")
   return (
     <Box
       sx={{
