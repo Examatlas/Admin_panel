@@ -1,8 +1,11 @@
 import { useParticipant } from "@videosdk.live/react-sdk";
 import React, { useEffect, useMemo, useRef } from "react";
 import ReactPlayer from "react-player";
+// import MicVideo from "../mediaControl/MicVideo";
 
 const SingleParticipantContainer = ({ participantId }) => {
+  console.log(participantId);
+  
   const { micOn, micStream, isLocal, displayName, webcamStream, webcamOn } =
     useParticipant(participantId);
 
@@ -36,12 +39,13 @@ const SingleParticipantContainer = ({ participantId }) => {
   }, [micStream, micOn, isLocal, participantId]);
 
   return (
-    <div style={{ height: 200, width: 360, position: "relative" }} className="m-0">
+    // <div style={{ height: 200, width: 360, position: "relative" }} className="m-0">
+    <div style={{ }} className=" p-2 w-full h-[30rem] ">
       <audio autoPlay playsInline controls={false} ref={audioPlayer} />
       <div
         style={{ position: "absolute", background: "#ffffffb3", padding: 8 }}
       >
-        <p className="bg-red-400">Name: {displayName}</p>
+        <p className="">Name: {displayName}</p>
         <p>Webcam: {webcamOn ? "on" : "off"}</p>
         <p>Mic: {micOn ? "on" : "off"}</p>
       </div>
@@ -54,6 +58,7 @@ const SingleParticipantContainer = ({ participantId }) => {
           muted={true}
           playing={true}
           url={videoStream}
+          // className="border px-4"
           height={"100%"}
           width={"100%"}
           onError={(err) => {
@@ -61,6 +66,7 @@ const SingleParticipantContainer = ({ participantId }) => {
           }}
         />
       )}
+      {/* <MicVideo/> */}
     </div>
   );
 };
