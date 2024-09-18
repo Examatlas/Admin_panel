@@ -73,7 +73,7 @@ const BlogList = () => {
                                             ))}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <Link to={`/content/edit-blog/${item?._id}`}>
+                                            <Link to={`/contents/edit-blog/${item?._id}`}>
                                                 <button
                                                     className='px-2 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md mx-1'
                                                     title='Edit'>

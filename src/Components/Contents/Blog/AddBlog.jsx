@@ -101,7 +101,7 @@ const AddBlog = () => {
                 if(res?.data?.status===true){
                     toast.success(res?.data?.message);
                     setTimeout(() => {
-                        navigate("contents/blog");
+                        navigate("/contents/blog");
                     }, 3000);
                 }
             } catch (error) {

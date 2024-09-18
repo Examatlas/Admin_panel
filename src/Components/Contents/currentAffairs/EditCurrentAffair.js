@@ -3,22 +3,20 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
-
-import BlogFormvalidationSchema from './BlogFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
+import CAFormvalidationSchema from './CAFormValidation';
 
-
-const EditBlog = () => {
+const EditCurrentAffairs = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
     // console.log(inputValue);
     
-    const [blogData, setBlogData] = useState({
+    const [currentAffairData, setCurrentAffairData] = useState({
         title: '',
         keyword:'',
         content: '',
@@ -27,21 +25,21 @@ const EditBlog = () => {
     });
     
     const navigate=useNavigate();
-    const {blogId}=useParams();
+    const {currentAffairId}=useParams();
 
     //fetch blog By id
-    const fetchBlogById = async (blogId) => {
+    const fetchCurrentAffairById = async (currentAffairId) => {
         try {
-            const responce = await axios.get(`${API_BASE_URL}/api/blog/getBlogById/${blogId}`);
-            setBlogData(responce?.data?.blog);
-            formik.setFieldValue('tags',responce?.data?.blog?.tags);
+            const response = await axios.get(`${API_BASE_URL}/api/currentAffair/getById/${currentAffairId}`);
+            setCurrentAffairData(response?.data?.currentAffair);
+            formik.setFieldValue('tags',response?.data?.currentAffair?.tags);
         } catch (error) {
             console.log("Error when fetching blogs", error);
         }
     };
 
     useEffect(() => {
-        fetchBlogById(blogId);
+        fetchCurrentAffairById(currentAffairId);
     }, []);
 
     const toolbarOptions = [
@@ -68,32 +66,6 @@ const EditBlog = () => {
     const modules = {
         toolbar: true,
         toolbar: toolbarOptions,
-
-
-        // {
-        //     container: [
-        //         // [{ 'font': Font.whitelist }],
-        //         // [{ 'size': Size.whitelist }],
-        //         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        //         ['bold', 'italic', 'underline', 'strike'],
-        //         [{ 'color': [] }, { 'background': [] }],
-        //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        //         [{ 'align': [] }],
-        //         ['link', 'image', 'video'],
-        //         ['code-block'],
-        //         ['clean'], // Remove formatting
-        //         [{ 'indent': '-1' }, { 'indent': '+1' }], // Indent
-        //     ],
-        //     handlers: {
-        //         // image: imageHandler, // Custom image handler
-        //     },
-        // },
-        // clipboard: {
-        //     matchVisual: false, // Match styles when pasting text
-        // },
-        // syntax: {
-        //   highlight: text => hljs.highlightAuto(text).value, // Syntax highlighting
-        // },
     };
 
     const handleKeyPress = (event) => {
@@ -103,7 +75,7 @@ const EditBlog = () => {
                 inputValue
             ]);
             setInputValue(''); 
-            event.preventDefault(); 
+            event.preventDefault();  
         }
     };
 
@@ -136,16 +108,16 @@ const EditBlog = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues:{
-            title: blogData?.title,
-            keyword:blogData?.keyword,
-            content: blogData?.content,
-            tags: blogData?.tags||[],
+            title: currentAffairData?.title,
+            keyword:currentAffairData?.keyword,
+            content: currentAffairData?.content,
+            tags: currentAffairData?.tags || [],
             image: null,
         },
-        validationSchema: BlogFormvalidationSchema,
+        validationSchema: CAFormvalidationSchema,
         onSubmit: async(values) => {
             try {
-                const res=await axios.put(`${API_BASE_URL}/api/blog/updateBlog/${blogId}`,{
+                const res=await axios.put(`${API_BASE_URL}/api/currentAffair/updateCA/${currentAffairId}`,{
                     title:values?.title,
                     keyword:values?.keyword,
                     content:values?.content,
@@ -154,22 +126,21 @@ const EditBlog = () => {
                 if(res?.data?.status===true){
                     toast.success(res?.data?.message);
                     setTimeout(() => {
-                        navigate("/contents/blog");
+                        navigate("/contents/current-affairs");
                     }, 3000);
                 }
             } catch (error) {
                 toast.error(error?.message);
-                console.log("Error occured during blog submit",error);
+                console.log("Error occured during current affair submit",error);
             }
         },
     });
-
 
     return (
         <DashboardLayoutBasic>
             <div className='  min-h-[100vh]'>
                 <div className='md:mx-10 my-10 rounded-md'>
-                    <h1 className='text-4xl my-4'>Update Blog</h1>
+                    <h1 className='text-4xl my-4'>Update Current Affair</h1>
                     <div>
                         <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
 {/* Title */}
@@ -274,5 +245,5 @@ const EditBlog = () => {
     );
 }
 
-export default EditBlog;
+export default EditCurrentAffairs;
 

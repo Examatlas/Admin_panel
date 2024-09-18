@@ -25,13 +25,20 @@ const CAFormvalidationSchema = Yup.object().shape({
 
     tags: Yup.array()
     .of(
-      Yup.object().shape({
-        title: Yup.string().required('Title is required'),  // Require the title for each tag
-        content: Yup.string().optional(),  // Optional field
-        image: Yup.string().url('Image must be a valid URL').optional(),  // Optional field, but must be a valid URL if provided
-      })
+      Yup.string()
     )
     .min(1, 'At least one tag is required')
+
+
+    // tags: Yup.array()
+    // .of(
+    //   Yup.object().shape({
+    //     title: Yup.string().required('Title is required'),  // Require the title for each tag
+    //     content: Yup.string().optional(),  // Optional field
+    //     image: Yup.string().url('Image must be a valid URL').optional(),  // Optional field, but must be a valid URL if provided
+    //   })
+    // )
+    // .min(1, 'At least one tag is required')
 
   // tags: Yup.string()
   //   // .of(Yup.string().min(2, 'Tag must be at least 2 characters'))
@@ -39,4 +46,4 @@ const CAFormvalidationSchema = Yup.object().shape({
   //   .required('Tags are required'),
 });
 
-export default BlogFormvalidationSchema;
+export default CAFormvalidationSchema

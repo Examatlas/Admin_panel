@@ -88,6 +88,7 @@ import LiveHome from "./Components/liveStreaming/LiveHome";
 import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
 import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
 import EditBlog from "./Components/Contents/Blog/EditBlog";
+import EditCurrentAffairs from "./Components/Contents/currentAffairs/EditCurrentAffair";
 
 
 function App() {
@@ -115,6 +116,7 @@ function App() {
           <Route path="/contents/blog" element={<Blog />} />
           <Route path="/contents/add-blog" element={<AddBlog />} />
           <Route path="/contents/edit-blog/:blogId" element={<EditBlog />} />
+          <Route path="/contents/current-affairs/:currentAffairId" element={<EditCurrentAffairs />} />
 
           <Route path="/contents/current-affairs" element={<CurrentAffairs />} />
           <Route path="/contents/add-ca" element={<AddCA />} />

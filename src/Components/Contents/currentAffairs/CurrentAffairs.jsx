@@ -32,7 +32,7 @@ const CurrentAffairs = () => {
           <div className=" flex justify-between mx-4 md:mx-12 my-4">
             <div>
               <h1 className=" text-2xl md:text-4xl text-left">Current Affairs</h1>
-              <p className=" text-base md:text-lg text-left">Welcome to Current Affairs Dashboard</p>
+              <p className=" text-base md:text-lg text-left mt-1">Welcome to Current Affairs Dashboard</p>
             </div>
 
             <div className="flex items-center gap-2">

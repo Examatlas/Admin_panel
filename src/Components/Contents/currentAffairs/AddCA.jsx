@@ -3,14 +3,20 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
-import BlogFormvalidationSchema from '../Blog/BlogFormValidation';
 //icons
+import toast from "react-hot-toast";
+import API_BASE_URL from '../../../config';
 import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from 'react-router-dom';
+import CAFormvalidationSchema from './CAFormValidation';
 
 const AddCA = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
+
+    const navigate = useNavigate()
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
@@ -83,13 +89,33 @@ const AddCA = () => {
             tags: [],
             image: null,
         },
-        validationSchema: BlogFormvalidationSchema,
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-            console.log(values);
+        validationSchema: CAFormvalidationSchema,
+    //     onSubmit: values => {
+    //         alert(JSON.stringify(values, null, 2));
+    //         console.log(values);
 
-        },
-    });
+    //     },
+    // });
+    onSubmit: async(values) => {
+        try {
+            const res=await axios.post(`${API_BASE_URL}/api/currentAffair/createCA`,{
+                title:values?.title,
+                keyword:values?.keyword,
+                content:values?.content,
+                tags:values?.tags
+            });
+            if(res?.data?.status===true){
+                toast.success(res?.data?.message);
+                setTimeout(() => {
+                    navigate("/contents/current-affairs");
+                }, 3000);
+            }
+        } catch (error) {
+            toast.error(error?.message);
+            console.log("Error occured during current affair submit",error);
+        }
+    },
+});
 
 
     return (
