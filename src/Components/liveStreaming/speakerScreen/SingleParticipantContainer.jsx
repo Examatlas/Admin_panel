@@ -40,7 +40,7 @@ const SingleParticipantContainer = ({ participantId }) => {
 
   return (
     // <div style={{ height: 200, width: 360, position: "relative" }} className="m-0">
-    <div style={{ }} className=" p-2 w-full h-[30rem] ">
+    <div style={{ }} className=" p-2 w-[15rem] h-[15rem] flex  border m-1 ">
       <audio autoPlay playsInline controls={false} ref={audioPlayer} />
       <div
         style={{ position: "absolute", background: "#ffffffb3", padding: 8 }}

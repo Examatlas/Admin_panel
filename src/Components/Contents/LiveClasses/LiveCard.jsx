@@ -6,14 +6,36 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import { MdDelete } from "react-icons/md";
+
 import img from '../../../Image/download.png';
 // import SpeakerScreenContainer from '../../liveStreaming/speakerScreen/SpeakerScreenContainer';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import config from '../../../config/config';
+import API_BASE_URL from '../../../config';
+import toast from 'react-hot-toast';
+import { Key } from '@mui/icons-material';
 
-export default function LiveCard(data) {
+export default function LiveCard({ data, deleteClass }) {
+  // console.log(data,deleteClass);
+
   // console.log(data?.data?.meetingId);
   // const joinClass=()=>{
   //   return <SpeakerScreenContainer meetingId={data?.data?.meetingId}/>
+  // }
+
+  // const deleteClass=async(id)=>{
+  //   try {
+  //     const res=await axios.delete(`${API_BASE_URL}/api/liveclass/deleteClass/${id}`);
+  //     console.log(res?.data);
+
+  //     toast.success("Deleted successfully");
+
+  //   } catch (error) {
+  //     toast.error(error?.message);
+  //     console.log("Error while deleting class",error);
+  //   }
   // }
   return (
     // UGC NET/SET JRF Psychology Foundation Course (Dec 2024)
@@ -28,23 +50,34 @@ export default function LiveCard(data) {
         image={img}
       />
       <CardContent>
-        <Typography gutterBottom component="p" className='text-xl font-bold text-left'>
-          {data?.data?.title}
+        <Typography gutterBottom component="p" className='text-xl font-bold text-left' style={{fontWeight:"600"}}>
+          {data?.title}
         </Typography>
+        {/* {data?.tags && data?.tags?.map((item, index) => {
+          return (
+            <div key={index} className='flex flex-row  gap-1 ' style={{display:"flex"}}>
+              <div className='w-fit flex text-xs text-gray-800 '>{item}</div>
+            </div>
+          )
+        })} */}
         <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
-          {data?.data?.description}
+          {data?.description}
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
-          {data?.data?.date}
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start my-1' >
+          BY : <span className=' font-bold my-1'>{data?.teacher}</span>
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
-          {data?.data?.time}
-        </Typography>
+        {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
+          {data?.time}
+        </Typography> */}
       </CardContent>
-      <CardActions>
-        <Link to={`/contents/live/${data?.data?.meetingId}?name=${data?.data?.title}`}>
-          <button className='px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600'>Join as Host</button>
+      <CardActions className='flex justify-between mx-2'>
+        <Link to={`/contents/live/${data?.meetingId}?name=${data?.title}`}>
+          <button className='px-2 py-1 rounded-md text-white bg-blue-500 hover:bg-blue-600'>Join as Host</button>
         </Link>
+        <MdDelete
+          title='Delete Class'
+          onClick={() => deleteClass(data?._id)}
+          className='text-red-500 hover:text-red-600 active:text-red-600 text-2xl' />
       </CardActions>
     </Card>
   );
