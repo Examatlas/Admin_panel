@@ -12,6 +12,8 @@ import LiveCard from "./LiveCard";
 import { createNewRoom } from "../../liveStreaming/Api";
 import axios from "axios";
 import config from "../../../config/config";
+import API_BASE_URL from "../../../config";
+import toast from "react-hot-toast";
 const LiveClasses = () => {
   // const[classData,setClassData]=useState();
   const[classData,setClassData]=useState();
@@ -42,7 +44,21 @@ const LiveClasses = () => {
 
   useEffect(()=>{
     getAllLiveClass();
-  },[])
+  },[]);
+
+  const deleteClass=async(id)=>{
+    try {
+      const res=await axios.delete(`${API_BASE_URL}/api/liveclass/deleteClass/${id}`);
+      console.log(res?.data);
+
+      toast.success("Deleted successfully");
+      getAllLiveClass();
+      
+    } catch (error) {
+      toast.error(error?.message);
+      console.log("Error while deleting class",error);
+    }
+  };
 
   return (
     <>
@@ -106,7 +122,7 @@ const LiveClasses = () => {
           {
             classData && classData.map((data,index)=>{
               return(
-                <LiveCard key={index} data={data}/>
+                <LiveCard key={index} data={data} deleteClass={deleteClass}/>
               )
             })
           }

@@ -16,18 +16,20 @@ const ParticipantsGridContainer = () => {
   const speakers = useMemo(() => {
     const speakerParticipants = [...participants.values()].filter(
       (participant) => {
-        return participant.mode == Constants.modes.CONFERENCE;
+        return participant.mode == Constants.modes;
       }
     );
     return speakerParticipants;
   }, [participants]);
 
-  console.log(speakers);
+  console.log(speakers,"Speaker");
   
 
   return (
     // <DashboardLayoutBasic>
-      <div className="">
+      <div className=" flex flex-wrap justify-center items-center">
+       
+
         {participantIds.map((participantId,index) =>{
           return(
             // console.log(participantId)
@@ -39,12 +41,7 @@ const ParticipantsGridContainer = () => {
             ))}
           )
         } 
-        {/* (
-          console.log(participantId)
-          <SingleParticipantContainer
-            {...{ participantId, key: participantId }}
-          />
-        ))} */}
+        
       </div>
     // </DashboardLayoutBasic>
 
