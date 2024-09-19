@@ -5,18 +5,19 @@ import axios from 'axios';
 import config from '../../../config/config';
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const CreateLiveClass = () => {
     // const [appData, setAppData] = useState({ meetingId: null, mode: null });
     const [meetingId, setMeetingId] = useState(null);
+    const navigate = useNavigate();
     const createClick = async () => {
         const meetingId = await createNewRoom();
-
         // setAppData({ mode: "CONFERENCE", meetingId });
         setMeetingId(meetingId);
     };
 
-    
+
     const formik = useFormik({
         initialValues: {
             title: '',
@@ -27,22 +28,23 @@ const CreateLiveClass = () => {
         onSubmit: async (values) => {
             try {
                 const responce = await axios.post(`${config?.url}liveclass/createliveClass`, {
-                meetingId,
-                title: values?.title,
-                description: values?.description,
-                time: values?.time,
-                date: values?.date,
-            });
-            if(responce?.data?.status===true){
-                toast.success(responce?.data?.message);
-                
-            }
-            // console.log(responce);
+                    meetingId,
+                    title: values?.title,
+                    description: values?.description,
+                    time: values?.time,
+                    date: values?.date,
+                });
+                if (responce?.data?.status === true) {
+                    toast.success(responce?.data?.message);
+                    setTimeout(() => {
+                        navigate("/contents/liveClasses");
+                    }, 2000);
+                }
             } catch (error) {
                 toast.error(error?.message);
-                console.log("Error while creating a class",error);
+                console.log("Error while creating a class", error);
             }
-            
+
         }
     })
     return (
@@ -58,7 +60,7 @@ const CreateLiveClass = () => {
                     <form onSubmit={formik.handleSubmit}>
                         <p>Meeting Id:
                             <span>
-                                {meetingId }
+                                {meetingId}
                             </span></p>
                         <div className='flex flex-col justify-start'>
                             <label htmlFor="title">Title of Class</label>

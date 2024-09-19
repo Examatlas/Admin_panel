@@ -11,16 +11,16 @@ import img from '../../../Image/download.png';
 import { Link } from 'react-router-dom';
 
 export default function LiveCard(data) {
-  console.log(data?.data?.meetingId);
+  // console.log(data?.data?.meetingId);
   // const joinClass=()=>{
   //   return <SpeakerScreenContainer meetingId={data?.data?.meetingId}/>
   // }
   return (
     // UGC NET/SET JRF Psychology Foundation Course (Dec 2024)
     <Card className='m-4 w-[250px] md:w-[300px] cursor-pointer relative '>
-        <button className='bg-red-500 text-white px-3 py-1 rounded-full text-xs absolute left-2 top-2'>
-            Live 
-        </button>
+      <button className='bg-red-500 text-white px-3 py-1 rounded-full text-xs absolute left-2 top-2'>
+        Live
+      </button>
       <CardMedia
         component="img"
         alt="green iguana"
@@ -28,8 +28,8 @@ export default function LiveCard(data) {
         image={img}
       />
       <CardContent>
-        <Typography gutterBottom  component="p" className='text-xl font-bold text-left'>
-        {data?.data?.title}
+        <Typography gutterBottom component="p" className='text-xl font-bold text-left'>
+          {data?.data?.title}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
           {data?.data?.description}
@@ -42,8 +42,8 @@ export default function LiveCard(data) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/contents/live/${data?.data?.meetingId}`}>
-        <button className='px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600'>Join as Host</button>
+        <Link to={`/contents/live/${data?.data?.meetingId}?name=${data?.data?.title}`}>
+          <button className='px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600'>Join as Host</button>
         </Link>
       </CardActions>
     </Card>

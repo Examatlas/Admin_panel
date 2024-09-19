@@ -1,32 +1,48 @@
 import { MeetingProvider } from "@videosdk.live/react-sdk";
 import React from "react";
-import MediaControlsContainer from "./MediaControlsContainer";
+// import MediaControlsContainer from "./MediaControlsContainer";
 import ParticipantsGridContainer from "./ParticipantsGridContainer";
-// import { authToken } from "../../api";
 import { authToken } from "../Api";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
-// const SpeakerScreenContainer = ({ meetingId }) => {
+import MeetingInfo from "../mediaControl/MeetingInfo";
+import MicVideo from "../mediaControl/MicVideo";
 const SpeakerScreenContainer = () => {
+  
   const { meetingId } = useParams();
+  const name="Abhishek";
 
   return (
     <DashboardLayoutBasic>
-      <div className="bg-blue-200 flex-start w-full container mx-auto">
+      <div className=" flex-start w-full container mx-auto">
         <MeetingProvider
           token={authToken}
           config={{
             meetingId,
-            name: "C.V. Raman",
+            name: name,
             micEnabled: true,
             webcamEnabled: true,
+            mode:"CONFERENCE"
           }}
           className="w-[50%] bg-green-500 flex p-6"
           joinWithoutUserInteraction
         >
-          <MediaControlsContainer meetingId={meetingId} className="absolute top-7"/>
-          <ParticipantsGridContainer />
+         
+          <MeetingInfo/>
+          {/* Livew view which shows through camera */}
+          <div className=" border rounded-sm w-[80%] h-[30rem] mx-auto">
+            <ParticipantsGridContainer />
+          </div>
+          {/* it contains only mic and webcam */}
+          <div className="">
+          <MicVideo/>
+          </div>
+          
+          {/* media control */}
+          {/* <div className="bg-red-400 w-fit mx-auto my-0">
+            <MediaControlsContainer meetingId={meetingId} className="absolute top-7" />
+          </div> */} 
         </MeetingProvider>
       </div>
 
