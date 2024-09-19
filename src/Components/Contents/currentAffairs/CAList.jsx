@@ -86,7 +86,7 @@ const CAList = () => {
                                             </Link>
                                             <button
                                                 onClick={() => { deleteCurrentAffair(item?._id) }}
-                                                className='px-2 py-2 text-white bg-red-500 hover:bg-red-600 rounded-md mx-1'
+                                                className='px-2 py-2 text-white bg-red-400 hover:bg-red-400 rounded-md mx-1'
                                                 title='Delete'>
                                                 <RiDeleteBin6Fill />
                                             </button>
