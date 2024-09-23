@@ -9,18 +9,13 @@ import { useNavigate } from 'react-router-dom';
 
 //icons
 import { RxCross2 } from "react-icons/rx";
+import API_BASE_URL from '../../../config';
 
 const CreateLiveClass = () => {
     // const [appData, setAppData] = useState({ meetingId: null, mode: null });
-    const [meetingId, setMeetingId] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const navigate = useNavigate();
-    const createClick = async () => {
-        const meetingId = await createNewRoom();
-        // setAppData({ mode: "CONFERENCE", meetingId });
-        setMeetingId(meetingId);
-    };
-
+    
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputValue.trim() !== '') {
             formik.setFieldValue('tags', [
@@ -49,7 +44,7 @@ const CreateLiveClass = () => {
         onSubmit: async (values) => {
             try {
                 // const responce = await axios.post(`${config?.url}liveclass/createliveClass`, {
-                const responce = await axios.post(`${config?.url}liveclass/createMeeting`, {
+                const responce = await axios.post(`${API_BASE_URL}/api/liveclass/createMeeting`, {
                     // meetingId,
                     title: values?.title,
                     description: values?.description,
@@ -74,9 +69,29 @@ const CreateLiveClass = () => {
     return (
         <>
             <DashboardLayoutBasic>
-                <div className='shadow-md  px-4 py-4 rounded-md w-[100%] md:w-[80%] m-6'>
+                <div className='shadow-md px-[3rem] py-4 rounded-md w-[100%] md:w-[80%] m-6'>
                     <h1 className='text-3xl mb-8 mt-4'>Create a Live Class</h1>
                     <form onSubmit={formik.handleSubmit}>
+
+                    <div className='mb-4 flex flex-col'>
+                            <label htmlFor="teacher" className='text-start text-xl'>Category</label>
+                            {/* <input
+                                type="text"
+                                id="teacher"
+                                name='teacher'
+                                onChange={formik.handleChange}
+                                value={formik.values.teacher}
+                                className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                placeholder="Enter title of class"
+                            /> */}
+                            <select name="category" id="category" className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'>
+                                <option value="UPSC">UPSC</option>
+                                <option value="JPSC">JPSC</option>
+                                <option value="BPSC">BPSC</option>
+                                <option value="UPPSC">UPPSC</option>
+                            </select>
+                        </div>
+
                         <div className='mb-4 flex flex-col'>
                             <label htmlFor="title" className='text-start text-xl'>Class Name</label>
                             <input

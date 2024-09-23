@@ -2,7 +2,7 @@ import { Constants, useMeeting } from '@videosdk.live/react-sdk';
 import React, { useMemo } from 'react';
 
 const MeetingInfo = () => {
-    const {meetingId,hlsState,startHls,stopHls}=useMeeting();
+    const {meetingId,hlsState,startHls,stopHls,end}=useMeeting();
 
     const { isHlsStarted, isHlsStopped, isHlsPlayable } = useMemo(
         () => ({
@@ -24,6 +24,10 @@ const MeetingInfo = () => {
           startHls({ quality: "high" });
         }
       };
+
+      const handleEnd=()=>{
+        end();
+      }
     
     
     return (
@@ -37,12 +41,19 @@ const MeetingInfo = () => {
                         {hlsState}
                     </p>
                 </div>
-                <div>
+                <div className='gap-4'>
                     <button
-                        className="px-4 py-2 rounded-md bg-red-500 active:bg-red-600 text-white "
+                        className=" mx-2 px-4 py-2 rounded-md bg-red-500 active:bg-red-600 text-white "
                     onClick={_handleToggleHls}
                     >
-                        {isHlsStarted||isHlsPlayable ? "Leave" : "Go Live"}
+                        {isHlsStarted||isHlsPlayable ? "Stop Streaming" : "Go Live"}
+                    </button>
+                    <button
+                        className="mx-2 px-4 py-2 rounded-md bg-red-500 active:bg-red-600 text-white "
+                    onClick={handleEnd}
+                    >
+                        {/* {isHlsStarted||isHlsPlayable ? "Stop Streaming" : "Go Live"} */}
+                        Kill Meeting
                     </button>
                 </div>
 
