@@ -26,7 +26,7 @@ import LegacyPool from "./Components/Contents/LegacyPool";
 import QuestionPool from "./Components/Contents/QuestionPool";
 import Subscription from "./Components/Contents/Subscription";
 import Communities from "./Components/Contents/Communities";
-import Categories from "./Components/Contents/Categories";
+
 import Segments from "./Components/Contents/Segments";
 import Tags from "./Components/Contents/Tags";
 import Website from "./Components/Website&Apps/Website";
@@ -89,6 +89,9 @@ import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
 import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
 import EditBlog from "./Components/Contents/Blog/EditBlog";
 import EditCurrentAffairs from "./Components/Contents/currentAffairs/EditCurrentAffair";
+import Subject from "./Components/Master/Subject";
+import Category from "./Components/Master/MasterCategory/Category";
+import SubCategory from "./Components/Master/MasterCategory/SubCategory";
 
 
 function App() {
@@ -100,6 +103,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/Master/Subject" element={<Subject/>}/>
+          <Route path="/Master/MasterCategory/Category" element={<Category/>}/>
+          <Route path="/Master/MasterCategory/Sub-Category" element={<SubCategory/>}/>
 
           <Route path="/contents/courses" element={<Courses />} />
           <Route path="/contents/CourseForm" element={<CourseForm />}/>
@@ -137,7 +144,7 @@ function App() {
           <Route path="/contents/Subscriptions" element={<Subscription />} />
           <Route path="/contents/Newsfeed" element={<Newsfeed />} />
           <Route path="/contents/Communities" element={<Communities />} />
-          <Route path="/contents/Categories" element={<Categories />} />
+          {/* <Route path="/contents/Categories" element={<Categories />} /> */}
           <Route path="/contents/Segments" element={<Segments />} />
           <Route path="/contents/Tags" element={<Tags />} />
 

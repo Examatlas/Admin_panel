@@ -16,7 +16,6 @@ import { ImBlog } from "react-icons/im";
 import { IoNewspaperOutline } from "react-icons/io5";
 
 
-
 const NAVIGATION = [
     {
       kind: 'header',
@@ -32,6 +31,39 @@ const NAVIGATION = [
       kind: 'divider',
     },
   
+
+
+ // for category section 
+ {
+  segment: 'Master',
+  title: 'Master',
+  icon: < DashboardIcon />,
+  children: [
+    {
+      segment: 'Subject',
+      title: 'Subject',
+      icon: <DescriptionIcon />,
+    },
+    {
+      segment:'MasterCategory',
+      title: 'Master Category',
+      icon: <DescriptionIcon />,
+      children:[
+        {
+          segment : 'Category',
+          title : 'Category',
+          icon : <DescriptionIcon/>
+        },
+        {
+          segment : 'Sub-Category',
+          title : 'Sub Category',
+          icon: <DescriptionIcon/>
+        }
+      ]
+    }
+  ],
+},
+
   
   // content section
   {
@@ -146,6 +178,8 @@ const NAVIGATION = [
         }
       ]
   },
+
+ 
   
   // for website section
     {

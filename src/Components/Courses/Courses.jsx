@@ -104,6 +104,7 @@ const Courses = () => {
         </button>
       </div>
 
+
       <p className="mt-1 items-center">Welcome to your course dashboard</p>
 
       <div className="flex flex-col md:flex-row md:items-center gap-3 mt-7">
