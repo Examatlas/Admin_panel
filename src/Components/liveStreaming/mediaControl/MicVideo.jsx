@@ -10,7 +10,7 @@ import { IoIosMicOff } from "react-icons/io";
 const MicVideo = () => {
     // const { micOn, micStream, isLocal, displayName, webcamStream, webcamOn } =useParticipant(participantId);
 
-    const {toggleMic,toggleWebcam}=useMeeting();
+    const {toggleMic,toggleWebcam,end}=useMeeting();
 
     const togglemic=()=>{
         toggleMic();
@@ -35,6 +35,13 @@ const MicVideo = () => {
                     {/* <IoVideocam className="text-2xl" /> */}
                     toggle webcam
                 </button>
+
+                {/* <button
+                    onClick={end}
+                    className="px-2 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 mx-2"
+                >
+                    Kill Meeting
+                </button> */}
 
             </div>
         </div>

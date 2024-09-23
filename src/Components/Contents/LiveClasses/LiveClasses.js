@@ -36,7 +36,7 @@ const LiveClasses = () => {
   // };
 
   const getAllLiveClass=async()=>{
-    const responce=await axios.get(`${config?.url}liveclass/getAllLiveClass`);
+    const responce=await axios.get(`${API_BASE_URL}/api/liveclass/getAllLiveClass`);
     if(responce){
       setClassData(responce?.data?.classes)
     }

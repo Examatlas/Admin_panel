@@ -8,6 +8,7 @@ import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
 import MeetingInfo from "../mediaControl/MeetingInfo";
 import MicVideo from "../mediaControl/MicVideo";
+import ChatView from "../../Contents/LiveClasses/ChatView";
 const SpeakerScreenContainer = () => {
 
   const { meetingId } = useParams();
@@ -40,8 +41,9 @@ const SpeakerScreenContainer = () => {
             <MicVideo />
           </div>
           {/* Livew view which shows through camera */}
-          <div className=" rounded-sm w-[90%] mx-auto">
+          <div className="flex justify-between rounded-sm w-[90%] mx-auto">
             <ParticipantsGridContainer />
+            <ChatView/>
           </div>
           {/* it contains only mic and webcam */}
           {/* <div className="">

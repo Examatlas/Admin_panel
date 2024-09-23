@@ -22,7 +22,6 @@ const ParticipantsGridContainer = () => {
     return speakerParticipants;
   }, [participants]);
 
-  console.log(speakers,"Speaker");
   
 
   return (
@@ -30,7 +29,18 @@ const ParticipantsGridContainer = () => {
       <div className=" flex flex-wrap justify-center items-center">
        
 
-        {participantIds.map((participantId,index) =>{
+        {/* {participantIds.map((participantId,index) =>{
+          return(
+            // console.log(participantId)
+            (
+              <SingleParticipantContainer key={index}
+                {...{ participantId}}
+                // key: participantId
+              />
+            ))}
+          )
+        }  */}
+        {speakers?.map((participantId,index) =>{
           return(
             // console.log(participantId)
             (
