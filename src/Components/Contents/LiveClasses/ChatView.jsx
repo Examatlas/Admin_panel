@@ -6,8 +6,8 @@
 //     const [inputMessage, setInputMessage] = useState('');
 //     console.log(inputMessage);
 //     console.log("Messahes from user",messages);
-    
-    
+
+
 
 //     const handleSendMessage = () => {
 //         publish(inputMessage, { persist: true });
@@ -56,39 +56,41 @@ const ChatView = () => {
 
     const scrollRef = useRef(null);
 
-  useEffect(() => {
-    // Scroll to bottom every time the messages array updates
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+    useEffect(() => {
+        // Scroll to bottom every time the messages array updates
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const handleSendMessage = () => {
         publish(inputMessage, { persist: true });
         setInputMessage("");
     }
     return (
-        <div className='px-2 py-4 relative border w-[20rem] h-[30rem]  '>
+        <div className='px-2 py-4 relative border rounded-md hidden lg:block bg-gray-200 min-w-[20rem] w-[30%] min-h-[30rem] h-[80vh]  '>
             {/* chat box */}
-            <div ref={scrollRef} className='overflow-y-auto h-[24rem] relative custom_scroll_bar'>
+            <div ref={scrollRef} className='overflow-y-auto min-h-[24rem] h-[90vh] relative custom_scroll_bar'>
                 {messages?.map((message, index) => {
-                    console.log(message)
                     return (
                         <div key={index} className='relative'>
-                        {
-                            message?.senderId === meeting?.localParticipant?.id ?
-                            <div className='bg-gray-200 mx-2 my-2 px-2 py-1 leading-5 rounded-lg min-w-[5rem] w-fit ml-[12.5rem]'>
-                                <p className='font-bold text-[0.7rem] text-blue-500'>You</p>
-                                <p className='font-medium'>{message?.message}</p>
-                            </div>
-                            :
-                            <div className='bg-gray-200 mx-2 my-2 px-2 py-1 leading-5 rounded-lg  min-w-[5rem] w-fit '>
-                                <p className='font-bold text-[0.7rem] text-blue-500'>{message?.senderName}</p>
-                                <p className='font-medium text-sm'>{message?.message}</p>
-                            </div>
-                        }
+                            {
+                                message?.senderId === meeting?.localParticipant?.id ?
+                                    <div className='w-full flex flex-col justify-end items-end'>
+                                        <div className='bg-blue-200 mx-2 my-2 px-2 py-1 leading-5 rounded-lg min-w-[5rem] w-fit float-end '>
+                                            <p className='font-bold text-[0.7rem] text-blue-500'>You</p>
+                                            <p className='font-medium'>{message?.message}</p>
+                                        </div>
+                                    </div>
+
+                                    :
+                                    <div className='bg-blue-200 mx-2 my-2 px-2 py-1 leading-5 rounded-lg  min-w-[5rem] w-fit '>
+                                        <p className='font-bold text-[0.7rem] text-blue-500'>{message?.senderName}</p>
+                                        <p className='font-medium text-sm'>{message?.message}</p>
+                                    </div>
+                            }
                         </div>
-                       
+
                     );
                 })}
             </div>
@@ -98,7 +100,7 @@ const ChatView = () => {
                     type="text"
                     name='inputMessage'
                     value={inputMessage}
-                    className=' px-4 py-2 outline-none rounded-l-full font-medium w-[15rem]'
+                    className=' px-4 py-2 outline-none rounded-l-full font-medium min-w-[15rem] w-[90%]'
                     onChange={(e) => setInputMessage(e?.target?.value)}
                 />
                 <button

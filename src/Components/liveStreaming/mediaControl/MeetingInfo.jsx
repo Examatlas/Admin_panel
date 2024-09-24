@@ -32,15 +32,15 @@ const MeetingInfo = () => {
     
     return (
         <div>
-            <div className="flex w-full my-4 justify-between px-6">
-                <div className="flex flex-col justify-start">
+            <div className="flex bg-slate-400 my-4 justify-between px-6">
+                {/* <div className="flex flex-col justify-start">
                     <p>MeetingId: 
                         {meetingId}
                     </p>
                     <p>HLS state: 
                         {hlsState}
                     </p>
-                </div>
+                </div> */}
                 <div className='gap-4'>
                     <button
                         className=" mx-2 px-4 py-2 rounded-md bg-red-500 active:bg-red-600 text-white "
