@@ -22,7 +22,7 @@ const SpeakerScreenContainer = () => {
 
   return (
     // <DashboardLayoutBasic>
-      <div className=" flex-start w-full container mx-auto">
+      <div className=" flex-start w-full h-[100%] my-10 container mx-auto">
         <MeetingProvider
           token={authToken}
           config={{
@@ -32,28 +32,14 @@ const SpeakerScreenContainer = () => {
             webcamEnabled: true,
             mode: "CONFERENCE"
           }}
-          // className="w-[50%] flex p-6"
           joinWithoutUserInteraction
         >
-
-          <MeetingInfo />
-          <div className="mx-auto w-full">
-            <MicVideo />
-          </div>
           {/* Livew view which shows through camera */}
-          <div className="flex justify-between rounded-sm w-[90%] mx-auto">
+          <div className="flex justify-between items-center h-[87vh] rounded-lg w-[100%] ">
             <ParticipantsGridContainer />
             <ChatView/>
           </div>
-          {/* it contains only mic and webcam */}
-          {/* <div className="">
-            <MicVideo />
-          </div> */}
-
-          {/* media control */}
-          {/* <div className="bg-red-400 w-fit mx-auto my-0">
-            <MediaControlsContainer meetingId={meetingId} className="absolute top-7" />
-          </div> */}
+         
         </MeetingProvider>
       </div>
 
