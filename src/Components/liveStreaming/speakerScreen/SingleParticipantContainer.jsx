@@ -51,14 +51,13 @@ const SingleParticipantContainer = ({ participantId }) => {
       </div>
       {webcamOn && (
         <ReactPlayer
-          playsinline // very very imp prop
+          playsinline 
           pip={false}
           light={false}
           controls={false}
           muted={true}
           playing={true}
           url={videoStream}
-          // className="border px-4"
           height={"100%"}
           width={"100%"}
           onError={(err) => {
