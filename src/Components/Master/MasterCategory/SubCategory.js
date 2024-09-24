@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
+import { toast } from "react-hot-toast"; // If you're using react-hot-toast for notifications
 
 const SubCategory = () => {
   const [category, setCategory] = useState("");
@@ -7,6 +9,7 @@ const SubCategory = () => {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [loading, setLoading] = useState(false); // For loading state
 
   const categories = ["Technology", "Science", "Health", "Education"]; // Example categories
 
@@ -26,10 +29,39 @@ const SubCategory = () => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ category, subcategoryName, description, tags });
-    // Handle API submission here
+
+    // Start loading when the submission starts
+    setLoading(true);
+
+    const subCategoryData = {
+      category,
+      subCategory: subcategoryName,
+      description,
+      tags,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/category/createsubcategory", subCategoryData);
+      
+      // Handle successful response
+      if (response.data.status) {
+        toast.success("Subcategory created successfully!");
+        setCategory("");
+        setSubcategoryName("");
+        setDescription("");
+        setTags([]);
+      } else {
+        toast.error(response.data.message || "Failed to create subcategory");
+      }
+    } catch (error) {
+      console.error("Error creating subcategory:", error);
+      toast.error("Something went wrong, please try again later.");
+    } finally {
+      // Stop loading when the request completes
+      setLoading(false);
+    }
   };
 
   return (
@@ -112,9 +144,10 @@ const SubCategory = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 mt-3 "
+              className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 mt-3"
+              disabled={loading}
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </form>
         </div>

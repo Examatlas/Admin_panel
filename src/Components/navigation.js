@@ -64,6 +64,9 @@ const NAVIGATION = [
   ],
 },
 
+
+
+
   
   // content section
   {
@@ -113,11 +116,7 @@ const NAVIGATION = [
           title: 'Batch',
           icon: <DescriptionIcon />,
         },
-        {
-          segment: 'Ebooks',
-          title: 'Ebooks',
-          icon: <DescriptionIcon />,
-        },
+       
         {
           segment: 'Podcasts',
           title: 'Podcasts',
@@ -178,6 +177,45 @@ const NAVIGATION = [
         }
       ]
   },
+
+
+
+
+ // for category section 
+ {
+  segment: 'ECommerce',
+  title: 'ECommerce',
+  icon: < DashboardIcon />,
+  children: [
+    {
+      segment: 'EBooks',
+      title: 'EBooks',
+      icon: <DescriptionIcon />,
+    },
+    {
+      segment: 'Books',
+      title: 'Books',
+      icon: <DescriptionIcon />,
+    },
+    // {
+    //   segment:'MasterCategory',
+    //   title: 'Master Category',
+    //   icon: <DescriptionIcon />,
+    //   children:[
+    //     {
+    //       segment : 'Category',
+    //       title : 'Category',
+    //       icon : <DescriptionIcon/>
+    //     },
+    //     {
+    //       segment : 'Sub-Category',
+    //       title : 'Sub Category',
+    //       icon: <DescriptionIcon/>
+    //     }
+    //   ]
+    // }
+  ],
+},
 
  
   

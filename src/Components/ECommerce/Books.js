@@ -1,12 +1,12 @@
 import React from "react";
 import DashboardLayoutBasic from "../DashboardLayoutBasic";
-const Ebooks = () =>{
+const Books = () =>{
     return(
         <>
        <DashboardLayoutBasic>
-        I am Ebooks!
+        I am Books
         </DashboardLayoutBasic> 
         </>
     )
 }
-export default Ebooks;
+export default Books;

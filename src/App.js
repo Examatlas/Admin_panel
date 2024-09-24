@@ -14,7 +14,6 @@ import MockTest from "./Components/Contents/MockTest";
 import Bundles from "./Components/Contents/Bundles";
 import Batch from "./Components/Contents/Batch";
 import TestSeries from "./Components/Contents/TestSeries";
-import Ebooks from "./Components/Contents/Ebooks";
 import Podcasts from "./Components/Contents/Podcasts";
 import DigitalProducts from "./Components/Contents/DigitalProducts";
 import Webinar from "./Components/Contents/Webinar";
@@ -92,6 +91,8 @@ import EditCurrentAffairs from "./Components/Contents/currentAffairs/EditCurrent
 import Subject from "./Components/Master/Subject";
 import Category from "./Components/Master/MasterCategory/Category";
 import SubCategory from "./Components/Master/MasterCategory/SubCategory";
+import EBooks from "./Components/ECommerce/EBooks";
+import Books from "./Components/ECommerce/Books";
 
 
 function App() {
@@ -107,6 +108,9 @@ function App() {
           <Route path="/Master/Subject" element={<Subject/>}/>
           <Route path="/Master/MasterCategory/Category" element={<Category/>}/>
           <Route path="/Master/MasterCategory/Sub-Category" element={<SubCategory/>}/>
+
+          <Route path="/ECommerce/EBooks" element={<EBooks/>}/>
+          <Route path="/ECommerce/Books" element={<Books/>}/>
 
           <Route path="/contents/courses" element={<Courses />} />
           <Route path="/contents/CourseForm" element={<CourseForm />}/>
@@ -129,7 +133,7 @@ function App() {
           <Route path="/contents/add-ca" element={<AddCA />} />
           <Route path="/contents/Bundles" element={<Bundles />} />
           <Route path="/contents/Batch" element={<Batch />} />
-          <Route path="/contents/Ebooks" element={<Ebooks />} />
+         
           <Route path="/contents/Podcasts" element={<Podcasts />} />
           <Route path="/contents/Webinar" element={<Webinar />} />
           <Route

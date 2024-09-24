@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
+import axios from "axios"; // Import Axios
+import { toast } from "react-hot-toast"; // Optionally use react-hot-toast for notifications
 
 const Category = () => {
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [loading, setLoading] = useState(false); // For loading state
 
   const handleCategoryChange = (e) => setCategoryName(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -22,10 +25,35 @@ const Category = () => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ categoryName, description, tags });
-    // Handle API submission here
+    setLoading(true); // Set loading to true when API call starts
+    try {
+      // Prepare the payload for the API request
+      const payload = {
+        category: categoryName,
+        description,
+        tags,
+      };
+
+      // Make the POST request to the API
+      const response = await axios.post("http://localhost:5000/api/category/createcategory", payload);
+
+      // Handle success response
+      if (response.data.status) {
+        toast.success("Category created successfully!"); // Show success notification
+        setCategoryName("");
+        setDescription("");
+        setTags([]);
+      } else {
+        toast.error(response.data.message); // Show error message from API
+      }
+    } catch (error) {
+      console.error("Error creating category:", error);
+      toast.error("Failed to create category. Please try again later."); // Show generic error message
+    } finally {
+      setLoading(false); // Set loading to false after API call is done
+    }
   };
 
   return (
@@ -88,9 +116,10 @@ const Category = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 mt-7 "
+              className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 mt-7"
+              disabled={loading} // Disable button while loading
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"} {/* Change button text during submission */}
             </button>
           </form>
         </div>
