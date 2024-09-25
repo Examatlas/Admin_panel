@@ -90,7 +90,7 @@ const LiveClasses = () => {
                 // onClick={createClick}
                 className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                   <IoMdAdd className="text-lg md:text-xl text-white font-bold" />{" "}
-                  CREATE NEW MEETING
+                  CREATE NEW CLASS
                 </button>
               </Link>
             </div>
@@ -120,7 +120,7 @@ const LiveClasses = () => {
         </div>
         <div className="flex flex-wrap justify-center items-center">
           {
-            classData && classData.map((data,index)=>{
+            classData && classData?.map((data,index)=>{
               return(
                 <LiveCard key={index} data={data} deleteClass={deleteClass}/>
               )

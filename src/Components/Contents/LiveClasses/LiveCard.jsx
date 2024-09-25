@@ -38,7 +38,9 @@ export default function LiveCard({ data, deleteClass }) {
   //   }
   // }
   return (
+
     // UGC NET/SET JRF Psychology Foundation Course (Dec 2024)
+    <Link to={`/contents/liveclasse/${data?._id}`}>
     <Card className='m-4 w-[250px] md:w-[300px] cursor-pointer relative '>
       <button className='bg-red-500 text-white px-3 py-1 rounded-full text-xs absolute left-2 top-2'>
         Live
@@ -53,22 +55,12 @@ export default function LiveCard({ data, deleteClass }) {
         <Typography gutterBottom component="p" className='text-xl font-bold text-left' style={{fontWeight:"600"}}>
           {data?.title}
         </Typography>
-        {/* {data?.tags && data?.tags?.map((item, index) => {
-          return (
-            <div key={index} className='flex flex-row  gap-1 ' style={{display:"flex"}}>
-              <div className='w-fit flex text-xs text-gray-800 '>{item}</div>
-            </div>
-          )
-        })} */}
         <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
           {data?.description}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start my-1' >
           BY : <span className=' font-bold my-1'>{data?.teacher}</span>
         </Typography>
-        {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} className='text-start'>
-          {data?.time}
-        </Typography> */}
       </CardContent>
       <CardActions className='flex justify-between mx-2'>
         <Link to={`/contents/live/${data?.meetingId}?name=${data?.title}`}>
@@ -80,5 +72,7 @@ export default function LiveCard({ data, deleteClass }) {
           className='text-red-500 hover:text-red-600 active:text-red-600 text-2xl' />
       </CardActions>
     </Card>
+    </Link>
+    
   );
 }
