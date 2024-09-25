@@ -1,0 +1,312 @@
+import React, { useEffect, useState } from 'react';
+import DashboardLayoutBasic from '../DashboardLayoutBasic';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useFormik } from 'formik';
+
+import BookFormvalidationSchema from './BookFormValidation';
+//icons
+import { RxCross2 } from "react-icons/rx";
+import axios from 'axios';
+import API_BASE_URL from '../../config';
+import toast from 'react-hot-toast';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const EditBook = () => {
+    const [imagePreview, setImagePreview] = useState(null);
+    const [inputValue, setInputValue] = useState('');
+    // console.log(inputValue);
+    
+    const [bookData, setBookData] = useState({
+        title: '',
+        keyword:'',
+        content: '',
+        price:'',
+        author:'',
+        category:'',
+        tags: [],
+        image: null,
+    });
+    
+    const navigate=useNavigate();
+    const {bookId}=useParams();
+
+    //fetch blog By id
+    const fetchBlogById = async (bookId) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/book/getBookyId/${bookId}`);
+            setBookData(response?.data?.book);
+            formik.setFieldValue('tags',response?.data?.book?.tags);
+        } catch (error) {
+            console.log("Error when fetching books", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchBlogById(bookId);
+    }, []);
+
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video', 'formula'],
+
+        [{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'direction': 'rtl' }],
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean']
+    ];
+
+    const modules = {
+        toolbar: true,
+        toolbar: toolbarOptions,
+
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter' && inputValue.trim() !== '') {
+            formik.setFieldValue('tags', [
+                ...formik.values.tags,
+                inputValue
+            ]);
+            setInputValue(''); 
+            event.preventDefault(); 
+        }
+    };
+
+    const handleRemoveTag = (index) => {
+        const newTags = formik.values.tags.filter((_, i) => i !== index);
+        formik.setFieldValue('tags', newTags);
+    };
+
+    const formats = [
+        'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike',
+        'blockquote', 'list', 'bullet', 'link', 'image', 'video', 'code-block',
+        'color', 'background', 'align', 'indent'
+    ];
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            formik.setFieldValue('image', file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const handleDescriptionChange = (value) => {
+        formik.setFieldValue('content', value);
+    };
+
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues:{
+            title: bookData?.title,
+            keyword:bookData?.keyword,
+            content: bookData?.content,
+            author: bookData?.author,
+            category: bookData?.category,
+            price: bookData?.price,
+            tags: bookData?.tags||[],
+            image: null,
+        },
+        validationSchema: BookFormvalidationSchema,
+        
+        onSubmit: async(values) => {
+            try {
+                const res=await axios.put(`${API_BASE_URL}/api/book/updateBook/${bookId}`,{
+                    title:values?.title,
+                    keyword:values?.keyword,
+                    content:values?.content,
+                    author:values?.author,
+                    category:values?.category,
+                    price:values?.price,
+                    tags:values?.tags ,
+                });
+                if(res?.data?.status===true){
+                    toast.success(res?.data?.message);
+                    setTimeout(() => {
+                        navigate("/ECommerce/Books");
+                    }, 3000);
+                }
+            } catch (error) {
+                toast.error(error?.message);
+                console.log("Error occured during book submit",error);
+            }
+        },
+    });
+
+
+    return (
+        <DashboardLayoutBasic>
+            <div className='  min-h-[100vh]'>
+                <div className='md:mx-10 my-10 rounded-md'>
+                    <h1 className='text-4xl my-4'>Update Book</h1>
+                    <div>
+                        <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
+{/* Title */}
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="title" className='text-start text-xl'>Title</label>
+                                <input
+                                    type="text"
+                                    placeholder='Title'
+                                    name='title'
+                                    id="title"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.title}
+                                    // value={blogData?.title}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                            {console.log(formik.errors,"error is ")}{formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                            </div>
+{/* Keyword */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="keyword" className='text-start text-xl'>Keyword</label>
+                                <input
+                                    type="text"
+                                    placeholder='Keyword'
+                                    name='keyword'
+                                    id="keyword"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.keyword}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.keyword && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.keyword}</p>}
+                            </div>
+
+ {/* price */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="Price" className='text-start text-xl'>Price</label>
+                                <input
+                                    type="number"
+                                    placeholder='price'
+                                    name='price'
+                                    id="price"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.price}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.price && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.price}</p>}
+                            </div>
+
+                                {/* author */}
+                                <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="author" className='text-start text-xl'>Author</label>
+                                <input
+                                    type="author"
+                                    placeholder='author'
+                                    name='author'
+                                    id="author"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.author}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.author && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.author}</p>}
+                            </div>
+
+
+                            {/* category */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="category" className='text-start text-xl'>Category</label>
+                                <input
+                                    type="category"
+                                    placeholder='category'
+                                    name='category'
+                                    id="category"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.category}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+
+                                {formik?.errors?.category && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.category}</p>}
+                            </div>
+
+{/* editor */}
+                            <div className='flex flex-col justify-start my-4'>
+                                <label htmlFor="content" className='text-start text-xl'>Content</label>
+                                <ReactQuill
+                                    id='content'
+                                    name="content"
+                                    theme="snow"
+                                    value={formik.values.content}
+                                    modules={modules}
+                                    formats={formats}
+                                    onChange={handleDescriptionChange}
+                                    className='text-3xl h-[20rem] rounded-md'
+                                />
+                                <p className='mt-56 md:mt-24'></p>
+                                {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
+                            </div>
+{/* tags */}
+                            <div className='mb-4 flex flex-col'>
+                                 {/* display tags */}
+                                 <div className='flex gap-2'>
+                                    {formik?.values?.tags && formik?.values?.tags?.map((tag, index) => (
+                                        <div key={index} style={{ marginBottom: '8px' }} 
+                                        className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
+                                            <strong >{tag}</strong>
+                                            <RxCross2 onClick={() => handleRemoveTag(index)} className=' cursor-pointer'/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <label htmlFor="tags" className='text-start text-xl'>Tags</label>
+                                <input
+                                    type="text"
+                                    id='tags'
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onKeyDown={handleKeyPress}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                    placeholder="Enter a tag and press Enter"
+                                />
+                                {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
+                            </div>
+{/* images */}
+                            <div className='flex flex-col'>
+                                <label htmlFor="image" className='text-start text-xl'>Upload Image</label>
+                                <input type="file"
+                                    name="image"
+                                    id="image"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg '
+                                />
+                                {formik?.errors?.image && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.image}</p>}
+
+                                <p className='text-red-500 text-xs text-start leading-3 my-2'>Width : 1200px and Height : 400px</p>
+                                <div className='w-[99%] mx-auto md:mx-0 sm:w-[100%] lg:w-[600px] h-[300px] border border-gray-400'>
+                                    {
+                                        imagePreview &&
+                                        <img src={imagePreview} alt="Preview" className='w-[100%] h-[300px]' />
+                                    }
+                                </div>
+                            </div>
+
+                            <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </DashboardLayoutBasic>
+
+    );
+}
+
+export default EditBook;
+

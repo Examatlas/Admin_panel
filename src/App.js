@@ -93,6 +93,9 @@ import Category from "./Components/Master/MasterCategory/Category";
 import SubCategory from "./Components/Master/MasterCategory/SubCategory";
 import EBooks from "./Components/ECommerce/EBooks";
 import Books from "./Components/ECommerce/Books";
+import AddBook from "./Components/ECommerce/AddBook";
+import EditBook from "./Components/ECommerce/EditBook";
+
 
 
 function App() {
@@ -111,6 +114,9 @@ function App() {
 
           <Route path="/ECommerce/EBooks" element={<EBooks/>}/>
           <Route path="/ECommerce/Books" element={<Books/>}/>
+          <Route path="/ECommerce/addBook" element={<AddBook/>}/>
+          <Route path="/ECommerce/editBook/:bookId" element={<EditBook/>}/>
+
 
           <Route path="/contents/courses" element={<Courses />} />
           <Route path="/contents/CourseForm" element={<CourseForm />}/>
