@@ -93,6 +93,7 @@ import Category from "./Components/Master/MasterCategory/Category";
 import SubCategory from "./Components/Master/MasterCategory/SubCategory";
 import EBooks from "./Components/ECommerce/EBooks";
 import Books from "./Components/ECommerce/Books";
+import ClassDetails from "./Components/Contents/LiveClasses/ClassDetails";
 import AddBook from "./Components/ECommerce/AddBook";
 import EditBook from "./Components/ECommerce/EditBook";
 
@@ -124,7 +125,8 @@ function App() {
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/liveStreaming" element={<LiveHome />} />
           <Route path="/contents/createLiveClass" element={<CreateLiveClass />} />
-          <Route path="/contents/live/:meetingId" element={<SpeakerScreenContainer />} />
+          {/* <Route path="/contents/live/:meetingId" element={<SpeakerScreenContainer />} /> */}
+          <Route path="/contents/liveclasse/:classId" element={<ClassDetails />} />
 
 
           <Route path="/contents/TestSeries" element={<TestSeries />} />

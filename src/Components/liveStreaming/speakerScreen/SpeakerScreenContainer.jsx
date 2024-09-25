@@ -1,5 +1,5 @@
 import { MeetingProvider } from "@videosdk.live/react-sdk";
-import React from "react";
+import React, { useState } from "react";
 // import MediaControlsContainer from "./MediaControlsContainer";
 import ParticipantsGridContainer from "./ParticipantsGridContainer";
 import { authToken } from "../Api";
@@ -9,16 +9,15 @@ import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 import MeetingInfo from "../mediaControl/MeetingInfo";
 import MicVideo from "../mediaControl/MicVideo";
 import ChatView from "../../Contents/LiveClasses/ChatView";
-const SpeakerScreenContainer = () => {
 
+
+const SpeakerScreenContainer = () => {
+// const [authToken,setAuthToken]=useState('');
   const { meetingId } = useParams();
-  // const param=()
-  // const param=window?.location?.search?.name;
   const { search } = useLocation();
   const name = new URLSearchParams(search).get("name");
-  // console.log(queryParams);
 
-  // const name="Abhishek";
+  // const getAllLive
 
   return (
     // <DashboardLayoutBasic>
