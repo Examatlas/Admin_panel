@@ -7,7 +7,7 @@ import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 // import { CiFilter } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import LiveCard from "./LiveCard";
+import LiveCard from "./LiveClasstable";
 
 import { createNewRoom } from "../../liveStreaming/Api";
 import axios from "axios";
@@ -119,13 +119,15 @@ const LiveClasses = () => {
           </div>
         </div>
         <div className="flex flex-wrap justify-center items-center">
-          {
+
+         
+          {/* {
             classData && classData?.map((data,index)=>{
-              return(
-                <LiveCard key={index} data={data} deleteClass={deleteClass}/>
-              )
+              return( */}
+                <LiveCard data={classData} deleteClass={deleteClass}/>
+              {/* )
             })
-          }
+          } */}
            
         </div>
       </DashboardLayoutBasic>

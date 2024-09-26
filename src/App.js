@@ -96,6 +96,7 @@ import Books from "./Components/ECommerce/Books";
 import ClassDetails from "./Components/Contents/LiveClasses/ClassDetails";
 import AddBook from "./Components/ECommerce/AddBook";
 import EditBook from "./Components/ECommerce/EditBook";
+import ScheduleLiveCourses from "./Components/Contents/LiveClasses/ScheduleLiveCourses";
 
 
 
@@ -125,7 +126,8 @@ function App() {
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/liveStreaming" element={<LiveHome />} />
           <Route path="/contents/createLiveClass" element={<CreateLiveClass />} />
-          {/* <Route path="/contents/live/:meetingId" element={<SpeakerScreenContainer />} /> */}
+          <Route path="/contents/liveclass/schedule/:courseId" element={<ScheduleLiveCourses />} />
+          <Route path="/contents/live/:meetingId/:courseId" element={<SpeakerScreenContainer />} />
           <Route path="/contents/liveclasse/:classId" element={<ClassDetails />} />
 
 

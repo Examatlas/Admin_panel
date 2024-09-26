@@ -16,6 +16,7 @@
   transform-origin: center center; /* Ensure it rotates around its center */
 }
 
+
 html,body{
   overflow-x: hidden;
 }
