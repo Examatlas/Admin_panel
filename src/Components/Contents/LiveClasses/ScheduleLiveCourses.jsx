@@ -15,10 +15,12 @@ const ScheduleLiveCourses = () => {
         time: "",
     });
     const [scheduledData, setScheduledData] = useState();
-    const [buttonsState, setButtonsState] = useState(
-        scheduledData?.map(() => true) // Initialize all buttons as disabled
-      );
-console.log(buttonsState);
+    
+    // const [buttonsState, setButtonsState] = useState(
+    //     () => scheduledData ? scheduledData.map(() => true) : [] // Fallback to empty array
+    // );
+    
+
 
     const getAllScheduledCourseByCourseId = async () => {
         try {
@@ -41,7 +43,7 @@ console.log(buttonsState);
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`${API_BASE_URL}/api/liveclass/createMeeting/`, {
+            const res = await axios.post(`${API_BASE_URL}/api/liveclass/scheduleLiveCourse`, {
                 courseId,
                 title: schedule?.title,
                 date: schedule?.date,
@@ -57,58 +59,57 @@ console.log(buttonsState);
         }
     };
 
-    const createMeeting=()=>{
-        console.log("Meeitng created");
-        toast.success("meeting created");
-        
+    const createMeeting = async (scheduledClassId) => {
+        try {
+            const res = await axios.patch(`${API_BASE_URL}/api/liveclass/createMeeting/${scheduledClassId}`);
+
+            if (res?.status === 200) {
+                toast.success(res?.data?.message);
+                getAllScheduledCourseByCourseId();
+            }
+        } catch (error) {
+            console.log(error);
+            toast?.error(error?.message);
+        }
     }
 
 
 
     useEffect(() => {
         // Parse the meeting time from the backend
-        scheduledData?.forEach((item,index)=>{
-    //         const parsedMeetingTime = new Date(item?.time);
-    // console.log(item?.time);
-    
-            // Calculate the time 5 minutes before the meeting
+        scheduledData?.forEach((item, index) => {
+
             const [hours, minutes] = item?.time?.split(":").map(Number);
-      const today = new Date();
-      const parsedMeetingTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
+            const today = new Date();
+            const parsedMeetingTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
 
             const fiveMinutesBeforeMeeting = new Date(parsedMeetingTime);
             fiveMinutesBeforeMeeting.setMinutes(fiveMinutesBeforeMeeting.getMinutes() - 5);
-        console.log(fiveMinutesBeforeMeeting);
-        
-            // setMeetingTime(fiveMinutesBeforeMeeting);
-        
+
             const checkTime = () => {
-                console.log("checking");
-                
-              const currentTime = new Date();
-              const timeDifference = fiveMinutesBeforeMeeting - currentTime;
-         // Check the time every second
-            
-              // If current time is equal to or greater than 5 minutes before meeting, enable the button
-              if (timeDifference <= 5) {
-                // setIsDisabled(false);
-                // setButtonsState((prevState) => {
-                //     const newState = [...prevState];
-                //     newState[index] = false; // Enable the button for this meeting
-                //     return newState;
-                // });
-                clearInterval(intervalId); // Stop checking after enabling the button
-                createMeeting(); // Automatically create the meeting 5 minutes before
-              }
+                const currentTime = new Date();
+                const timeDifference = fiveMinutesBeforeMeeting - currentTime;
+                // If current time is equal to or greater than 5 minutes before meeting, enable the button
+                if (timeDifference <= 5) {
+                    // setButtonsState((prevState) => {
+                    //     if (!Array.isArray(prevState)) return prevState;
+                    //     const newState = [...prevState];
+                    //     newState[index] = false; // Enable the button for this meeting
+                    //     console.log("Checking index", newState[index]);
+
+                    //     return newState;
+                    // });
+                    clearInterval(intervalId);
+                    createMeeting(item?._id);
+                }
             };
             const intervalId = setInterval(checkTime, 1000);
-        // Cleanup the interval when the component unmounts
-        return () => clearInterval(intervalId);
+            return () => clearInterval(intervalId);
         });
-        
-      }, [scheduledData]);
-    
-    
+
+    }, [scheduledData]);
+
+
 
 
     return (
@@ -190,7 +191,7 @@ console.log(buttonsState);
                             {
                                 scheduledData && scheduledData?.map((item, index) => {
                                     return (
-                                      
+
                                         <tr key={index} className="bg-white border border-black dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" >
                                             <td className="border border-black px-3 text-center font-bold">
                                                 {index + 2}.
@@ -203,21 +204,30 @@ console.log(buttonsState);
 
                                             <td className="border border-black p-2 text-center w-[10rem] ">
                                                 {
-                                                    item?.date && formatDate( item?.date) 
+                                                    item?.date && formatDate(item?.date)
                                                 }
                                             </td>
 
                                             <td className="border border-black w-[10rem] text-center text-gray-900 dark:text-white">
                                                 {
-                                                    item?.time && formatTime(item?.time)  
+                                                    item?.time && formatTime(item?.time)
                                                 }
                                             </td>
                                             <td className="border border-black mx-auto w-[10rem] text-center py-4">
-                                                <Link to={`/contents/live/${item?.meetingId}/${item?.courseId}`} 
-                                                className="font-medium mx-1 px-2 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white"
-                                                >
-                                                    Go Live
-                                                </Link>
+                                                {
+                                                    item?.meetingId &&
+                                                    <button
+                                                        className="font-medium mx-1 px-2 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white disabled:bg-red-300"
+                                                    >
+                                                        <Link to={`/contents/live/${item?.meetingId}/${item?.courseId}`}>
+                                                            Go Live
+                                                        </Link>
+
+                                                    </button>
+                                                }
+
+
+
                                             </td>
                                         </tr>
                                     )

@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import { createNewRoom } from '../../liveStreaming/Api';
+
+import React, { useEffect, useState } from 'react';
 import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import axios from 'axios';
-import config from '../../../config/config';
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useAsyncError, useNavigate, useParams } from 'react-router-dom';
 
 //icons
 import { RxCross2 } from "react-icons/rx";
 import API_BASE_URL from '../../../config';
 import { formats, modules } from '../../../config/ReactQuillConfig';
 import ReactQuill from 'react-quill';
-
-const CreateLiveClass = () => {
+const EditLiveCourse = () => {
     const [inputValue, setInputValue] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
+    const [courseData,setCourseData]=useState();
     const navigate = useNavigate();
+    const {courseId}=useParams();
+
+    const getCourseById=async()=>{
+        try {
+            const res=await axios.get(`${API_BASE_URL}/api/liveclass/getLiveCourseById/${courseId}`);
+            if(res?.status===200){
+                setCourseData(res?.data?.course);
+            }
+        } catch (error) {
+            console.log("error while fetching course :",error);
+        }
+    };
+    useEffect(()=>{
+        getCourseById();
+    },[])
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputValue.trim() !== '') {
@@ -48,19 +62,19 @@ const CreateLiveClass = () => {
         }
     };
 
-
     const formik = useFormik({
         initialValues: {
-            title: '',
-            description: '',
-            teacher: '',
-            tags: [],
-            category: "",
-            sub_category: "",
+            title: courseData?.title,
+            description: courseData?.description,
+            teacher: courseData?.teacher,
+            tags:courseData?.tags|| [],
+            category: courseData?.category,
+            sub_category: courseData?.sub_category,
         },
+        enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                const responce = await axios.post(`${API_BASE_URL}/api/liveclass/createliveClass`, {
+                const responce = await axios.put(`${API_BASE_URL}/api/liveclass/updateLiveCourse/${courseId}`, {
                     title: values?.title,
                     description: values?.description,
                     teacher: values?.teacher,
@@ -81,12 +95,14 @@ const CreateLiveClass = () => {
             }
 
         }
-    })
-    return (
-        <>
+    });
+
+  return (
+    <div>
+       <>
             <DashboardLayoutBasic>
                 <div className='shadow-md px-[3rem] py-8 rounded-md w-[100%] md:w-[90%] m-6'>
-                    <h1 className='text-start text-4xl font-bold mb-8 mt-4 '>Create a Live Course</h1>
+                    <h1 className='text-start text-4xl font-bold mb-8 mt-4 '>Update a Live Course</h1>
                     <form onSubmit={formik.handleSubmit}>
 
                         <div className='flex flex-col md:flex-row gap-10 justify-center'>
@@ -214,14 +230,14 @@ const CreateLiveClass = () => {
                             type="submit"
                             className='px-5 py-3 mt-10 mb-4 text-lg font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-md'
                         >
-                            Create Course
+                            Update Course
                         </button>
                     </form>
                 </div>
             </DashboardLayoutBasic>
         </>
-
-    );
+    </div>
+  );
 }
 
-export default CreateLiveClass;
+export default EditLiveCourse;

@@ -75,7 +75,7 @@ const LiveClasses = () => {
 
           <div className=" flex justify-between mx-4 md:mx-12 my-4">
             <div>
-              <h1 className=" text-2xl md:text-4xl text-left">Live Classes</h1>
+              <h1 className=" text-2xl md:text-4xl text-left">Live Courses</h1>
               <p className=" text-base md:text-lg text-left">
                 Welcome to Live Class Dashboard
               </p>
@@ -90,7 +90,7 @@ const LiveClasses = () => {
                 // onClick={createClick}
                 className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                   <IoMdAdd className="text-lg md:text-xl text-white font-bold" />{" "}
-                  CREATE NEW CLASS
+                  CREATE NEW COURSE
                 </button>
               </Link>
             </div>
@@ -118,7 +118,7 @@ const LiveClasses = () => {
               </div>
           </div>
         </div>
-        <div className="flex flex-wrap justify-center items-center">
+        <div className="flex flex-wrap justify-center w-[65rem] items-center">
 
          
           {/* {
