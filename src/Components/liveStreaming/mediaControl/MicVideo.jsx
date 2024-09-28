@@ -103,7 +103,7 @@ const MicVideo = ({participantId}) => {
                     onClick={handleEnd}
                 >
                     {/* {isHlsStarted||isHlsPlayable ? "Stop Streaming" : "Go Live"} */}
-                    Kill Meeting
+                    End Meeting
                 </button>
             </div>
         </div>

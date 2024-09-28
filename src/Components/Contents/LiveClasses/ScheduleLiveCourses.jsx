@@ -116,7 +116,7 @@ const ScheduleLiveCourses = () => {
         <div>
             <DashboardLayoutBasic>
                 <h1 className='text-2xl text-black font-bold text-start w-[90%] '>Schedule Live Courses</h1>
-                <div className="relative overflow-x-auto shadow-md my-2 w-[90%] mx-auto">
+                <div className="relative overflow-x-auto shadow-md my-2 w-[21rem] sm:w-[33rem] lg:w-[50rem]  xl:w-[65rem]  mx-auto">
                     <table className="w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr className='border border-black rounded-lg'>
@@ -225,9 +225,6 @@ const ScheduleLiveCourses = () => {
 
                                                     </button>
                                                 }
-
-
-
                                             </td>
                                         </tr>
                                     )

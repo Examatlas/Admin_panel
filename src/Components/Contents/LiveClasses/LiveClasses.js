@@ -1,25 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
-//icons
-// import { FiRepeat } from "react-icons/fi";
-import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-// import { CiFilter } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import LiveCard from "./LiveClasstable";
-
-import { createNewRoom } from "../../liveStreaming/Api";
 import axios from "axios";
-import config from "../../../config/config";
 import API_BASE_URL from "../../../config";
 import toast from "react-hot-toast";
 const LiveClasses = () => {
-  // const[classData,setClassData]=useState();
-  const[classData,setClassData]=useState();
-  const [appData, setAppData] = useState({ meetingId: null, mode: null });
-  // console.log(appData,"App data");
-  
+  const [search, setSearch] = useState("");
+  const [classData, setClassData] = useState();
   const navigate = useNavigate();
   const goBack = () => {
     if (window.history.length > 2) {
@@ -29,34 +19,48 @@ const LiveClasses = () => {
     }
   };
 
-  // const createClick = async () => {
-  //   const meetingId = await createNewRoom();
-
-  //   setAppData({ mode: "CONFERENCE", meetingId });
-  // };
-
-  const getAllLiveClass=async()=>{
-    const responce=await axios.get(`${API_BASE_URL}/api/liveclass/getAllLiveClass`);
-    if(responce){
-      setClassData(responce?.data?.classes)
+  const HandleSearch = (e) => {
+    setSearch(e?.target?.value);
+  };
+  const getAllLiveClass = async () => {
+    const responce = await axios.get(
+      `${API_BASE_URL}/api/liveclass/getAllLiveClass`
+    );
+    if (responce) {
+      setClassData(responce?.data?.classes);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllLiveClass();
-  },[]);
+  }, []);
 
-  const deleteClass=async(id)=>{
+  useEffect(() => {
+    const filteredResults = classData?.filter((item) =>
+      item?.title?.toLowerCase()?.includes(search?.toLowerCase())
+    );
+    setTimeout(() => {
+      if (filteredResults?.length > 0 && search !== "") {
+        setClassData(filteredResults);
+      } else {
+        getAllLiveClass();
+      }
+    }, 500);
+  }, [search]);
+
+  const deleteClass = async (id) => {
     try {
-      const res=await axios.delete(`${API_BASE_URL}/api/liveclass/deleteClass/${id}`);
-      console.log(res?.data);
-
-      toast.success("Deleted successfully");
+      const res = await axios.delete(
+        `${API_BASE_URL}/api/liveclass/deleteClass/${id}`
+      );
+      if(res?.status===200){
+        toast.success("Deleted successfully");
       getAllLiveClass();
+      }
       
     } catch (error) {
       toast.error(error?.message);
-      console.log("Error while deleting class",error);
+      console.log("Error while deleting class", error);
     }
   };
 
@@ -64,7 +68,7 @@ const LiveClasses = () => {
     <>
       <DashboardLayoutBasic>
         <div className="w-full">
-          <div className=" border-b w-[98%] mx-auto -mt-6">
+          <div className=" border-b md:w-[98%] mx-auto -mt-6">
             <p
               className="text-left px-1 py-1 hover:bg-gray-100 w-fit cursor-pointer rounded flex justify-center items-center font-semibold"
               onClick={goBack}
@@ -82,14 +86,8 @@ const LiveClasses = () => {
             </div>
 
             <div className="flex flex-col md:flex-row items-center gap-2">
-              {/* <button className="px-2 md:px-4 md:py-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300 font-semibold flex justify-center items-center gap-2">
-                <FiRepeat className="text-lg" /> REORDER
-              </button> */}
               <Link to={"/contents/createLiveClass"}>
-                <button 
-                // onClick={createClick}
-                className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
-                  <IoMdAdd className="text-lg md:text-xl text-white font-bold" />{" "}
+                <button className=" px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                   CREATE NEW COURSE
                 </button>
               </Link>
@@ -97,38 +95,28 @@ const LiveClasses = () => {
           </div>
           {/* search and filter */}
           <div className="w-[100%] md:w-[52%] my-4  md:ml-10 flex  items-center gap-1  ">
-            <form className=" w-[90%]">
+            <div className="w-[70%] ">
               <input
                 type="text"
                 className="px-3 py-2 border outline-blue-200 text-base md:text-lg rounded-md w-[90%] md:w-[25rem]"
                 name="search"
+                value={search}
+                onChange={HandleSearch}
                 placeholder="Search by title"
               />
-
-              
-            </form>
-            <div className="flex items-center gap-2 w-[100%]">
-                <button
-                  type="submit"
-                  className="px-4 py-2 mx-2 md:text-lg bg-blue-500 rounded-md text-white hover:bg-blue-600 font-medium"
-                >
-                  Serach
-                </button>
-                
-              </div>
+            </div>
+            {/* <div className="w-[30%]">
+              <button
+                type="submit"
+                className="px-4 py-2 mx-2 md:text-lg bg-blue-500 rounded-md text-white hover:bg-blue-600 font-medium"
+              >
+                Serach
+              </button>
+            </div> */}
           </div>
         </div>
-        <div className="flex flex-wrap justify-center w-[65rem] items-center">
-
-         
-          {/* {
-            classData && classData?.map((data,index)=>{
-              return( */}
-                <LiveCard data={classData} deleteClass={deleteClass}/>
-              {/* )
-            })
-          } */}
-           
+        <div className="w-[21rem] my-4 mx-2 sm:w-[33rem] lg:w-[50rem]  xl:w-[65rem] ">
+          <LiveCard data={classData} deleteClass={deleteClass} />
         </div>
       </DashboardLayoutBasic>
     </>
