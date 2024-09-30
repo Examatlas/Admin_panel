@@ -46,8 +46,8 @@ export default function LiveCard({ data, deleteClass }) {
                     <td className="border border-black text-center px-6 py-4 font-semibold text-gray-900 dark:text-white">
                       <Link to={`/contents/liveclass/schedule/${item?._id}`} className="font-medium mx-1 px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white">Schedule</Link>
                     </td>
-                    <td className="border border-black mx-auto px-6 py-4">
-                      <div className='flex '>
+                    <td className="border border-black text-center mx-auto px-6 py-4">
+                      {/* <div className=''> */}
                         <Link
                           to={`/contents/update-live-course/${item?._id}`}
                           className="font-medium mx-1 px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white"
@@ -58,8 +58,7 @@ export default function LiveCard({ data, deleteClass }) {
                           className="font-medium mx-1 px-2 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white"
                         >Delete
                         </button>
-                      </div>
-
+                      {/* </div> */}
                     </td>
                   </tr>
                 )

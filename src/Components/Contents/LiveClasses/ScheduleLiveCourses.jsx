@@ -34,7 +34,7 @@ const ScheduleLiveCourses = () => {
     }
     useEffect(() => {
         getAllScheduledCourseByCourseId();
-    }, [])
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -219,7 +219,7 @@ const ScheduleLiveCourses = () => {
                                                     <button
                                                         className="font-medium mx-1 px-2 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white disabled:bg-red-300"
                                                     >
-                                                        <Link to={`/contents/live/${item?.meetingId}/${item?.courseId}`}>
+                                                        <Link to={`/contents/live/${item?.meetingId}/${item?.courseId}/${item?._id}`}>
                                                             Go Live
                                                         </Link>
 

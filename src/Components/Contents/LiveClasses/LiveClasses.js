@@ -115,7 +115,7 @@ const LiveClasses = () => {
             </div> */}
           </div>
         </div>
-        <div className="w-[21rem] my-4 mx-2 sm:w-[33rem] lg:w-[50rem]  xl:w-[65rem] ">
+        <div className="w-[21rem] my-4 mx-4 sm:w-[33rem] lg:w-[50rem]  xl:w-[60rem] ">
           <LiveCard data={classData} deleteClass={deleteClass} />
         </div>
       </DashboardLayoutBasic>
