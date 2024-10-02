@@ -121,12 +121,12 @@ function App() {
 
           <Route path="/contents/courses" element={<Courses />} />
           <Route path="/contents/CourseForm" element={<CourseForm />}/>
-
+{/* live class routes */}
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/liveStreaming" element={<LiveHome />} />
           <Route path="/contents/createLiveClass" element={<CreateLiveClass />} />
           <Route path="/contents/liveclass/schedule/:courseId" element={<ScheduleLiveCourses />} />
-          <Route path="/contents/live/:meetingId/:courseId" element={<SpeakerScreenContainer />} />
+          <Route path="/contents/live/:meetingId/:courseId/:classId" element={<SpeakerScreenContainer />} />
           <Route path="/contents/liveclasse/:classId" element={<ClassDetails />} />
           <Route path="/contents/update-live-course/:courseId" element={<EditLiveCourse />} />
 
