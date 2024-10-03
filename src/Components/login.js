@@ -33,7 +33,9 @@ const Login = () => {
         email: "",
         password: "",
       });
-      
+
+     const  token = response.data.token
+      localStorage.setItem('token',token)
       // Redirect after successful login
       navigate('/dashboard'); 
 
