@@ -41,6 +41,12 @@ const Books = () => {
             </div>
 
             <div className="flex items-center gap-2">
+            <Link to={'/ECommerce/orderRecieve'}>
+                <button className="px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
+                 Orders Received
+                </button>
+              </Link>
+
               <Link to={'/ECommerce/addBook'}>
                 <button className="px-1 md:px-4 md:py-3 py-1 text-sm bg-green-500 rounded-md text-white hover:bg-green-600 font-semibold flex justify-center items-center gap-1">
                   <IoMdAdd className="text-lg md:text-xl text-white font-bold" /> CREATE

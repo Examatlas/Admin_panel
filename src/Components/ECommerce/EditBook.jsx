@@ -12,31 +12,37 @@ import API_BASE_URL from '../../config';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 const EditBook = () => {
-    const [imagePreview, setImagePreview] = useState(null);
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [imageValidationError, setImageValidationError] = useState('');
+
     // console.log(inputValue);
-    
+
     const [bookData, setBookData] = useState({
         title: '',
-        keyword:'',
+        keyword: '',
         content: '',
-        price:'',
-        author:'',
-        category:'',
+        price: '',
+        sellPrice:'',
+        // shippingCharge:'',
+        author: '',
+        category: '',
         tags: [],
         image: null,
     });
-    
-    const navigate=useNavigate();
-    const {bookId}=useParams();
+
+    const navigate = useNavigate();
+    const { bookId } = useParams();
 
     //fetch blog By id
     const fetchBlogById = async (bookId) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/api/book/getBookyId/${bookId}`);
             setBookData(response?.data?.book);
-            formik.setFieldValue('tags',response?.data?.book?.tags);
+            formik.setFieldValue('tags', response?.data?.book?.tags);
         } catch (error) {
             console.log("Error when fetching books", error);
         }
@@ -79,8 +85,8 @@ const EditBook = () => {
                 ...formik.values.tags,
                 inputValue
             ]);
-            setInputValue(''); 
-            event.preventDefault(); 
+            setInputValue('');
+            event.preventDefault();
         }
     };
 
@@ -95,47 +101,72 @@ const EditBook = () => {
         'color', 'background', 'align', 'indent'
     ];
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            formik.setFieldValue('image', file);
+
+
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+        const validImages = [];
+        const validPreviews = [];
+
+        files.forEach((file) => {
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+
+                img.onload = () => {
+                    if (img.width === 300 && img.height === 300) {
+                        validImages.push(file);  // Push valid image to array
+                        validPreviews.push(event.target.result);  // Push preview URL
+                        formik.setFieldValue('image', validImages);  // Update Formik field with valid images
+                        setImageValidationError('');  // Clear previous error
+                    } else {
+                        setImageValidationError('Each image must be 300x300 pixels.');
+                    }
+
+                    setImagePreviews(validPreviews);  // Update state with valid previews
+                };
             };
+
             reader.readAsDataURL(file);
-        }
+        });
     };
+
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
     };
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues:{
+        initialValues: {
             title: bookData?.title,
-            keyword:bookData?.keyword,
+            keyword: bookData?.keyword,
             content: bookData?.content,
             author: bookData?.author,
             category: bookData?.category,
+            // shippingCharge:bookData?.shippingCharge,
             price: bookData?.price,
-            tags: bookData?.tags||[],
+            sellPrice: bookData?.sellPrice,
+            tags: bookData?.tags || [],
             image: null,
         },
         validationSchema: BookFormvalidationSchema,
-        
-        onSubmit: async(values) => {
+
+        onSubmit: async (values) => {
             try {
-                const res=await axios.put(`${API_BASE_URL}/api/book/updateBook/${bookId}`,{
-                    title:values?.title,
-                    keyword:values?.keyword,
-                    content:values?.content,
-                    author:values?.author,
-                    category:values?.category,
-                    price:values?.price,
-                    tags:values?.tags ,
+                const res = await axios.put(`${API_BASE_URL}/api/book/updateBook/${bookId}`, {
+                    title: values?.title,
+                    keyword: values?.keyword,
+                    content: values?.content,
+                    author: values?.author,
+                    category: values?.category,
+                    price: values?.price,
+                    // shippingCharge:values?.shippingCharge,
+                    sellPrice: values?.sellPrice,
+                    tags: values?.tags,
                 });
-                if(res?.data?.status===true){
+                if (res?.data?.status === true) {
                     toast.success(res?.data?.message);
                     setTimeout(() => {
                         navigate("/ECommerce/Books");
@@ -143,7 +174,7 @@ const EditBook = () => {
                 }
             } catch (error) {
                 toast.error(error?.message);
-                console.log("Error occured during book submit",error);
+                console.log("Error occured during book submit", error);
             }
         },
     });
@@ -156,7 +187,7 @@ const EditBook = () => {
                     <h1 className='text-4xl my-4'>Update Book</h1>
                     <div>
                         <form onSubmit={formik?.handleSubmit} className='w-[90%] mx-auto'>
-{/* Title */}
+                            {/* Title */}
                             <div className='flex flex-col justify-start '>
                                 <label htmlFor="title" className='text-start text-xl'>Title</label>
                                 <input
@@ -170,9 +201,9 @@ const EditBook = () => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                            {console.log(formik.errors,"error is ")}{formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                                {console.log(formik.errors, "error is ")}{formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
-{/* Keyword */}
+                            {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
                                 <label htmlFor="keyword" className='text-start text-xl'>Keyword</label>
                                 <input
@@ -188,7 +219,7 @@ const EditBook = () => {
                                 {formik?.errors?.keyword && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.keyword}</p>}
                             </div>
 
- {/* price */}
+                            {/* price */}
                             <div className='flex my-4 flex-col justify-start '>
                                 <label htmlFor="Price" className='text-start text-xl'>Price</label>
                                 <input
@@ -204,8 +235,42 @@ const EditBook = () => {
                                 {formik?.errors?.price && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.price}</p>}
                             </div>
 
-                                {/* author */}
-                                <div className='flex my-4 flex-col justify-start '>
+
+                            {/* sell price */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="price" className='text-start text-xl'>Sell Price</label>
+                                <input
+                                    type="number"
+                                    placeholder='sell price'
+                                    name='sellPrice'
+                                    id="sellPrice"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.sellPrice}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.sellPrice && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.sellPrice}</p>}
+                            </div>
+
+                            
+                            {/* 
+                            <div className='flex flex-col justify-start '>
+                                <label htmlFor="shippingCharge" className='text-start text-xl'>shippingCharge</label>
+                                <input
+                                    type="text"
+                                    placeholder='shippingCharge'
+                                    name='shippingCharge'
+                                    id="shippingCharge"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.shippingCharge}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {console.log(formik.errors, "error  is ")}  {formik?.errors?.shippingCharge && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.shippingCharge}</p>}
+                            </div> */}
+
+   
+
+                            {/* author */}
+                            <div className='flex my-4 flex-col justify-start '>
                                 <label htmlFor="author" className='text-start text-xl'>Author</label>
                                 <input
                                     type="author"
@@ -237,9 +302,9 @@ const EditBook = () => {
                                 {formik?.errors?.category && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.category}</p>}
                             </div>
 
-{/* editor */}
+                            {/* editor */}
                             <div className='flex flex-col justify-start my-4'>
-                                <label htmlFor="content" className='text-start text-xl'>Content</label>
+                                <label htmlFor="content" className='text-start text-xl'>Description</label>
                                 <ReactQuill
                                     id='content'
                                     name="content"
@@ -253,15 +318,15 @@ const EditBook = () => {
                                 <p className='mt-56 md:mt-24'></p>
                                 {formik?.errors?.content && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.content}</p>}
                             </div>
-{/* tags */}
+                            {/* tags */}
                             <div className='mb-4 flex flex-col'>
-                                 {/* display tags */}
-                                 <div className='flex gap-2'>
+                                {/* display tags */}
+                                <div className='flex gap-2'>
                                     {formik?.values?.tags && formik?.values?.tags?.map((tag, index) => (
-                                        <div key={index} style={{ marginBottom: '8px' }} 
-                                        className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
+                                        <div key={index} style={{ marginBottom: '8px' }}
+                                            className='bg-gray-300 flex justify-center items-center rounded-full w-fit px-5 py-1 gap-2'>
                                             <strong >{tag}</strong>
-                                            <RxCross2 onClick={() => handleRemoveTag(index)} className=' cursor-pointer'/>
+                                            <RxCross2 onClick={() => handleRemoveTag(index)} className=' cursor-pointer' />
                                         </div>
                                     ))}
                                 </div>
@@ -277,26 +342,35 @@ const EditBook = () => {
                                 />
                                 {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
                             </div>
-{/* images */}
+                            {/* images */}
+
                             <div className='flex flex-col'>
-                                <label htmlFor="image" className='text-start text-xl'>Upload Image</label>
-                                <input type="file"
+                                <label htmlFor="image" className='text-start text-xl'>Upload Images</label>
+                                <input
+                                    type="file"
                                     name="image"
                                     id="image"
                                     accept="image/*"
+                                    multiple  // Allow multiple image uploads
                                     onChange={handleImageChange}
-                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg '
+                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {formik?.errors?.image && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.image}</p>}
+                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  {/* Show validation error */}
 
-                                <p className='text-red-500 text-xs text-start leading-3 my-2'>Width : 1200px and Height : 400px</p>
-                                <div className='w-[99%] mx-auto md:mx-0 sm:w-[100%] lg:w-[600px] h-[300px] border border-gray-400'>
+                                {/* Display image previews */}
+                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>
                                     {
-                                        imagePreview &&
-                                        <img src={imagePreview} alt="Preview" className='w-[100%] h-[300px]' />
+                                        imagePreviews?.length > 0 && imagePreviews.map((preview, index) => (
+                                            <div key={index} className='w-full h-[150px]'>
+                                                <img src={preview} alt={`Preview ${index + 1}`} className='w-full h-full object-cover' />
+                                            </div>
+                                        ))
                                     }
                                 </div>
+
+                                {formik?.errors?.image && <p className='text-sm text-red-500'>{formik?.errors?.image}</p>}
                             </div>
+
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Update</button>
                         </form>

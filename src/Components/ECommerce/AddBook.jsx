@@ -14,8 +14,13 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const AddBook = () => {
-    const [imagePreview, setImagePreview] = useState(null);
+
     const [inputValue, setInputValue] = useState('');
+
+    const [imagePreviews, setImagePreviews] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [imageValidationError, setImageValidationError] = useState('');
+
     const navigate = useNavigate();
 
     const toolbarOptions = [
@@ -66,17 +71,6 @@ const AddBook = () => {
         'color', 'background', 'align', 'indent'
     ];
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            formik.setFieldValue('image', file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
     const handleDescriptionChange = (value) => {
         formik.setFieldValue('content', value);
     };
@@ -86,9 +80,11 @@ const AddBook = () => {
             title: '',
             keyword: "",
             content: "",
-            author:"",
-            category:"",
-            price:"",
+            author: "",
+            category: "",
+            price: "",
+            sellPrice: "",
+            // shippingCharge:"",
             tags: [],
             image: null,
         },
@@ -102,6 +98,8 @@ const AddBook = () => {
                     author: values?.author,
                     category: values?.category,
                     price: values?.price,
+                    sellPrice: values?.sellPrice,
+                    // shippingCharge:values?.shippingCharge,
                     tags: values?.tags
                 });
                 if (res?.data?.status === true) {
@@ -117,6 +115,35 @@ const AddBook = () => {
         },
     });
 
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+        const validImages = [];
+        const validPreviews = [];
+
+        files.forEach((file) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+
+                img.onload = () => {
+                    if (img.width === 300 && img.height === 300) {
+                        validImages.push(file);  // Push valid image to array
+                        validPreviews.push(event.target.result);  // Push preview URL
+                        formik.setFieldValue('image', validImages);  // Update Formik field with valid images
+                        setImageValidationError('');  // Clear previous error
+                    } else {
+                        setImageValidationError('Each image must be 300x300 pixels.');
+                    }
+
+                    setImagePreviews(validPreviews);  // Update state with valid previews
+                };
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
 
     return (
         <DashboardLayoutBasic>
@@ -138,7 +165,7 @@ const AddBook = () => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                            {console.log(formik.errors,"error  is ")}  {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                                {console.log(formik.errors, "error  is ")}  {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
                             {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -159,7 +186,7 @@ const AddBook = () => {
 
                             {/* price */}
                             <div className='flex my-4 flex-col justify-start '>
-                                <label htmlFor="price" className='text-start text-xl'>Price</label>
+                                <label htmlFor="price" className='text-start text-xl'>Mrp</label>
                                 <input
                                     type="number"
                                     placeholder='price'
@@ -172,6 +199,37 @@ const AddBook = () => {
                                 {formik?.errors?.price && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.price}</p>}
                             </div>
 
+
+                            {/* sell price */}
+                            <div className='flex my-4 flex-col justify-start '>
+                                <label htmlFor="price" className='text-start text-xl'>Sell Price</label>
+                                <input
+                                    type="number"
+                                    placeholder='sell price'
+                                    name='sellPrice'
+                                    id="sellPrice"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.sellPrice}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {formik?.errors?.sellPrice && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.sellPrice}</p>}
+                            </div>
+
+
+                         
+                            {/* <div className='flex flex-col justify-start '>
+                                <label htmlFor="shippingCharge" className='text-start text-xl'>shippingCharge</label>
+                                <input
+                                    type="text"
+                                    placeholder='shippingCharge'
+                                    name='shippingCharge'
+                                    id="shippingCharge"
+                                    onChange={formik?.handleChange}
+                                    value={formik.values.shippingCharge}
+                                    className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
+                                />
+                                {console.log(formik.errors, "error  is ")}  {formik?.errors?.shippingCharge && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.shippingCharge}</p>}
+                            </div> */}
 
                             {/* author */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -208,7 +266,7 @@ const AddBook = () => {
 
                             {/* editor */}
                             <div className='flex flex-col justify-start my-4'>
-                                <label htmlFor="content" className='text-start text-xl'>Content</label>
+                                <label htmlFor="content" className='text-start text-xl'>Description</label>
                                 <ReactQuill
                                     id='content'
                                     name="content"
@@ -246,26 +304,37 @@ const AddBook = () => {
                                 />
                                 {formik?.errors?.tags && <p className='text-sm text-red-500 text-left'>{formik?.errors?.tags}</p>}
                             </div>
-                            {/* images */}
+{/* image */}
+
+
                             <div className='flex flex-col'>
-                                <label htmlFor="image" className='text-start text-xl'>Upload Image</label>
-                                <input type="file"
+                                <label htmlFor="image" className='text-start text-xl'>Upload Images</label>
+                                <input
+                                    type="file"
                                     name="image"
                                     id="image"
                                     accept="image/*"
+                                    multiple  // Allow multiple image uploads
                                     onChange={handleImageChange}
-                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg '
+                                    className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {formik?.errors?.image && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.image}</p>}
+                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  {/* Show validation error */}
 
-                                <p className='text-red-500 text-xs text-start leading-3 my-2'>Width : 1200px and Height : 400px</p>
-                                <div className='w-[99%] mx-auto md:mx-0 sm:w-[100%] lg:w-[600px] h-[300px] border border-gray-400'>
+                                {/* Display image previews */}
+                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>
                                     {
-                                        imagePreview &&
-                                        <img src={imagePreview} alt="Preview" className='w-[100%] h-[300px]' />
+                                        imagePreviews?.length > 0 && imagePreviews.map((preview, index) => (
+                                            <div key={index} className='w-full h-[150px]'>
+                                                <img src={preview} alt={`Preview ${index + 1}`} className='w-full h-full object-cover' />
+                                            </div>
+                                        ))
                                     }
                                 </div>
+
+                                {formik?.errors?.image && <p className='text-sm text-red-500'>{formik?.errors?.image}</p>}
                             </div>
+
+
 
                             <button type="submit" className='my-4 px-4 py-3 bg-blue-500 text-white rounded-md float-start text-lg hover:bg-blue-600'>Publish</button>
                         </form>
@@ -273,7 +342,6 @@ const AddBook = () => {
                 </div>
             </div>
         </DashboardLayoutBasic>
-
     );
 }
 

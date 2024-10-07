@@ -98,6 +98,7 @@ import AddBook from "./Components/ECommerce/AddBook";
 import EditBook from "./Components/ECommerce/EditBook";
 import ScheduleLiveCourses from "./Components/Contents/LiveClasses/ScheduleLiveCourses";
 import EditLiveCourse from "./Components/Contents/LiveClasses/EditLiveCourse";
+import OrderReceive from "./Components/ECommerce/OrderReceive";
 
 function App() {
 
@@ -117,6 +118,7 @@ function App() {
           <Route path="/ECommerce/Books" element={<Books/>}/>
           <Route path="/ECommerce/addBook" element={<AddBook/>}/>
           <Route path="/ECommerce/editBook/:bookId" element={<EditBook/>}/>
+          <Route path="/ECommerce/orderRecieve" element={<OrderReceive/>}/>
 
 
           <Route path="/contents/courses" element={<Courses />} />

@@ -20,20 +20,32 @@ const BookFormvalidationSchema = Yup.object().shape({
     .required('price is required')
     .typeError('Price must be a number'),
 
+    sellPrice : Yup.number()
+    .required('sell price is required')
+    .typeError(' sell Price must be a number'),
+
   content: Yup.string()
-    .min(20, 'Content must be at least 20 characters')
-    .required('Content is required'),
+    .min(20, 'description must be at least 20 characters')
+    .required('description is required'),
 
 
-
-  image: Yup.mixed()
-    .required('Image is required')
-    .test('fileType', 'Only image files are allowed', (value) => {
-      return value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type);
-    })
-    .test('fileSize', 'File too large', (value) => {
-      return value && value.size <= 2 * 1024 * 1024; // 2MB limit
-    }),
+    // image: Yup.array()  // Change to Yup.array() to handle multiple files
+    // .min(1, 'At least one image is required')  // Ensure at least one image is uploaded
+    // .test('fileType', 'Only image files are allowed', (values) => {
+    //   return values && values.every(value => ['image/jpeg', 'image/png', 'image/gif'].includes(value.type));
+    // })
+    // .test('fileSize', 'Each file must be 2MB or smaller', (values) => {
+    //   return values && values.every(value => value.size <= 2 * 1024 * 1024);  // 2MB size limit for each file
+    // })
+    image: Yup.array()
+  .min(1, 'At least one image is required')
+  .test('fileType', 'Only image files are allowed', (values) => {
+    return values && values.every(value => ['image/jpeg', 'image/png', 'image/gif'].includes(value.type));
+  })
+  .test('fileSize', 'Each file must be 2MB or smaller', (values) => {
+    return values && values.every(value => value.size <= 2 * 1024 * 1024);
+  })
+,
     tags: Yup.array()
     .of(
       Yup.string()
