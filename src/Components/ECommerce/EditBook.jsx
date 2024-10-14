@@ -11,6 +11,7 @@ import axios from 'axios';
 import API_BASE_URL from '../../config';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../Api/ApiConfig';
 
 
 const EditBook = () => {
@@ -40,7 +41,7 @@ const EditBook = () => {
     //fetch blog By id
     const fetchBlogById = async (bookId) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/book/getBookyId/${bookId}`);
+            const response = await api.get(`/api/book/getBookyId/${bookId}`);
             setBookData(response?.data?.book);
             formik.setFieldValue('tags', response?.data?.book?.tags);
         } catch (error) {
@@ -155,7 +156,7 @@ const EditBook = () => {
 
         onSubmit: async (values) => {
             try {
-                const res = await axios.put(`${API_BASE_URL}/api/book/updateBook/${bookId}`, {
+                const res = await api.put(`/api/book/updateBook/${bookId}`, {
                     title: values?.title,
                     keyword: values?.keyword,
                     content: values?.content,

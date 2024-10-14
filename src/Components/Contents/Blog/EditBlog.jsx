@@ -7,10 +7,9 @@ import { useFormik } from 'formik';
 import BlogFormvalidationSchema from './BlogFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
-import axios from 'axios';
-import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
+import api from '../../../Api/ApiConfig';
 
 const EditBlog = () => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -31,7 +30,7 @@ const EditBlog = () => {
     //fetch blog By id
     const fetchBlogById = async (blogId) => {
         try {
-            const responce = await axios.get(`${API_BASE_URL}/api/blog/getBlogById/${blogId}`);
+            const responce = await api.get(`/api/blog/getBlogById/${blogId}`);
             setBlogData(responce?.data?.blog);
             formik.setFieldValue('tags',responce?.data?.blog?.tags);
         } catch (error) {
@@ -67,32 +66,6 @@ const EditBlog = () => {
     const modules = {
         toolbar: true,
         toolbar: toolbarOptions,
-
-
-        // {
-        //     container: [
-        //         // [{ 'font': Font.whitelist }],
-        //         // [{ 'size': Size.whitelist }],
-        //         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        //         ['bold', 'italic', 'underline', 'strike'],
-        //         [{ 'color': [] }, { 'background': [] }],
-        //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        //         [{ 'align': [] }],
-        //         ['link', 'image', 'video'],
-        //         ['code-block'],
-        //         ['clean'], // Remove formatting
-        //         [{ 'indent': '-1' }, { 'indent': '+1' }], // Indent
-        //     ],
-        //     handlers: {
-        //         // image: imageHandler, // Custom image handler
-        //     },
-        // },
-        // clipboard: {
-        //     matchVisual: false, // Match styles when pasting text
-        // },
-        // syntax: {
-        //   highlight: text => hljs.highlightAuto(text).value, // Syntax highlighting
-        // },
     };
 
     const handleKeyPress = (event) => {
@@ -144,7 +117,7 @@ const EditBlog = () => {
         validationSchema: BlogFormvalidationSchema,
         onSubmit: async(values) => {
             try {
-                const res=await axios.put(`${API_BASE_URL}/api/blog/updateBlog/${blogId}`,{
+                const res=await api.put(`/api/blog/updateBlog/${blogId}`,{
                     title:values?.title,
                     keyword:values?.keyword,
                     content:values?.content,

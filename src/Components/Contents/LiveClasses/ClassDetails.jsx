@@ -3,6 +3,7 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import API_BASE_URL from '../../../config';
+import api from '../../../Api/ApiConfig';
 
 const ClassDetails = () => {
     const [Class, setClass] = useState();
@@ -10,7 +11,7 @@ const ClassDetails = () => {
     // console.log(classId);
     const getClassById = async () => {
         try {
-            const res = await axios.get(`${API_BASE_URL}/api/liveclass/getClassById/${classId}`);
+            const res = await api.get(`/api/liveclass/getClassById/${classId}`);
             if (res?.status == 200) {
                 setClass(res?.data?.classs);
             }

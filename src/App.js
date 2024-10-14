@@ -1,5 +1,5 @@
 import "./App.css";
-import Login from "./Components/login";
+import Login from "./Components/Auth/login";
 import {
   BrowserRouter as Router,
   Route,
@@ -82,7 +82,7 @@ import CourseForm from "./Components/Courses/CourseForm";
 
 import CurrentAffairs from "./Components/Contents/currentAffairs/CurrentAffairs";
 import AddCA from "./Components/Contents/currentAffairs/AddCA";
-import {Toaster} from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import LiveHome from "./Components/liveStreaming/LiveHome";
 import CreateLiveClass from "./Components/Contents/LiveClasses/CreateLiveClass";
 import SpeakerScreenContainer from "./Components/liveStreaming/speakerScreen/SpeakerScreenContainer";
@@ -99,39 +99,67 @@ import EditBook from "./Components/ECommerce/EditBook";
 import ScheduleLiveCourses from "./Components/Contents/LiveClasses/ScheduleLiveCourses";
 import EditLiveCourse from "./Components/Contents/LiveClasses/EditLiveCourse";
 import OrderReceive from "./Components/ECommerce/OrderReceive";
+import Signup from "./Components/Auth/Signup";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
-
   return (
     <>
       <Router>
-        <Toaster/>
+        <Toaster />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/sign-up" element={<Signup />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/Master/Subject" element={<Subject/>}/>
-          <Route path="/Master/MasterCategory/Category" element={<Category/>}/>
-          <Route path="/Master/MasterCategory/Sub-Category" element={<SubCategory/>}/>
+          <Route path="/Master/Subject" element={<Subject />} />
+          <Route
+            path="/Master/MasterCategory/Category"
+            element={<Category />}
+          />
+          <Route
+            path="/Master/MasterCategory/Sub-Category"
+            element={<SubCategory />}
+          />
 
-          <Route path="/ECommerce/EBooks" element={<EBooks/>}/>
-          <Route path="/ECommerce/Books" element={<Books/>}/>
-          <Route path="/ECommerce/addBook" element={<AddBook/>}/>
-          <Route path="/ECommerce/editBook/:bookId" element={<EditBook/>}/>
-          <Route path="/ECommerce/orderRecieve" element={<OrderReceive/>}/>
-
+          <Route path="/ECommerce/EBooks" element={<EBooks />} />
+          <Route path="/ECommerce/Books" element={<Books />} />
+          <Route path="/ECommerce/addBook" element={<AddBook />} />
+          <Route path="/ECommerce/editBook/:bookId" element={<EditBook />} />
+          <Route path="/ECommerce/orderRecieve" element={<OrderReceive />} />
 
           <Route path="/contents/courses" element={<Courses />} />
-          <Route path="/contents/CourseForm" element={<CourseForm />}/>
-{/* live class routes */}
+          <Route path="/contents/CourseForm" element={<CourseForm />} />
+          {/* live class routes */}
           <Route path="/contents/liveclasses" element={<LiveClasses />} />
           <Route path="/contents/liveStreaming" element={<LiveHome />} />
-          <Route path="/contents/createLiveClass" element={<CreateLiveClass />} />
-          <Route path="/contents/liveclass/schedule/:courseId" element={<ScheduleLiveCourses />} />
-          <Route path="/contents/live/:meetingId/:courseId/:classId" element={<SpeakerScreenContainer />} />
-          <Route path="/contents/liveclasse/:classId" element={<ClassDetails />} />
-          <Route path="/contents/update-live-course/:courseId" element={<EditLiveCourse />} />
-
+          <Route
+            path="/contents/createLiveClass"
+            element={<CreateLiveClass />}
+          />
+          <Route
+            path="/contents/liveclass/schedule/:courseId"
+            element={<ScheduleLiveCourses />}
+          />
+          <Route
+            path="/contents/live/:meetingId/:courseId/:classId"
+            element={<SpeakerScreenContainer />}
+          />
+          <Route
+            path="/contents/liveclasse/:classId"
+            element={<ClassDetails />}
+          />
+          <Route
+            path="/contents/update-live-course/:courseId"
+            element={<EditLiveCourse />}
+          />
 
           <Route path="/contents/TestSeries" element={<TestSeries />} />
           <Route path="/contents/MockTest" element={<MockTest />} />
@@ -139,13 +167,19 @@ function App() {
           <Route path="/contents/blog" element={<Blog />} />
           <Route path="/contents/add-blog" element={<AddBlog />} />
           <Route path="/contents/edit-blog/:blogId" element={<EditBlog />} />
-          <Route path="/contents/current-affairs/:currentAffairId" element={<EditCurrentAffairs />} />
+          <Route
+            path="/contents/current-affairs/:currentAffairId"
+            element={<EditCurrentAffairs />}
+          />
 
-          <Route path="/contents/current-affairs" element={<CurrentAffairs />} />
+          <Route
+            path="/contents/current-affairs"
+            element={<CurrentAffairs />}
+          />
           <Route path="/contents/add-ca" element={<AddCA />} />
           <Route path="/contents/Bundles" element={<Bundles />} />
           <Route path="/contents/Batch" element={<Batch />} />
-         
+
           <Route path="/contents/Podcasts" element={<Podcasts />} />
           <Route path="/contents/Webinar" element={<Webinar />} />
           <Route

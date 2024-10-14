@@ -8,10 +8,9 @@ import 'react-quill/dist/quill.snow.css';
 import BookFormvalidationSchema from './BookFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
-import axios from 'axios';
-import API_BASE_URL from '../../config';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import api from '../../Api/ApiConfig';
 
 const AddBook = () => {
 
@@ -91,7 +90,8 @@ const AddBook = () => {
         validationSchema: BookFormvalidationSchema,
         onSubmit: async (values) => {
             try {
-                const res = await axios.post(`${API_BASE_URL}/api/book/createBook`, {
+                // const res = await axios.post(`${API_BASE_URL}/api/book/createBook`, {
+                const res = await api.post(`/api/book/createBook`, {
                     title: values?.title,
                     keyword: values?.keyword,
                     content: values?.content,
@@ -165,7 +165,7 @@ const AddBook = () => {
                                     className='px-2 py-2 border border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
 
-                                {console.log(formik.errors, "error  is ")}  {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
+                                {formik?.errors?.title && <p className=' text-sm text-red-500 text-left'>{formik?.errors?.title}</p>}
                             </div>
                             {/* Keyword */}
                             <div className='flex my-4 flex-col justify-start '>
@@ -318,7 +318,7 @@ const AddBook = () => {
                                     onChange={handleImageChange}
                                     className='cursor-pointer w-full md:w-[40%] h-9 border-gray-500 rounded-md my-1 outline-blue-400 text-lg'
                                 />
-                                {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  {/* Show validation error */}
+                                {/* {imageValidationError && <p className='text-red-500'>{imageValidationError}</p>}  Show validation error */}
 
                                 {/* Display image previews */}
                                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-5 gap-1'>

@@ -3,11 +3,9 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import { Link, useNavigate } from 'react-router-dom';
 
 //icons
-import { FiRepeat } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import CAList from './CAList';
-// import { CiFilter } from "react-icons/ci";
 
 const CurrentAffairs = () => {
   const navigate = useNavigate();

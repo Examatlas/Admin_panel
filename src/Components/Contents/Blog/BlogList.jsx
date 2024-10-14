@@ -5,13 +5,14 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import API_BASE_URL from '../../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import api from '../../../Api/ApiConfig';
 
 const BlogList = () => {
     const [blogData, setBlogData] = useState();
     //fetch all blogs
     const fetchAllBlogs = async () => {
         try {
-            const responce = await axios.get(`${API_BASE_URL}/api/blog/getAllBlogs`);
+            const responce = await api.get(`/api/blog/getAllBlogs`);
             setBlogData(responce?.data?.blogs);
         } catch (error) {
             console.log("Error when fetching blogs", error);
@@ -25,7 +26,7 @@ const BlogList = () => {
     //delete blog
     const deleteBlog = async (blogId) => {
         try {
-            const responce = await axios.delete(`${API_BASE_URL}/api/blog/deleteBlog/${blogId}`);
+            const responce = await api.delete(`/api/blog/deleteBlog/${blogId}`);
 
             if (responce?.data?.status === true) {
                 toast.success(responce?.data?.message, {

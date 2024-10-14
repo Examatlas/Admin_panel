@@ -12,6 +12,7 @@ import { RxCross2 } from "react-icons/rx";
 import API_BASE_URL from '../../../config';
 import { formats, modules } from '../../../config/ReactQuillConfig';
 import ReactQuill from 'react-quill';
+import api from '../../../Api/ApiConfig';
 
 const CreateLiveClass = () => {
     const [inputValue, setInputValue] = useState('');
@@ -41,10 +42,16 @@ const CreateLiveClass = () => {
         if (file) {
             formik.setFieldValue('image', file);
             const reader = new FileReader();
+            let isMounted = true;
             reader.onloadend = () => {
-                setImagePreview(reader.result);
+                if (isMounted) {
+                    setImagePreview(reader.result);
+                }
             };
             reader.readAsDataURL(file);
+            return () => {
+                isMounted = false;
+            };
         }
     };
 
@@ -60,7 +67,7 @@ const CreateLiveClass = () => {
         },
         onSubmit: async (values) => {
             try {
-                const responce = await axios.post(`${API_BASE_URL}/api/liveclass/createliveClass`, {
+                const responce = await api.post(`/api/liveclass/createliveClass`, {
                     title: values?.title,
                     description: values?.description,
                     teacher: values?.teacher,
@@ -81,7 +88,7 @@ const CreateLiveClass = () => {
             }
 
         }
-    })
+    });
     return (
         <>
             <DashboardLayoutBasic>

@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Footer from './Footer';
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import Footer from "../Footer";
 import { toast } from "react-hot-toast";
-import API_BASE_URL from "../config";
+import api from "../../Api/ApiConfig";
+import { login } from "../../features/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { loading, error, token } = useSelector((state) => state.auth);
+  console.log(token);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,31 +23,41 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/user/adminLogin`,
-        { email, password }
-      );
-      toast.success(response.data.message);
-      setFormData({
-        email: "",
-        password: "",
+    // dispatch(login({ formData?.email, password }))
+    dispatch(login(formData))
+      .unwrap()
+      .then(() => {
+        navigate("/dashboard"); // Redirect to protected route
+      })
+      .catch((err) => {
+        console.log("Login failed", err);
       });
-
-     const  token = response.data.token
-      localStorage.setItem('token',token)
-      // Redirect after successful login
-      navigate('/dashboard'); 
-
-    } catch (error) {
-      console.log(error.message);
-      toast.error(error.response?.data?.message);
-    }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const { email, password } = formData;
+
+  //   try {
+  //     const response = await api.post(`/api/user/adminLogin`,{ email, password });
+  //     toast.success(response.data.message);
+  //     setFormData({
+  //       email: "",
+  //       password: "",
+  //     });
+
+  //    const  token = response.data.token
+  //     localStorage.setItem('Admin_token',token);
+  //     // Redirect after successful login
+  //     navigate('/dashboard');
+
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     toast.error(error.response?.data?.message);
+  //   }
+  // };
 
   return (
     <>
@@ -62,7 +76,10 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           {/* Email input */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm lg:ml-96 md:ml-64 sm:ml-56 ml-28 mt-10 font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm lg:ml-96 md:ml-64 sm:ml-56 ml-28 mt-10 font-medium text-gray-700"
+            >
               Email Address
             </label>
             <input
@@ -78,7 +95,10 @@ const Login = () => {
 
           {/* Password input */}
           <div className="mb-6 mt-7">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 lg:ml-96 md:ml-64 sm:ml-56 ml-28">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 lg:ml-96 md:ml-64 sm:ml-56 ml-28"
+            >
               Password
             </label>
             <input
@@ -102,6 +122,12 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <p>
+          Don't have an account?{" "}
+          <Link to={"/sign-up"} className="text-blue-700 underline">
+            Sign Up
+          </Link>
+        </p>
         <Footer />
       </div>
     </>
@@ -109,5 +135,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

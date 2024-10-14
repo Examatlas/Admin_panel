@@ -37,15 +37,17 @@ const BookFormvalidationSchema = Yup.object().shape({
     // .test('fileSize', 'Each file must be 2MB or smaller', (values) => {
     //   return values && values.every(value => value.size <= 2 * 1024 * 1024);  // 2MB size limit for each file
     // })
-    image: Yup.array()
-  .min(1, 'At least one image is required')
-  .test('fileType', 'Only image files are allowed', (values) => {
-    return values && values.every(value => ['image/jpeg', 'image/png', 'image/gif'].includes(value.type));
-  })
-  .test('fileSize', 'Each file must be 2MB or smaller', (values) => {
-    return values && values.every(value => value.size <= 2 * 1024 * 1024);
-  })
-,
+
+    
+//     image: Yup.array()
+//   .min(1, 'At least one image is required')
+//   .test('fileType', 'Only image files are allowed', (values) => {
+//     return values && values.every(value => ['image/jpeg', 'image/png', 'image/gif'].includes(value.type));
+//   })
+//   .test('fileSize', 'Each file must be 2MB or smaller', (values) => {
+//     return values && values.every(value => value.size <= 2 * 1024 * 1024);
+//   })
+// ,
     tags: Yup.array()
     .of(
       Yup.string()

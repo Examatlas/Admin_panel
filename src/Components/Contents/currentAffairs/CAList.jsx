@@ -1,17 +1,16 @@
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import api from "../../../Api/ApiConfig";
 
 const CAList = () => {
     const [CurrentAffairData, setCurrentAffairData] = useState();
   
     const fetchAllCurrentAffairs = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/currentAffair/getAllCA`);
+            const response = await api.get(`/api/currentAffair/getAllCA`);
             setCurrentAffairData(response?.data?.currentAffairs);
         } catch (error) {
             console.log("Error when fetching currentAffairs", error);
@@ -25,7 +24,7 @@ const CAList = () => {
 //delete currentaffair
     const deleteCurrentAffair = async (currentAffairId) => {
         try {
-            const response = await axios.delete(`${API_BASE_URL}/api/currentAffair/deleteById/${currentAffairId}`);
+            const response = await api.delete(`/api/currentAffair/deleteById/${currentAffairId}`);
 
             if (response?.data?.status === true) {
                 toast.success(response?.data?.message, {

@@ -6,6 +6,7 @@ import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import { formatDate, formatTime } from '../../../utils/DateFormater';
+import api from '../../../Api/ApiConfig';
 
 const ScheduleLiveCourses = () => {
     const { courseId } = useParams();
@@ -24,7 +25,7 @@ const ScheduleLiveCourses = () => {
 
     const getAllScheduledCourseByCourseId = async () => {
         try {
-            const res = await axios.get(`${API_BASE_URL}/api/liveclass/getAllScheduledCourseByCourseId/${courseId}`);
+            const res = await api.get(`/api/liveclass/getAllScheduledCourseByCourseId/${courseId}`);
             if (res?.status === 200) {
                 setScheduledData(res?.data?.courses)
             }
@@ -43,7 +44,8 @@ const ScheduleLiveCourses = () => {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`${API_BASE_URL}/api/liveclass/scheduleLiveCourse`, {
+            // const res = await axios.post(`${API_BASE_URL}/api/liveclass/scheduleLiveCourse`, {
+            const res = await api.post(`/api/liveclass/scheduleLiveCourse`, {
                 courseId,
                 title: schedule?.title,
                 date: schedule?.date,
@@ -61,7 +63,7 @@ const ScheduleLiveCourses = () => {
 
     const createMeeting = async (scheduledClassId) => {
         try {
-            const res = await axios.patch(`${API_BASE_URL}/api/liveclass/createMeeting/${scheduledClassId}`);
+            const res = await api.patch(`/api/liveclass/createMeeting/${scheduledClassId}`);
 
             if (res?.status === 200) {
                 toast.success(res?.data?.message);

@@ -11,6 +11,7 @@ import { RxCross2 } from "react-icons/rx";
 import API_BASE_URL from '../../../config';
 import { formats, modules } from '../../../config/ReactQuillConfig';
 import ReactQuill from 'react-quill';
+import api from '../../../Api/ApiConfig';
 const EditLiveCourse = () => {
     const [inputValue, setInputValue] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
@@ -20,7 +21,7 @@ const EditLiveCourse = () => {
 
     const getCourseById=async()=>{
         try {
-            const res=await axios.get(`${API_BASE_URL}/api/liveclass/getLiveCourseById/${courseId}`);
+            const res=await api.get(`/api/liveclass/getLiveCourseById/${courseId}`);
             if(res?.status===200){
                 setCourseData(res?.data?.course);
             }
@@ -74,7 +75,8 @@ const EditLiveCourse = () => {
         enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                const responce = await axios.put(`${API_BASE_URL}/api/liveclass/updateLiveCourse/${courseId}`, {
+                // const responce = await axios.put(`${API_BASE_URL}/api/liveclass/updateLiveCourse/${courseId}`, {
+                const responce = await api.put(`/api/liveclass/updateLiveCourse/${courseId}`, {
                     title: values?.title,
                     description: values?.description,
                     teacher: values?.teacher,

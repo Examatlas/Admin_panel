@@ -5,6 +5,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import API_BASE_URL from '../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import api from '../../Api/ApiConfig';
 
 const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
   const [bookData, setBookData] = useState([]);
@@ -12,7 +13,7 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
   // Fetch all books
   const fetchAllBooks = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/book/getAllBooks`);
+      const response = await api.get(`/api/book/getAllBooks`);
       setBookData(response?.data?.books);
     } catch (error) {
       console.log("Error when fetching books", error);
@@ -31,7 +32,7 @@ const BookList = ({ searchTerm }) => {  // Accept searchTerm as a prop
   // Delete book
   const deleteBook = async (bookId) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/api/book/deleteBook/${bookId}`);
+      const response = await api.delete(`/api/book/deleteBook/${bookId}`);
       if (response?.data?.status === true) {
         toast.success(response?.data?.message, {
           duration: 3000,

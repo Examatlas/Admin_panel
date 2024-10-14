@@ -5,11 +5,10 @@ import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 //icons
 import { RxCross2 } from "react-icons/rx";
-import axios from 'axios';
-import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import CAFormvalidationSchema from './CAFormValidation';
+import api from '../../../Api/ApiConfig';
 
 const EditCurrentAffairs = () => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -30,7 +29,7 @@ const EditCurrentAffairs = () => {
     //fetch blog By id
     const fetchCurrentAffairById = async (currentAffairId) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/currentAffair/getById/${currentAffairId}`);
+            const response = await api.get(`/api/currentAffair/getById/${currentAffairId}`);
             setCurrentAffairData(response?.data?.currentAffair);
             formik.setFieldValue('tags',response?.data?.currentAffair?.tags);
         } catch (error) {
@@ -117,7 +116,7 @@ const EditCurrentAffairs = () => {
         validationSchema: CAFormvalidationSchema,
         onSubmit: async(values) => {
             try {
-                const res=await axios.put(`${API_BASE_URL}/api/currentAffair/updateCA/${currentAffairId}`,{
+                const res=await api.put(`/api/currentAffair/updateCA/${currentAffairId}`,{
                     title:values?.title,
                     keyword:values?.keyword,
                     content:values?.content,

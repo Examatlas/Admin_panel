@@ -4,12 +4,13 @@ import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import LiveCard from "./LiveClasstable";
-import axios from "axios";
-import API_BASE_URL from "../../../config";
 import toast from "react-hot-toast";
+import api from "../../../Api/ApiConfig";
 const LiveClasses = () => {
   const [search, setSearch] = useState("");
   const [classData, setClassData] = useState();
+  console.log(classData);
+  
   const navigate = useNavigate();
   const goBack = () => {
     if (window.history.length > 2) {
@@ -23,9 +24,10 @@ const LiveClasses = () => {
     setSearch(e?.target?.value);
   };
   const getAllLiveClass = async () => {
-    const responce = await axios.get(
-      `${API_BASE_URL}/api/liveclass/getAllLiveClass`
-    );
+    const responce = await api.get(`/api/liveclass/getAllLiveClass`);
+    // const responce = await axios.get(
+    //   `${API_BASE_URL}/api/liveclass/getAllLiveClass`
+    // );
     if (responce) {
       setClassData(responce?.data?.classes);
     }
@@ -50,14 +52,14 @@ const LiveClasses = () => {
 
   const deleteClass = async (id) => {
     try {
-      const res = await axios.delete(
-        `${API_BASE_URL}/api/liveclass/deleteClass/${id}`
-      );
-      if(res?.status===200){
+      const res = await api.delete(`/api/liveclass/deleteClass/${id}`);
+      // const res = await axios.delete(
+      //   `${API_BASE_URL}/api/liveclass/deleteClass/${id}`
+      // );
+      if (res?.status === 200) {
         toast.success("Deleted successfully");
-      getAllLiveClass();
+        getAllLiveClass();
       }
-      
     } catch (error) {
       toast.error(error?.message);
       console.log("Error while deleting class", error);

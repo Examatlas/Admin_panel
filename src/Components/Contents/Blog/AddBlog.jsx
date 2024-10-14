@@ -8,42 +8,14 @@ import { modules,formats } from '../../../config/ReactQuillConfig';
 import BlogFormvalidationSchema from './BlogFormValidation';
 //icons
 import { RxCross2 } from "react-icons/rx";
-import axios from 'axios';
-import API_BASE_URL from '../../../config';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../Api/ApiConfig';
 
 const AddBlog = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const navigate=useNavigate();
-
-    // const toolbarOptions = [
-    //     ['bold', 'italic', 'underline', 'strike'],
-    //     ['blockquote', 'code-block'],
-    //     ['link', 'image', 'video', 'formula'],
-
-    //     [{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }],
-    //     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-    //     [{ 'script': 'sub' }, { 'script': 'super' }],
-    //     [{ 'indent': '-1' }, { 'indent': '+1' }],
-    //     [{ 'direction': 'rtl' }],
-
-    //     [{ 'size': ['small', false, 'large', 'huge'] }],
-    //     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    //     [{ 'color': [] }, { 'background': [] }],
-    //     [{ 'font': [] }],
-    //     [{ 'align': [] }],
-
-    //     ['clean']
-    // ];
-
-    // const modules = {
-    //     toolbar: true,
-    //     toolbar: toolbarOptions,
-
-    // };
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputValue.trim() !== '') {
@@ -60,12 +32,6 @@ const AddBlog = () => {
         const newTags = formik.values.tags.filter((_, i) => i !== index);
         formik.setFieldValue('tags', newTags);
     };
-
-    // const formats = [
-    //     'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike',
-    //     'blockquote', 'list', 'bullet', 'link', 'image', 'video', 'code-block',
-    //     'color', 'background', 'align', 'indent'
-    // ];
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -93,7 +59,7 @@ const AddBlog = () => {
         validationSchema: BlogFormvalidationSchema,
         onSubmit: async(values) => {
             try {
-                const res=await axios.post(`${API_BASE_URL}/api/blog/createBlog`,{
+                const res=await api.post(`/api/blog/createBlog`,{
                     title:values?.title,
                     keyword:values?.keyword,
                     content:values?.content,

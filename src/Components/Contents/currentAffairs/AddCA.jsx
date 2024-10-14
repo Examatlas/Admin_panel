@@ -3,14 +3,13 @@ import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
-import axios from 'axios';
 
 //icons
 import toast from "react-hot-toast";
-import API_BASE_URL from '../../../config';
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 import CAFormvalidationSchema from './CAFormValidation';
+import api from '../../../Api/ApiConfig';
 
 const AddCA = () => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -90,15 +89,9 @@ const AddCA = () => {
             image: null,
         },
         validationSchema: CAFormvalidationSchema,
-    //     onSubmit: values => {
-    //         alert(JSON.stringify(values, null, 2));
-    //         console.log(values);
-
-    //     },
-    // });
     onSubmit: async(values) => {
         try {
-            const res=await axios.post(`${API_BASE_URL}/api/currentAffair/createCA`,{
+            const res=await api.post(`/api/currentAffair/createCA`,{
                 title:values?.title,
                 keyword:values?.keyword,
                 content:values?.content,

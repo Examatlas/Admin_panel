@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import DashboardLayoutBasic from "../DashboardLayoutBasic";
+import api from "../../Api/ApiConfig";
 
 const OrderReceive = () => {
   const [orders, setOrders] = useState([]);
@@ -10,7 +10,7 @@ const OrderReceive = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/orders"); 
+        const response = await api.get("/api/orders"); 
         if (response.data.success) {
           setOrders(response.data.orders);
         }
