@@ -119,153 +119,704 @@ function App() {
             }
           />
 
-          <Route path="/Master/Subject" element={<Subject />} />
+          <Route
+            path="/Master/Subject"
+            element={
+              <ProtectedRoute>
+                <Subject />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Master/MasterCategory/Category"
-            element={<Category />}
+            element={
+              <ProtectedRoute>
+                <Category />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/Master/MasterCategory/Sub-Category"
-            element={<SubCategory />}
+            element={
+              <ProtectedRoute>
+                <SubCategory />
+              </ProtectedRoute>
+            }
           />
 
-          <Route path="/ECommerce/EBooks" element={<EBooks />} />
-          <Route path="/ECommerce/Books" element={<Books />} />
-          <Route path="/ECommerce/addBook" element={<AddBook />} />
-          <Route path="/ECommerce/editBook/:bookId" element={<EditBook />} />
-          <Route path="/ECommerce/orderRecieve" element={<OrderReceive />} />
+          <Route
+            path="/ECommerce/EBooks"
+            element={
+              <ProtectedRoute>
+                <EBooks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ECommerce/Books"
+            element={
+              <ProtectedRoute>
+                <Books />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ECommerce/addBook"
+            element={
+              <ProtectedRoute>
+                <AddBook />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ECommerce/editBook/:bookId"
+            element={
+              <ProtectedRoute>
+                <EditBook />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ECommerce/orderRecieve"
+            element={
+              <ProtectedRoute>
+                <OrderReceive />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/contents/courses" element={<Courses />} />
-          <Route path="/contents/CourseForm" element={<CourseForm />} />
+          <Route
+            path="/contents/courses"
+            element={
+              <ProtectedRoute>
+                <Courses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/CourseForm"
+            element={
+              <ProtectedRoute>
+                <CourseForm />
+              </ProtectedRoute>
+            }
+          />
           {/* live class routes */}
-          <Route path="/contents/liveclasses" element={<LiveClasses />} />
-          <Route path="/contents/liveStreaming" element={<LiveHome />} />
+          <Route
+            path="/contents/liveclasses"
+            element={
+              <ProtectedRoute>
+                <LiveClasses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/liveStreaming"
+            element={
+              <ProtectedRoute>
+                <LiveHome />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/contents/createLiveClass"
-            element={<CreateLiveClass />}
+            element={
+              <ProtectedRoute>
+                <CreateLiveClass />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/contents/liveclass/schedule/:courseId"
-            element={<ScheduleLiveCourses />}
+            element={
+              <ProtectedRoute>
+                <ScheduleLiveCourses />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/contents/live/:meetingId/:courseId/:classId"
-            element={<SpeakerScreenContainer />}
+            element={
+              <ProtectedRoute>
+                <SpeakerScreenContainer />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/contents/liveclasse/:classId"
-            element={<ClassDetails />}
+            element={
+              <ProtectedRoute>
+                <ClassDetails />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/contents/update-live-course/:courseId"
-            element={<EditLiveCourse />}
+            element={
+              <ProtectedRoute>
+                <EditLiveCourse />
+              </ProtectedRoute>
+            }
           />
 
-          <Route path="/contents/TestSeries" element={<TestSeries />} />
-          <Route path="/contents/MockTest" element={<MockTest />} />
+          <Route
+            path="/contents/TestSeries"
+            element={
+              <ProtectedRoute>
+                <TestSeries />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/MockTest"
+            element={
+              <ProtectedRoute>
+                <MockTest />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/contents/blog" element={<Blog />} />
-          <Route path="/contents/add-blog" element={<AddBlog />} />
-          <Route path="/contents/edit-blog/:blogId" element={<EditBlog />} />
+          <Route
+            path="/contents/blog"
+            element={
+              <ProtectedRoute>
+                <Blog />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/add-blog"
+            element={
+              <ProtectedRoute>
+                <AddBlog />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/edit-blog/:blogId"
+            element={
+              <ProtectedRoute>
+                <EditBlog />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/contents/current-affairs/:currentAffairId"
-            element={<EditCurrentAffairs />}
+            element={
+              <ProtectedRoute>
+                <EditCurrentAffairs />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/contents/current-affairs"
-            element={<CurrentAffairs />}
+            element={
+              <ProtectedRoute>
+                <CurrentAffairs />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/contents/add-ca" element={<AddCA />} />
-          <Route path="/contents/Bundles" element={<Bundles />} />
-          <Route path="/contents/Batch" element={<Batch />} />
+          <Route
+            path="/contents/add-ca"
+            element={
+              <ProtectedRoute>
+                <AddCA />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Bundles"
+            element={
+              <ProtectedRoute>
+                <Bundles />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Batch"
+            element={
+              <ProtectedRoute>
+                <Batch />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/contents/Podcasts" element={<Podcasts />} />
-          <Route path="/contents/Webinar" element={<Webinar />} />
+          <Route
+            path="/contents/Podcasts"
+            element={
+              <ProtectedRoute>
+                <Podcasts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Webinar"
+            element={
+              <ProtectedRoute>
+                <Webinar />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/contents/DigitalProducts"
-            element={<DigitalProducts />}
+            element={
+              <ProtectedRoute>
+                <DigitalProducts />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/contents/FreeResource" element={<FreeResource />} />
-          <Route path="/contents/Telegram" element={<Telegram />} />
-          <Route path="/contents/Utilities" element={<Utilities />} />
-          <Route path="/contents/LegacyQuestionPool" element={<LegacyPool />} />
-          <Route path="/contents/QuestionPool" element={<QuestionPool />} />
-          <Route path="/contents/Subscriptions" element={<Subscription />} />
-          <Route path="/contents/Newsfeed" element={<Newsfeed />} />
-          <Route path="/contents/Communities" element={<Communities />} />
+          <Route
+            path="/contents/FreeResource"
+            element={
+              <ProtectedRoute>
+                <FreeResource />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Telegram"
+            element={
+              <ProtectedRoute>
+                <Telegram />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Utilities"
+            element={
+              <ProtectedRoute>
+                <Utilities />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/LegacyQuestionPool"
+            element={
+              <ProtectedRoute>
+                <LegacyPool />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/QuestionPool"
+            element={
+              <ProtectedRoute>
+                <QuestionPool />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Subscriptions"
+            element={
+              <ProtectedRoute>
+                <Subscription />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Newsfeed"
+            element={
+              <ProtectedRoute>
+                <Newsfeed />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Communities"
+            element={
+              <ProtectedRoute>
+                <Communities />
+              </ProtectedRoute>
+            }
+          />
           {/* <Route path="/contents/Categories" element={<Categories />} /> */}
-          <Route path="/contents/Segments" element={<Segments />} />
-          <Route path="/contents/Tags" element={<Tags />} />
+          <Route
+            path="/contents/Segments"
+            element={
+              <ProtectedRoute>
+                <Segments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contents/Tags"
+            element={
+              <ProtectedRoute>
+                <Tags />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/Website&Apps/Website" element={<Website />} />
-          <Route path="/Website&Apps/MobileApps" element={<MobileApp />} />
-          <Route path="/Website&Apps/Branding" element={<Branding />} />
-          <Route path="/Website&Apps/Embeddables" element={<Embeddables />} />
-          <Route path="/Website&Apps/Language" element={<Language />} />
+          <Route
+            path="/Website&Apps/Website"
+            element={
+              <ProtectedRoute>
+                <Website />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Website&Apps/MobileApps"
+            element={
+              <ProtectedRoute>
+                <MobileApp />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Website&Apps/Branding"
+            element={
+              <ProtectedRoute>
+                <Branding />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Website&Apps/Embeddables"
+            element={
+              <ProtectedRoute>
+                <Embeddables />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Website&Apps/Language"
+            element={
+              <ProtectedRoute>
+                <Language />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Website&Apps/SignUpSettings"
-            element={<SignUpSetting />}
+            element={
+              <ProtectedRoute>
+                <SignUpSetting />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/Website&Apps/CustomFields" element={<CustomFields />} />
-          <Route path="/Marketing/Messenger" element={<Messenger />} />
-          <Route path="/Marketing/Coupons" element={<Coupons />} />
-          <Route path="/Marketing/Wallet" element={<Wallet />} />
-          <Route path="/Marketing/RefferalCode" element={<RefferalCode />} />
-          <Route path="/Marketing/Integrations" element={<Integrations />} />
-          <Route path="/Marketing/Affiliates" element={<Affiliates />} />
-          <Route path="/Marketing/Forms" element={<Forms />} />
-          <Route path="/Marketing/Events" element={<Events />} />
-          <Route path="/Marketing/Cta" element={<Cta />} />
-          <Route path="/Users/Contacts" element={<Contacts />} />
-          <Route path="/Users/Groups" element={<Groups />} />
-          <Route path="/Users/learners" element={<Learners />} />
-          <Route path="/Users/Sub-Admins" element={<SubAdmins />} />
-          <Route path="/Reports/BoardcastMessage" element={<Boardcast />} />
-          <Route path="/Reports/CustomField" element={<CustomField />} />
+          <Route
+            path="/Website&Apps/CustomFields"
+            element={
+              <ProtectedRoute>
+                <CustomFields />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Messenger"
+            element={
+              <ProtectedRoute>
+                <Messenger />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Coupons"
+            element={
+              <ProtectedRoute>
+                <Coupons />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Wallet"
+            element={
+              <ProtectedRoute>
+                <Wallet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/RefferalCode"
+            element={
+              <ProtectedRoute>
+                <RefferalCode />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Integrations"
+            element={
+              <ProtectedRoute>
+                <Integrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Affiliates"
+            element={
+              <ProtectedRoute>
+                <Affiliates />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Forms"
+            element={
+              <ProtectedRoute>
+                <Forms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Events"
+            element={
+              <ProtectedRoute>
+                <Events />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Marketing/Cta"
+            element={
+              <ProtectedRoute>
+                <Cta />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Users/Contacts"
+            element={
+              <ProtectedRoute>
+                <Contacts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Users/Groups"
+            element={
+              <ProtectedRoute>
+                <Groups />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Users/learners"
+            element={
+              <ProtectedRoute>
+                <Learners />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Users/Sub-Admins"
+            element={
+              <ProtectedRoute>
+                <SubAdmins />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/BoardcastMessage"
+            element={
+              <ProtectedRoute>
+                <Boardcast />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/CustomField"
+            element={
+              <ProtectedRoute>
+                <CustomField />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Reports/DigitalEvaluation"
-            element={<DigitalEvaluation />}
+            element={
+              <ProtectedRoute>
+                <DigitalEvaluation />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/Reports/Enrollments" element={<Enrollments />} />
-          <Route path="/Reports/Exports" element={<Exports />} />
-          <Route path="/Reports/Invoices" element={<Invoices />} />
-          <Route path="/Reports/LegacyReports" element={<LegacyReports />} />
-          <Route path="/Reports/LiveClass" element={<LiveClass />} />
+          <Route
+            path="/Reports/Enrollments"
+            element={
+              <ProtectedRoute>
+                <Enrollments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/Exports"
+            element={
+              <ProtectedRoute>
+                <Exports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/Invoices"
+            element={
+              <ProtectedRoute>
+                <Invoices />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/LegacyReports"
+            element={
+              <ProtectedRoute>
+                <LegacyReports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/LiveClass"
+            element={
+              <ProtectedRoute>
+                <LiveClass />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Reports/LiveClassLegacy"
-            element={<LiveClassLegacy />}
+            element={
+              <ProtectedRoute>
+                <LiveClassLegacy />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/Reports/MessangerInsights"
-            element={<MessangerInsights />}
+            element={
+              <ProtectedRoute>
+                <MessangerInsights />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/Reports/PaymentGateways"
-            element={<PaymentGateways />}
+            element={
+              <ProtectedRoute>
+                <PaymentGateways />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/Reports/Progress&Scores" element={<ProgressScores />} />
-          <Route path="/Reports/ResourceUsage" element={<ResourceUsage />} />
-          <Route path="/Reports/Sales&Marketing" element={<SalesMarketing />} />
-          <Route path="/Reports/SchoolPayouts" element={<SchoolPayouts />} />
-          <Route path="/Reports/Transactions" element={<Transactions />} />
-          <Route path="/Manage/AnswerReviews" element={<AnswerReview />} />
+          <Route
+            path="/Reports/Progress&Scores"
+            element={
+              <ProtectedRoute>
+                <ProgressScores />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/ResourceUsage"
+            element={
+              <ProtectedRoute>
+                <ResourceUsage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/Sales&Marketing"
+            element={
+              <ProtectedRoute>
+                <SalesMarketing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/SchoolPayouts"
+            element={
+              <ProtectedRoute>
+                <SchoolPayouts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Reports/Transactions"
+            element={
+              <ProtectedRoute>
+                <Transactions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Manage/AnswerReviews"
+            element={
+              <ProtectedRoute>
+                <AnswerReview />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Manage/CourseEncryption"
-            element={<CourseEncryption />}
+            element={
+              <ProtectedRoute>
+                <CourseEncryption />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/Manage/Discussions" element={<Discussions />} />
-          <Route path="/Manage/Rating&Reviews" element={<RatingReview />} />
+          <Route
+            path="/Manage/Discussions"
+            element={
+              <ProtectedRoute>
+                <Discussions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Manage/Rating&Reviews"
+            element={
+              <ProtectedRoute>
+                <RatingReview />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/Manage/LegacyAnswerReview"
-            element={<LegacyAnswerReview />}
+            element={
+              <ProtectedRoute>
+                <LegacyAnswerReview />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/Manage/LearnerSupport" element={<LearnerSupport />} />
+          <Route
+            path="/Manage/LearnerSupport"
+            element={
+              <ProtectedRoute>
+                <LearnerSupport />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/Add-Ons" element={<AddOns />} />
-          <Route path="/PrivacyMonitor" element={<PrivacyMonitor />} />
-          <Route path="/SubSchools" element={<SubSchools />} />
-          <Route path="/Settings" element={<Setting />} />
+          <Route
+            path="/Add-Ons"
+            element={
+              <ProtectedRoute>
+                <AddOns />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/PrivacyMonitor"
+            element={
+              <ProtectedRoute>
+                <PrivacyMonitor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/SubSchools"
+            element={
+              <ProtectedRoute>
+                <SubSchools />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Settings"
+            element={
+              <ProtectedRoute>
+                <Setting />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </>

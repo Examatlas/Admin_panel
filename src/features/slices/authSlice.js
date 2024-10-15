@@ -6,7 +6,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
     try {
-      const response = await api.post("/api/user/adminLogin", credentials); 
+      const response = await api.post("/api/auth/adminLogin", credentials); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -37,7 +37,7 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.token = action.payload.token;
         localStorage.setItem("Admin_token", action.payload.token);
       })

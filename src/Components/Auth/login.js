@@ -13,9 +13,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { loading, error, token } = useSelector((state) => state.auth);
-  console.log(token);
-
+  const { loading, error, token, user } = useSelector((state) => state.auth);
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,13 +24,16 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(login({ formData?.email, password }))
     dispatch(login(formData))
       .unwrap()
       .then(() => {
-        navigate("/dashboard"); // Redirect to protected route
+        toast.success(user?.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       })
       .catch((err) => {
+        toast.error(err?.message);
         console.log("Login failed", err);
       });
   };
