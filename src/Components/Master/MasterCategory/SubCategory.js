@@ -1,17 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 import { toast } from "react-hot-toast"; // If you're using react-hot-toast for notifications
+import api from "../../../Api/ApiConfig";
+import Categorytable from "./Categorytable";
 
 const SubCategory = () => {
   const [category, setCategory] = useState("");
+  const [categoryData, setCategoryData] = useState([]);
   const [subcategoryName, setSubcategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
-  const [loading, setLoading] = useState(false); // For loading state
+  const [loading, setLoading] = useState(false); 
 
-  const categories = ["Technology", "Science", "Health", "Education"]; // Example categories
+  // const categories = ["Technology", "Science", "Health", "Education"];
+
+  const fetchCategoty=async()=>{
+    try {
+      const res=await api.get(`/api/category/getCategory?per_page=10`);
+      if(res?.status===200){
+        setCategoryData(res?.data?.data);
+      }
+      console.log(res);
+      
+    } catch (error) {
+      
+    }
+  };
+
+  useEffect(()=>{
+    fetchCategoty();
+  },[])
 
   const handleCategoryChange = (e) => setCategory(e.target.value);
   const handleSubcategoryNameChange = (e) => setSubcategoryName(e.target.value);
@@ -36,14 +56,14 @@ const SubCategory = () => {
     setLoading(true);
 
     const subCategoryData = {
-      category,
-      subCategory: subcategoryName,
+      categoryId:category,
+      subCategoryName: subcategoryName,
       description,
       tags,
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/category/createsubcategory", subCategoryData);
+      const response = await api.post("api/category/createSubCategory", subCategoryData);
       
       // Handle successful response
       if (response.data.status) {
@@ -66,7 +86,7 @@ const SubCategory = () => {
 
   return (
     <DashboardLayoutBasic>
-      <div className="fixed flex ">
+      <div className="flex ">
         <div className="w-full max-w-3xl p-6 items-center rounded-md">
           <h2 className="text-3xl font-bold mb-6 mr-[400px]">Add Sub Category</h2>
           <form onSubmit={handleSubmit}>
@@ -80,9 +100,9 @@ const SubCategory = () => {
                 required
               >
                 <option value="" disabled>Select a category</option>
-                {categories.map((cat, index) => (
-                  <option key={index} value={cat}>
-                    {cat}
+                {categoryData?.map((cat, index) => (
+                  <option key={index} value={cat?._id}>
+                    {cat?.categoryName}
                   </option>
                 ))}
               </select>
@@ -151,6 +171,10 @@ const SubCategory = () => {
             </button>
           </form>
         </div>
+      </div>
+
+      <div>
+        <Categorytable/>
       </div>
     </DashboardLayoutBasic>
   );

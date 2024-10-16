@@ -1,14 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayoutBasic from "../../DashboardLayoutBasic";
-import axios from "axios"; // Import Axios
-import { toast } from "react-hot-toast"; // Optionally use react-hot-toast for notifications
+import { toast } from "react-hot-toast";
+import api from "../../../Api/ApiConfig";
+import Categorytable from "./Categorytable";
+import Pagination from "../../../utils/Pagination";
 
 const Category = () => {
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
-  const [loading, setLoading] = useState(false); // For loading state
+  const [loading, setLoading] = useState(false);
+
+  const [categoryData, setCategoryData] = useState();
+  // / Pagination
+  const[page,setpage]=useState(1);
+  const [totalPages,setTotalPages]=useState();
+
+  const handlePageChange = (pageNumber) => {
+    setpage(pageNumber);
+  };
+  // table content
+  const fetchAllCategory = async () => {
+    try {
+      const res = await api.get(`api/category/getCategory?per_page=10`);
+      
+      if (res?.status === 200) {
+        setCategoryData(res?.data?.data);
+        setpage(res?.data?.pagination?.currentPage);
+        setTotalPages(res?.data?.pagination?.totalPages);
+      }
+    } catch (error) {
+      console.log("error while fetching sub-category data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCategory();
+  }, []);
+
+  const deletecategory=async(id)=>{
+    try {
+      const res=await api?.delete(`/api/category/deleteCategory/${id}`);
+      if(res?.status===200){
+        toast.success(res?.data?.message);
+        fetchAllCategory();
+      }
+    } catch (error) {
+      toast.error(error?.message);
+      console.log("Error while delete category",error);
+    }
+  }
+  // =====================
 
   const handleCategoryChange = (e) => setCategoryName(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -27,19 +70,14 @@ const Category = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when API call starts
+    setLoading(true);
     try {
-      // Prepare the payload for the API request
       const payload = {
-        category: categoryName,
+        categoryName: categoryName,
         description,
         tags,
       };
-
-      // Make the POST request to the API
-      const response = await axios.post("http://localhost:5000/api/category/createcategory", payload);
-
-      // Handle success response
+      const response = await api.post("/api/category/createCategory", payload);
       if (response.data.status) {
         toast.success("Category created successfully!"); // Show success notification
         setCategoryName("");
@@ -58,12 +96,14 @@ const Category = () => {
 
   return (
     <DashboardLayoutBasic>
-      <div className="fixed flex ">
+      <div className=" flex ">
         <div className="w-full max-w-3xl p-6 items-center rounded-md">
           <h2 className="text-3xl font-bold mb-6 mr-[400px]">Add Category</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2 mr-[500px] mt-10">Category Name</label>
+              <label className="block text-gray-700 font-medium mb-2 mr-[500px] mt-10">
+                Category Name
+              </label>
               <input
                 type="text"
                 value={categoryName}
@@ -75,7 +115,9 @@ const Category = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2 mr-[520px] mt-7">Description</label>
+              <label className="block text-gray-700 font-medium mb-2 mr-[520px] mt-7">
+                Description
+              </label>
               <textarea
                 value={description}
                 onChange={handleDescriptionChange}
@@ -86,7 +128,9 @@ const Category = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2 mr-[570px] mt-5">Tags</label>
+              <label className="block text-gray-700 font-medium mb-2 mr-[570px] mt-5">
+                Tags
+              </label>
               <div className="flex flex-wrap items-center mb-2">
                 {tags.map((tag, index) => (
                   <div
@@ -119,10 +163,25 @@ const Category = () => {
               className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 mt-7"
               disabled={loading} // Disable button while loading
             >
-              {loading ? "Submitting..." : "Submit"} {/* Change button text during submission */}
+              {loading ? "Submitting..." : "Submit"}{" "}
+              {/* Change button text during submission */}
             </button>
           </form>
         </div>
+      </div>
+
+      <div>
+        <Categorytable 
+        categoryData={categoryData} 
+        deletecategory={deletecategory}
+        setCategoryData={setCategoryData}
+        fetchAllCategory={fetchAllCategory}
+        />
+        <Pagination
+        totalPages={totalPages}
+        currentPage={page}
+        onPageChange={handlePageChange}
+        />
       </div>
     </DashboardLayoutBasic>
   );
