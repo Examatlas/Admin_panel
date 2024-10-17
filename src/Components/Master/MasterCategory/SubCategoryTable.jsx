@@ -2,20 +2,40 @@ import { useEffect, useState } from "react";
 import useDebounce from "../../../utils/Debounce";
 import api from "../../../Api/ApiConfig";
 import UpdateCategoryModal from "./UpdateCategoryModal";
+import UpdateSubCategoryModal from "./UpdateSubCategoryModal";
 
-const Categorytable = ({ categoryData, deletecategory, setCategoryData, fetchAllCategory }) => {
+const SubCategoryTable = ({ subCategoryData, categoryData, deleteSubCategory, setSubCategoryData, fetchSubCategoty }) => {
+
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+    const [categoryid, setCategoryid] = useState();
+
+    const fetchResultByCategoryId = async () => {
+        try {
+            const res = await api.get(`api/category/getSubCategory?categoryId=${categoryid}&per_page=10`);
+            if (res?.status === 200) {
+                setSubCategoryData(res?.data?.data);
+            }
+        } catch (error) {
+            console.log('Error occured when filtering data', error);
+        }
+    }
+
+    useEffect(() => {
+        if (categoryid) {
+            fetchResultByCategoryId();
+        }
+    }, [categoryid]);
 
     const fetchResults = async (searchQuery) => {
         if (!searchQuery) {
-            setCategoryData([]);
+            setSubCategoryData([]);
             return;
         }
         try {
-            const response = await api.get(`/api/category/getCategory?search=${searchQuery}&per_page=10`);
+            const response = await api.get(`/api/category/getSubCategory?search=${searchQuery}&per_page=10`);
             if (response?.statusText === "OK") {
-                setCategoryData(response?.data?.data);
+                setSubCategoryData(response?.data?.data);
             }
         } catch (error) {
             console.error("Error fetching search results: ", error);
@@ -24,7 +44,7 @@ const Categorytable = ({ categoryData, deletecategory, setCategoryData, fetchAll
     useEffect(() => {
         fetchResults(debouncedSearchTerm);
         if (searchTerm === '') {
-            fetchAllCategory();
+            fetchSubCategoty();
         } else {
             fetchResults(debouncedSearchTerm);
         }
@@ -32,14 +52,30 @@ const Categorytable = ({ categoryData, deletecategory, setCategoryData, fetchAll
     return (
         <div className='w-full'>
             <div>
-                <div className=" flex w-full py-4">
+                <div className="w-full py-4 flex gap-4">
                     <input
                         type="text"
                         placeholder="Serach"
                         name="search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e?.target?.value)}
-                        className=" border py-2 px-3 w-[50%] rounded-md text-start outline-sky-400" />
+                        className=" border py-2 px-3 w-[50%] rounded-md text-start outline-sky-400"
+                    />
+                    <select
+                        name="filter"
+                        id="filter"
+                        // value={categoryid}
+                        onChange={(e) => setCategoryid(e?.target?.value)}
+                        className=" border py-2 px-3 w-[30%] rounded-md text-start outline-sky-400"
+                        defaultValue={'filter'}
+                    >
+                        <option disabled value={'filter'}>Filter</option>
+                        {
+                            categoryData && categoryData?.map((item, index) => {
+                                return (<option value={item?._id} key={index}>{item?.categoryName}</option>)
+                            })
+                        }
+                    </select>
                 </div>
             </div>
             <div className="relative overflow-x-auto w-[100%]">
@@ -56,24 +92,26 @@ const Categorytable = ({ categoryData, deletecategory, setCategoryData, fetchAll
                     </thead>
                     <tbody>
                         {
-                            categoryData && categoryData?.map((item, index) => {
+                            subCategoryData && subCategoryData?.map((item, index) => {
                                 return (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {item?.categoryName}
+                                            {item?.subCategoryName}
                                         </th>
                                         <td className="px-6 py-4 flex gap-4">
                                             <button
                                                 className='text-white bg-red-500 px-2 py-1 rounded-md'
-                                                onClick={() => deletecategory(item?._id)}
+                                                onClick={() => deleteSubCategory(item?._id)}
                                             >Delete</button>
-                                            <UpdateCategoryModal
+                                            <UpdateSubCategoryModal
                                                 id={item?._id}
-                                                categoryName={item?.categoryName}
+                                                subcategoryName={item?.subCategoryName}
                                                 description={item?.description}
                                                 tags={item?.tags}
-                                                fetchAllCategory={fetchAllCategory}
+                                                categoryId={item?.categoryId}
+                                                fetchAllCategory={fetchSubCategoty}
                                             />
+                                            {/* <button className='text-white bg-green-500 px-2 py-1 rounded-md'>Edit</button> */}
                                         </td>
 
                                     </tr>
@@ -88,4 +126,4 @@ const Categorytable = ({ categoryData, deletecategory, setCategoryData, fetchAll
     );
 }
 
-export default Categorytable;
+export default SubCategoryTable;

@@ -1,57 +1,60 @@
-import React, { useState } from "react";
-// import api from "../../Api/ApiConfig";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
 import api from "../../../Api/ApiConfig";
 
-function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCategory }) {
-    
-    const [showModal, setShowModal] = useState(false);
-    const [tag,setTag]=useState([]);
-    const [tagInput, setTagInput] = useState("");
-    const [inputValue, setInputValue] = useState({
-        categoryName: categoryName,
-        description: description,
-        tags: tags || [],
-    });
+function AddCategoryModal({fetchAllCategory}) {
 
-    const handleChange = (e) => {
-        setInputValue({ ...inputValue, [e?.target?.name]: e?.target?.value });
-    }
+    const [showModal, setShowModal] = useState(false);
+    const [tagInput, setTagInput] = useState("");
+    const [categoryName, setCategoryName] = useState("");
+    const [description, setDescription] = useState("");
+    const [tags, setTags] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const handleCategoryChange = (e) => setCategoryName(e.target.value);
+    const handleDescriptionChange = (e) => setDescription(e.target.value);
 
     const handleTagKeyDown = (e) => {
         if (e.key === "Enter" && tagInput.trim() !== "") {
-          e.preventDefault();
-          setTag([...tag, tagInput.trim()]);
-          inputValue?.tags?.push(tagInput.trim());
-          setTagInput("");
+            e.preventDefault();
+            setTags([...tags, tagInput.trim()]);
+            setTagInput("");
         }
-      };
-    
-      const removeTag = (indexToRemove) => {
-        setTag(tag.filter((_, index) => index !== indexToRemove));
-      };
+    };
 
-    const UpdateCategory = async (e) => {
+    const removeTag = (indexToRemove) => {
+        setTags(tags.filter((_, index) => index !== indexToRemove));
+    };
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            const res = await api.post(`api/category/createCategory`, {
-                id: id,
-                categoryName:inputValue?.categoryName,
-                description:inputValue?.description,
-                tags:inputValue?.tags
-            });
-
-            if (res?.statusText === "OK") {
-                toast.success(res?.data?.message);
-                setTimeout(()=>{
+            const payload = {
+                categoryName: categoryName,
+                description,
+                tags,
+            };
+            const response = await api.post("/api/category/createCategory", payload);
+            if (response.data.status) {
+                toast.success("Category created successfully!");
+                setCategoryName("");
+                setDescription("");
+                setTags([]);
+                setTimeout(() => {
                     setShowModal(false);
                     fetchAllCategory();
-                },2000)
+                }, 2000);
+            } else {
+                toast.error(response.data.message);
             }
         } catch (error) {
-            toast.error(error?.message);
-            console.log("Errror while Updateing the data", error);
+            console.error("Error creating category:", error);
+            toast.error("Failed to create category. Please try again later.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -59,35 +62,35 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
         <div className="flex items-center justify-center relative ">
             {/* Button to open modal */}
             <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="bg-green-500 text-white px-4 py-2 rounded-md"
                 onClick={() => setShowModal(true)}
                 title="Edit"
             >
-                Edit
+                Add Category
             </button>
 
             {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center z-[1300] bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-                        <h2 className="text-xl font-semibold mb-4">Update Category</h2>
+                        <h2 className="text-xl font-semibold mb-4">Add Category</h2>
+                        {/* <form onSubmit={handleSubmit}> */}
                         <form >
                             {/* Input Field */}
                             <input
                                 type="text"
                                 className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Type something..."
-                                name="categoryName"
-                                value={inputValue?.categoryName}
-                                onChange={handleChange}
+                                value={categoryName}
+                                onChange={handleCategoryChange}
                             />
 
                             <textarea
                                 id="description"
                                 className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 name="description"
-                                value={inputValue?.description}
-                                onChange={handleChange}
+                                value={description}
+                                onChange={handleDescriptionChange}
                                 placeholder="Enter description of category"
                             ></textarea>
 
@@ -96,16 +99,16 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
                                     Tags
                                 </label>
                                 <div className="flex flex-wrap items-center mb-2">
-                                    {inputValue?.tags?.map((tag, index) => (
+                                    {tags?.map((tag, index) => (
                                         <div
                                             key={index}
-                                            className="flex items-center bg-blue-600 text-white font-bold p-2 m-1 rounded-full"
+                                            className="flex items-center text-sm bg-blue-300 text-gray-900 px-2 py-1 m-1 rounded-full"
                                         >
-                                            <span className="mr-2">{tag}</span>
+                                            <span className="mr-1">{tag}</span>
                                             <button
                                                 type="button"
                                                 onClick={() => removeTag(index)}
-                                                className="text-red-400 hover:text-red-700 pl-2"
+                                                className="text-red-400 hover:text-red-700 "
                                             >
                                                 ✕
                                             </button>
@@ -117,7 +120,7 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
                                     value={tagInput}
                                     onChange={(e) => setTagInput(e.target.value)}
                                     onKeyDown={handleTagKeyDown}
-                                    className="w-full p-3 border border-gray-300 rounded outline-blue-400"
+                                    className="w-full p-3 border border-gray-300 rounded outline-blue-500"
                                     placeholder="Enter a tag and press Enter"
                                 />
                             </div>
@@ -125,10 +128,10 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                onClick={UpdateCategory}
+                                onClick={handleSubmit}
                                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
                             >
-                                Update
+                                Submit
                             </button>
 
                             {/* Close Button */}
@@ -143,4 +146,4 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
     );
 }
 
-export default UpdateCategoryModal;
+export default AddCategoryModal;

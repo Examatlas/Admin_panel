@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-// import api from "../../Api/ApiConfig";
 import toast from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
 import api from "../../../Api/ApiConfig";
 
-function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCategory }) {
+function UpdateSubCategoryModal({ id, subcategoryName,categoryId, description, tags,fetchAllCategory }) {
     
     const [showModal, setShowModal] = useState(false);
     const [tag,setTag]=useState([]);
     const [tagInput, setTagInput] = useState("");
     const [inputValue, setInputValue] = useState({
-        categoryName: categoryName,
+        subcategoryName: subcategoryName,
         description: description,
         tags: tags || [],
     });
@@ -35,11 +34,12 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
     const UpdateCategory = async (e) => {
         e.preventDefault();
         try {
-            const res = await api.post(`api/category/createCategory`, {
+            const res = await api.post(`api/category/createSubCategory`, {
                 id: id,
-                categoryName:inputValue?.categoryName,
+                categoryId,
+                subCategoryName:inputValue?.subcategoryName,
                 description:inputValue?.description,
-                tags:inputValue?.tags
+                tags:inputValue?.tags,
             });
 
             if (res?.statusText === "OK") {
@@ -77,8 +77,8 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
                                 type="text"
                                 className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Type something..."
-                                name="categoryName"
-                                value={inputValue?.categoryName}
+                                name="subcategoryName"
+                                value={inputValue?.subcategoryName}
                                 onChange={handleChange}
                             />
 
@@ -143,4 +143,4 @@ function UpdateCategoryModal({ id, categoryName, description, tags,fetchAllCateg
     );
 }
 
-export default UpdateCategoryModal;
+export default UpdateSubCategoryModal;

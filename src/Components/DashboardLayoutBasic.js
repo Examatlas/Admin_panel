@@ -5,7 +5,8 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useNavigate } from 'react-router-dom';
 import NAVIGATION from "./navigation"; // Ensure NAVIGATION is correctly imported
-import { DemoPageContent } from "./Drawer"; // Ensure the path is correct for DemoPageContent
+import { DemoPageContent } from "./Drawer";
+import Logo from '../Image/logo/ex4.jpg';
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -45,7 +46,7 @@ function DashboardLayoutBasic(props) {
     <AppProvider
       navigation={NAVIGATION}
       branding={{
-        logo: <img src="https://examatlas.com/assets/images/logo.png" alt="ExamAtlas" />,
+        logo: <img src={Logo} alt="ExamAtlas " className="w-24 h-24" />,
         // logo: <img src="https://examatlas.com/assets/images/logo.png" alt="ExamAtlas" className="" />,className="ml-16 h-16 w-20" 
         title: "",
       }}

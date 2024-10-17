@@ -119,7 +119,7 @@ const Subject = () => {
           
         </form>
         {/* List of all subjects */}
-        <div className="w-full flex items-center relative flex-col">
+        <div className="w-full px-[2rem] md:px-[5rem] flex items-center relative flex-col">
           {/* Search using debounce */}
           <div className="w-full py-4">
             <input 
@@ -130,7 +130,7 @@ const Subject = () => {
             onChange={(e)=>setSearchTerm(e?.target?.value)}
             className=" border py-2 px-3 w-[50%] rounded-md text-start outline-sky-400"/>
           </div>
-          <div className="relative overflow-x-auto w-[40rem]">
+          <div className="relative overflow-x-auto w-[100%]">
             <table className="w-full border text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-blue-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
