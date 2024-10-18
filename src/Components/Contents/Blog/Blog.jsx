@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayoutBasic from '../../DashboardLayoutBasic';
 import { Link, useNavigate } from 'react-router-dom';
-
 //icons
-import { FiRepeat } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import BlogList from './BlogList';
-// import { CiFilter } from "react-icons/ci";
-
 const Blog = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const navigate = useNavigate();
   const goBack = () => {
     if (window.history.length > 2) {
@@ -54,18 +52,15 @@ const Blog = () => {
                 type="text"
                 className="px-3 py-2 border outline-blue-200 text-base md:text-lg rounded-md w-[60%] md:w-[25rem]"
                 name="search"
+                value={searchTerm}
+                onChange={(e)=>setSearchTerm(e?.target?.value)}
                 placeholder="Search by title"
               />
-
-              <button type="submit" className="px-4 py-2 mx-2 md:text-lg bg-blue-500 rounded-md text-white hover:bg-blue-600 font-medium">Serach</button>
-              {/* <button className="px-4 py-2 md:text-lg border-2 border-blue-300 rounded-md text-slate-600 hover:bg-gray-200 font-semibold flex justify-center items-center gap-2">
-                    <CiFilter className="text-lg"/>Add Filter
-                </button> */}
             </form>
           </div>
         </div>
         <div className='w-[90%] mx-auto my-4'>
-          <BlogList/>
+          <BlogList searchTerm={searchTerm}/>
         </div>
       </DashboardLayoutBasic>
     </>

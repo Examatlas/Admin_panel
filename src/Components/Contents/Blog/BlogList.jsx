@@ -1,19 +1,29 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react';
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import API_BASE_URL from '../../../config';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import api from '../../../Api/ApiConfig';
+import Pagination from '../../../utils/Pagination';
+import useDebounce from '../../../utils/Debounce';
 
-const BlogList = () => {
+const BlogList = ({searchTerm}) => {
     const [blogData, setBlogData] = useState();
+    const [totalPages, setTotalPages] = useState();
+    const [page,setPage]=useState(1);
+   
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+      };
     //fetch all blogs
     const fetchAllBlogs = async () => {
         try {
-            const responce = await api.get(`/api/blog/getAllBlogs`);
-            setBlogData(responce?.data?.blogs);
+            const responce = await api.get(`api/blog/getAllBlogs?page=${page}&per_page=10`);
+            setBlogData(responce?.data?.data);
+            setTotalPages(responce?.data?.pagination?.totalPages);
+            setPage(responce?.data?.pagination?.currentPage);
         } catch (error) {
             console.log("Error when fetching blogs", error);
         }
@@ -21,7 +31,33 @@ const BlogList = () => {
 
     useEffect(() => {
         fetchAllBlogs();
-    }, []);
+    }, [page]);
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
+    const fetchResults = async (searchQuery) => {
+        if (!searchQuery) {
+            setBlogData([]);
+            return;
+        }
+        try {
+            const response = await api.get(`/api/blog/getAllBlogs?per_page=10&page=${page}&search=${searchQuery}`);
+            if (response?.statusText === "OK") {
+                setBlogData(response?.data?.data);
+                setTotalPages(response?.data?.pagination?.totalPages);
+                setPage(response?.data?.pagination?.currentPage);
+            }
+        } catch (error) {
+            console.error("Error fetching search results: ", error);
+        }
+    };
+    useEffect(() => {
+        if (searchTerm === '') {
+            fetchAllBlogs();
+        } else {
+            fetchResults(debouncedSearchTerm);
+        }
+    }, [debouncedSearchTerm]);
 
     //delete blog
     const deleteBlog = async (blogId) => {
@@ -95,6 +131,13 @@ const BlogList = () => {
                         }
                     </tbody>
                 </table>
+                <div>
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
             </div>
             <Toaster />
         </div>

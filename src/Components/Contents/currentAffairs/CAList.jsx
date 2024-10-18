@@ -4,14 +4,44 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import api from "../../../Api/ApiConfig";
+import Pagination from "../../../utils/Pagination";
+import useDebounce from "../../../utils/Debounce";
 
-const CAList = () => {
+const CAList = ({searchTerm,setSearchTerm}) => {
     const [CurrentAffairData, setCurrentAffairData] = useState();
-  
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState();
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
+    const fetchResults = async (searchQuery) => {
+        if (!searchQuery) {
+            setCurrentAffairData([]);
+            return;
+        }
+        try {
+            const response = await api.get(`/api/currentAffair/getAllCA?per_page=10&page=${page}&search=${searchQuery}`);
+            if (response?.statusText === "OK") {
+                setCurrentAffairData(response?.data?.data);
+                setTotalPages(response?.data?.pagination?.totalPages);
+                setPage(response?.data?.pagination?.currentPage);
+            }
+        } catch (error) {
+            console.error("Error fetching search results: ", error);
+        }
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
     const fetchAllCurrentAffairs = async () => {
         try {
-            const response = await api.get(`/api/currentAffair/getAllCA`);
-            setCurrentAffairData(response?.data?.currentAffairs);
+            const response = await api.get(`/api/currentAffair/getAllCA?page=${page}&per_page=10`);
+            if (response?.status === 200) {
+                setCurrentAffairData(response?.data?.data);
+                setTotalPages(response?.data?.pagination?.totalPages);
+                setPage(response?.data?.pagination?.currentPage);
+            }
+
         } catch (error) {
             console.log("Error when fetching currentAffairs", error);
         }
@@ -20,8 +50,16 @@ const CAList = () => {
         fetchAllCurrentAffairs();
     }, []);
 
+    useEffect(() => {
+        if (searchTerm === '') {
+            fetchAllCurrentAffairs();
+        } else {
+            fetchResults(debouncedSearchTerm);
+        }
+    }, [debouncedSearchTerm]);
 
-//delete currentaffair
+
+    //delete currentaffair
     const deleteCurrentAffair = async (currentAffairId) => {
         try {
             const response = await api.delete(`/api/currentAffair/deleteById/${currentAffairId}`);
@@ -97,6 +135,13 @@ const CAList = () => {
                         }
                     </tbody>
                 </table>
+                <div>
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
             </div>
 
         </div>
