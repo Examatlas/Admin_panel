@@ -1,17 +1,21 @@
 import { Constants, useMeeting, useParticipant } from '@videosdk.live/react-sdk';
 import React, { useMemo } from 'react';
+import api from "../../../Api/ApiConfig";
+import API_BASE_URL from "../../../config";
 
 //icons
 import { IoVideocam } from "react-icons/io5";
 import { IoVideocamOff } from "react-icons/io5";
 import { IoIosMic } from "react-icons/io";
 import { IoIosMicOff } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MicVideo = ({participantId}) => {
     const navigate=useNavigate();
+    const {classId} = useParams();
     const { micOn, micStream, isLocal, displayName, webcamStream, webcamOn } =useParticipant(participantId);
-    console.log(micOn);
+    console.log("micOn: ",micOn);
+    console.log("webcamOn: ",webcamOn);
     
 
     const { toggleMic, toggleWebcam, end, meetingId, hlsState, startHls, stopHls } = useMeeting();
@@ -45,10 +49,25 @@ const MicVideo = ({participantId}) => {
             startHls({ quality: "high" });
         }
     };
+      // End Live Class
+  const endNow = async () => {
+    try {
+      const res = await api.post(`${API_BASE_URL}/api/liveclass/EndNow`,{
+        role: "admin",
+        meetingId: meetingId,
+        scheduledClassId: classId,
+        endedAt: Date()
+      });
+    } catch (error) {
+      console.log("Error while fetching scheduled class data", error);
+    }
+  }
 
-    const handleEnd = () => {
+    const handleEnd = async() => {
         end();
+        
         setTimeout(()=>{
+            endNow();
             navigate("/contents/liveClasses");
         },100);
     };

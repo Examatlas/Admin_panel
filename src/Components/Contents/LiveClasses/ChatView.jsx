@@ -45,26 +45,36 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useMeeting, usePubSub } from '@videosdk.live/react-sdk';
+import api from "../../../Api/ApiConfig";
 
 //icons
 import { IoSend } from "react-icons/io5";
+import { useParams } from 'react-router-dom';
+import { Schedule } from '@mui/icons-material';
+import API_BASE_URL from "../../../config";
 
 const ChatView = () => {
     const meeting = useMeeting();
     const { publish, messages } = usePubSub("CHAT");
     const [inputMessage, setInputMessage] = useState('');
+    const {meetingId, classId} = useParams();
 
     const scrollRef = useRef(null);
-
+    const currentUserId = meeting.localParticipant?.metaData?.userId;
+    const saveMessage = async(payload)=>{
+         const res = await api.post(`${API_BASE_URL}/api/liveclass/saveMessage`, payload);
+    }
     useEffect(() => {
         // Scroll to bottom every time the messages array updates
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
+        if(messages.length)
+        saveMessage(messages[messages.length-1]);
     }, [messages]);
-
+    
     const handleSendMessage = () => {
-        publish(inputMessage, { persist: true });
+        publish(inputMessage, { persist: true }, {userId: currentUserId, meetingId: meetingId, scheduledClassId: classId});
         setInputMessage("");
     }
     return (
@@ -73,6 +83,7 @@ const ChatView = () => {
             <div ref={scrollRef} className='overflow-y-auto min-h-[24rem] h-[90vh] relative custom_scroll_bar'>
                 {messages?.map((message, index) => {
                     return (
+                        
                         <div key={index} className='relative'>
                             {
                                 message?.senderId === meeting?.localParticipant?.id ?

@@ -5,14 +5,14 @@ import DashboardLayoutBasic from "../../DashboardLayoutBasic";
 
 const ParticipantsGridContainer = () => {
   const { participants } = useMeeting();
-  // console.log(participants);
+   console.log("participants: ",participants);
   
   const participantIds = useMemo(
-    () => [...participants.keys()],
+    () => [...participants.values()].map(participant => participant.metaData?.userId),
     
     [participants]
   );
-  console.log(participantIds);
+  console.log("participantIds: ",participantIds);
   
 
   const speakers = useMemo(() => {
@@ -25,7 +25,7 @@ const ParticipantsGridContainer = () => {
     return speakerParticipants;
   }, [participants]);
 
-  console.log(speakers);
+  console.log("speakers: ",speakers);
   
 
   
@@ -47,7 +47,7 @@ const ParticipantsGridContainer = () => {
           return(
             (
               <SingleParticipantContainer key={index}
-                participantId={ e?.id}
+                participantId={ e?.metaData?.userId}
               />
             ))}
           )

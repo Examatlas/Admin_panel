@@ -28,7 +28,7 @@ const SpeakerScreenContainer = () => {
   const name = new URLSearchParams(search).get("name");
 
   // const getAllLive
-  const getAllScheduledCourseByCourseId = async () => {
+  const joinNow = async () => {
     try {
       const res = await api.post(`${API_BASE_URL}/api/liveclass/joinNow`,{
         role: "admin",
@@ -38,13 +38,16 @@ const SpeakerScreenContainer = () => {
       if (res?.status === 200) {
         setScheduledData(res?.data)
         setLoading(false);
+      }else{
+        toast.error(res?.data?.message);
       }
     } catch (error) {
-      console.log("Error while fetching scheduled class data", error);
+        toast.error(error?.response?.data?.message);
+      // console.log("Error while join meeting", error);
     }
   }
   useEffect(() => {
-    getAllScheduledCourseByCourseId();
+    joinNow();
   }, []);
 
 
@@ -69,9 +72,9 @@ const SpeakerScreenContainer = () => {
         // token={authToken}
         token={scheduledData ? scheduledData?.token : null}
         config={{
-          meetingId:meetingId,
-          // meetingId:"fd4b-jq1w-wv6j",
+          meetingId: scheduledData?.getScheduledCourse?.meetingId,
           name: scheduledData ? scheduledData?.user_name : "Presenter",
+          metaData: {userId: scheduledData ? scheduledData?.userId : "dngkdfngkjd"},
           micEnabled: true,
           webcamEnabled: false,
           mode: "CONFERENCE"
