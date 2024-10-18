@@ -14,6 +14,7 @@ import axios from "axios";
 // import { authToken } from "../Api";
 import { jwtDecode } from 'jwt-decode';
 import toast from "react-hot-toast";
+import api from "../../../Api/ApiConfig";
 
 
 const SpeakerScreenContainer = () => {
@@ -29,9 +30,13 @@ const SpeakerScreenContainer = () => {
   // const getAllLive
   const getAllScheduledCourseByCourseId = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/liveclass/getScheduledCourseById/${classId}`);
+      const res = await api.post(`${API_BASE_URL}/api/liveclass/joinNow`,{
+        role: "admin",
+        meetingId,
+        scheduledClassId: classId
+      });
       if (res?.status === 200) {
-        setScheduledData(res?.data?.course)
+        setScheduledData(res?.data)
         setLoading(false);
       }
     } catch (error) {
@@ -64,11 +69,11 @@ const SpeakerScreenContainer = () => {
         // token={authToken}
         token={scheduledData ? scheduledData?.token : null}
         config={{
-          meetingId:scheduledData?.meetingId,
+          meetingId:meetingId,
           // meetingId:"fd4b-jq1w-wv6j",
-          name: "Abhishek",
+          name: scheduledData ? scheduledData?.user_name : "Presenter",
           micEnabled: true,
-          webcamEnabled: true,
+          webcamEnabled: false,
           mode: "CONFERENCE"
         }}
         joinWithoutUserInteraction
